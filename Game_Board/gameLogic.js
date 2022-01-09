@@ -807,10 +807,20 @@ initialize();
 
 var funcs = {
   generate(level) {
-    return sudoku.generate(level)
-  }
+    return sudoku.generate(level).split('')
+  },
+  solve(boardString) {
+    return sudoku.board_string_to_grid(sudoku.solve(sudoku.board_grid_to_string(boardString)))
+  },
 }
 
 export default funcs;
+
+// var formatBoard = (board) => {
+//     return board
+// }
+
+
+// console.log(formatBoard(sudoku.board_string_to_grid(sudoku.generate('easy'))))
 
 
