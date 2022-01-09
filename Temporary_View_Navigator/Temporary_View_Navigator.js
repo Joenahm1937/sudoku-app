@@ -6,20 +6,11 @@ const Temporary_View_Navigator = (props = {navigation}) => {
       <Text>Temporary Navigator</Text>
       <StatusBar style="auto" />
       <Button
-        onPress={() => props.navigation.navigate("boardGrid")}
-        title="Navigate to Grid"
+        onPress={() => props.navigation.navigate("gameBoard")}
+        title="Navigate to Game Board"
         >
         Navigate
       </Button>
-    </View>
-  );
-};
-
-const Test_Component2 = () => {
-  return (
-    <View style={styles.container}>
-      <Text>View 2!</Text>
-      <StatusBar style="auto" />
     </View>
   );
 };
@@ -33,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Temporary_View_Navigator, Test_Component2 };
+export { Temporary_View_Navigator };

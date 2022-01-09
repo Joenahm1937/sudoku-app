@@ -15,10 +15,8 @@ var Square = ({square}) => {
 export default function Grid({level}) {
   var [board, updateBoard] = useState(sudoku.generate(level))
   return (
-    <View>
-      <View style={styles.board}>
-        {board.map((square,i) => <Square key={i} square={square}/>)}
-      </View>
+    <View style={styles.board}>
+      {board.map((square,i) => <Square key={i} square={square}/>)}
     </View>
   );
 }
