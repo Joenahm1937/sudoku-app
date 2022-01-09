@@ -5,8 +5,8 @@ const Temporary_View_Navigator = (props = {navigation}) => {
     <View style={styles.container}>
       <Text>Temporary Navigator</Text>
       <StatusBar style="auto" />
-      <Button 
-        onPress={() => props.navigation.navigate("Test_Component 2")}
+      <Button
+        onPress={() => props.navigation.navigate("boardGrid")}
         title="Navigate to Grid"
         >
         Navigate
