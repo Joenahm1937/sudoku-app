@@ -805,14 +805,30 @@ initialize();
 
 // Pass whatever the root object is, lsike 'window' in browsers
 
+var changeBoard = (board) => {
+    return [
+      [...board[0].slice(0,3), ...board[1].slice(0,3), ...board[2].slice(0,3)],
+      [...board[0].slice(3,6), ...board[1].slice(3,6), ...board[2].slice(3,6)],
+      [...board[0].slice(6,9), ...board[1].slice(6,9), ...board[2].slice(6,9)],
+      [...board[3].slice(0,3), ...board[4].slice(0,3), ...board[5].slice(0,3)],
+      [...board[3].slice(3,6), ...board[4].slice(3,6), ...board[5].slice(3,6)],
+      [...board[3].slice(6,9), ...board[4].slice(6,9), ...board[5].slice(6,9)],
+      [...board[6].slice(0,3), ...board[7].slice(0,3), ...board[8].slice(0,3)],
+      [...board[6].slice(3,6), ...board[7].slice(3,6), ...board[8].slice(3,6)],
+      [...board[6].slice(6,9), ...board[7].slice(6,9), ...board[8].slice(6,9)],
+     ]
+}
+
 var funcs = {
   generate(level) {
-    return sudoku.generate(level).split('')
+    return changeBoard(sudoku.board_string_to_grid(sudoku.generate(level)))
   },
   solve(boardString) {
     return sudoku.board_string_to_grid(sudoku.solve(sudoku.board_grid_to_string(boardString)))
   },
 }
+
+
 
 export default funcs;
 
