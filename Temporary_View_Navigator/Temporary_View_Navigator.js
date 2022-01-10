@@ -11,6 +11,12 @@ const Temporary_View_Navigator = (props = {navigation}) => {
         >
         Navigate
       </Button>
+      <Button
+        onPress={() => props.navigation.navigate("homepage")}
+        title="Navigate to Home Page"
+        >
+        Navigate
+      </Button>
     </View>
   );
 };

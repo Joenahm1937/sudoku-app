@@ -5,6 +5,7 @@ import {
 } from "./Temporary_View_Navigator/Temporary_View_Navigator"
 import * as React from 'react';
 import { Game_Board_View } from "./Game_Board/Game_Board_View";
+import HomePage from "./Homepage/homepage_view";
 export default function App() {
   const Stack = createNativeStackNavigator();
     return (
@@ -12,6 +13,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Temporary_View_Navigator" component={Temporary_View_Navigator} />
           <Stack.Screen name="gameBoard" component={Game_Board_View} />
+          <Stack.Screen name="homepage" component={HomePage} />
         </Stack.Navigator>
       </NavigationContainer>
     );
