@@ -11,7 +11,7 @@ const Game_Board_View = (props = {navigation}) => {
         <View>
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'}></Header_Component>
-            <Grid level={'hard'}></Grid>
+            <Grid level={'hard'} number={number}></Grid>
             <Pieces setNumber={setNumber}/>
             <Footer_Component navigation={props.navigation}></Footer_Component>
         </View>
