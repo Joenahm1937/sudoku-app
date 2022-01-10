@@ -2,15 +2,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import sudoku from './gameLogic';
 import { useState } from 'react';
 
-var Cell = ({cell, margin}) => {
-  var margins = margin ? margin.map(dir => styles[dir]) : [];
-  return <View style={[styles.cell, ...margins]}><Text>{cell}</Text></View>
+var Cell = ({cell}) => {
+  return <View style={styles.cell}><Text>{cell}</Text></View>
 }
 
-var Square = ({square, margin}) => {
-  var margins = margin ? margin.map(dir => styles[dir]) : [];
-  return <View style={[styles.square, ...margins]}>
-    <Cell cell={square[0]} margin={['cellTop', 'left']}/>
+var Square = ({square}) => {
+  return <View style={styles.square}>
+    <Cell cell={square[0]}/>
     <View style={styles.sideLine}></View>
     <Cell cell={square[1]}/>
     <View style={styles.sideLine}></View>
@@ -18,7 +16,7 @@ var Square = ({square, margin}) => {
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
-    <Cell cell={square[3]} margin={['left']}/>
+    <Cell cell={square[3]}/>
     <View style={styles.sideLine}></View>
     <Cell cell={square[4]}/>
     <View style={styles.sideLine}></View>
@@ -26,7 +24,7 @@ var Square = ({square, margin}) => {
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
-    <Cell cell={square[6]} margin={['left']}/>
+    <Cell cell={square[6]}/>
     <View style={styles.sideLine}></View>
     <Cell cell={square[7]}/>
     <View style={styles.sideLine}></View>
@@ -38,14 +36,26 @@ export default function Grid({level}) {
   var [board, updateBoard] = useState(sudoku.generate(level))
   return (
     <View style={styles.board}>
-      <Square square={board[0]} margin={['right', 'bottom']}/>
-      <Square square={board[1]} margin={['right', 'bottom']}/>
-      <Square square={board[2]} margin={['bottom']}/>
-      <Square square={board[3]} margin={['right', 'bottom']}/>
-      <Square square={board[4]} margin={['right', 'bottom']}/>
-      <Square square={board[5]} margin={['bottom']}/>
-      <Square square={board[6]} margin={['right']}/>
-      <Square square={board[7]} margin={['right']}/>
+      <Square square={board[0]}/>
+      <View style={styles.gSideLine}></View>
+      <Square square={board[1]}/>
+      <View style={styles.gSideLine}></View>
+      <Square square={board[2]}/>
+      <View style={styles.gBottomLine}></View>
+      <View style={styles.gBottomLine}></View>
+      <View style={styles.gBottomLine}></View>
+      <Square square={board[3]}/>
+      <View style={styles.gSideLine}></View>
+      <Square square={board[4]}/>
+      <View style={styles.gSideLine}></View>
+      <Square square={board[5]}/>
+      <View style={styles.gBottomLine}></View>
+      <View style={styles.gBottomLine}></View>
+      <View style={styles.gBottomLine}></View>
+      <Square square={board[6]}/>
+      <View style={styles.gSideLine}></View>
+      <Square square={board[7]}/>
+      <View style={styles.gSideLine}></View>
       <Square square={board[8]}/>
     </View>
   );
@@ -56,27 +66,25 @@ var colorTheme = 'pink';
 
 const styles = StyleSheet.create({
   board: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: colorTheme,
   },
-  right: {
-    marginRight: marginWidth
+  gSideLine: {
+    backgroundColor: 'pink',
+    width: 5,
+    height: 130,
+    borderRadius: 10
   },
-  left: {
-    marginLeft: marginWidth
-  },
-  bottom: {
-    marginBottom: marginWidth
-  },
-  top: {
-    marginTop: marginWidth
+  gBottomLine: {
+    backgroundColor: 'pink',
+    width: 130,
+    height: 5,
+    borderRadius: 10
   },
   square: {
-    height: 126,
-    width: 126,
-    backgroundColor: '#fff',
+    height: 124,
+    width: 124,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
@@ -99,8 +107,5 @@ const styles = StyleSheet.create({
     width: 35,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  cellTop: {
-    marginTop: marginWidth + 5
   },
 });
