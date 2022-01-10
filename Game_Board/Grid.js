@@ -1,24 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import sudoku from './gameLogic';
 import { useState } from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-var Cell = ({cell, margin}) => {
+var Cell = ({cell, loc, setClicked}) => {
   return <View style={styles.cell}>
-    {cell === '.' ? null : <View style={styles.circle}>
+    {cell === '.' ? <TouchableOpacity style={styles.empty} onPress={() => setClicked(loc)}></TouchableOpacity> : <View style={styles.circle}>
       <Text style={styles.numbers}>{cell}</Text>
     </View>}
   </View>
 }
 
-var Square = ({square}) => {
+var Square = ({square, grid, setClicked}) => {
   return <View style={styles.square}>
     <View style={styles.row}>
-      <Cell cell={square[0]}/>
+      <Cell cell={square[0]} loc={[grid, 0]} setClicked={setClicked}/>
       <View style={styles.sideLine}></View>
-      <Cell cell={square[1]}/>
+      <Cell cell={square[1]} loc={[grid, 1]} setClicked={setClicked}/>
       <View style={styles.sideLine}></View>
-      <Cell cell={square[2]}/>
+      <Cell cell={square[2]} loc={[grid, 2]} setClicked={setClicked}/>
     </View>
     <View style={styles.lineRow}>
       <View style={styles.bottomLine}></View>
@@ -26,11 +26,11 @@ var Square = ({square}) => {
       <View style={styles.bottomLine}></View>
     </View>
     <View style={styles.row}>
-      <Cell cell={square[3]}/>
+      <Cell cell={square[3]} loc={[grid, 3]} setClicked={setClicked}/>
       <View style={styles.sideLine}></View>
-      <Cell cell={square[4]}/>
+      <Cell cell={square[4]} loc={[grid, 4]} setClicked={setClicked}/>
       <View style={styles.sideLine}></View>
-      <Cell cell={square[5]}/>
+      <Cell cell={square[5]} loc={[grid, 5]} setClicked={setClicked}/>
     </View>
     <View style={styles.lineRow}>
       <View style={styles.bottomLine}></View>
@@ -38,26 +38,28 @@ var Square = ({square}) => {
       <View style={styles.bottomLine}></View>
     </View>
     <View style={styles.row}>
-      <Cell cell={square[6]}/>
+      <Cell cell={square[6]} loc={[grid, 6]} setClicked={setClicked}/>
       <View style={styles.sideLine}></View>
-      <Cell cell={square[7]}/>
+      <Cell cell={square[7]} loc={[grid, 7]} setClicked={setClicked}/>
       <View style={styles.sideLine}></View>
-      <Cell cell={square[8]}/>
+      <Cell cell={square[8]} loc={[grid, 8]} setClicked={setClicked}/>
     </View>
   </View>
 }
 
-export default function Grid({level}) {
-  console.log(level)
-  var [board, updateBoard] = useState(sudoku.generate(level))
+export default function Grid({level, number}) {
+  console.log(number)
+  var [board, updateBoard] = useState(sudoku.generate(level));
+  var [target, setTarget] = useState();
+  var setClicked = (loc) => setTarget(loc);
   return (
     <View style={styles.board}>
       <View style={styles.gridRow}>
-        <Square square={board[0]}/>
+        <Square square={board[0]} grid={0} setClicked={setClicked}/>
         <View style={styles.gSideLine}></View>
-        <Square square={board[1]}/>
+        <Square square={board[1]} grid={1} setClicked={setClicked}/>
         <View style={styles.gSideLine}></View>
-        <Square square={board[2]}/>
+        <Square square={board[2]} grid={2} setClicked={setClicked}/>
       </View>
       <View style={styles.gridRow}>
         <View style={styles.gBottomLine}></View>
@@ -65,11 +67,11 @@ export default function Grid({level}) {
         <View style={styles.gBottomLine}></View>
       </View>
       <View style={styles.gridRow}>
-        <Square square={board[3]}/>
+        <Square square={board[3]} grid={3} setClicked={setClicked}/>
         <View style={styles.gSideLine}></View>
-        <Square square={board[4]}/>
+        <Square square={board[4]} grid={4} setClicked={setClicked}/>
         <View style={styles.gSideLine}></View>
-        <Square square={board[5]}/>
+        <Square square={board[5]} grid={5} setClicked={setClicked}/>
       </View>
       <View style={styles.gridRow}>
         <View style={styles.gBottomLine}></View>
@@ -77,11 +79,11 @@ export default function Grid({level}) {
         <View style={styles.gBottomLine}></View>
       </View>
       <View style={styles.gridRow}>
-        <Square square={board[6]}/>
+        <Square square={board[6]} grid={6} setClicked={setClicked}/>
         <View style={styles.gSideLine}></View>
-        <Square square={board[7]}/>
+        <Square square={board[7]} grid={7} setClicked={setClicked}/>
         <View style={styles.gSideLine}></View>
-        <Square square={board[8]}/>
+        <Square square={board[8]} grid={8} setClicked={setClicked}/>
       </View>
     </View>
   );
@@ -151,6 +153,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 2
+  },
+  empty: {
+    height: hp('4%'),
+    width: wp('8%'),
   }
 });
 
