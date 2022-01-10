@@ -1,35 +1,45 @@
 import { StyleSheet, Text, View } from 'react-native';
 import sudoku from './gameLogic';
 import { useState } from 'react';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-var Cell = ({cell}) => {
+var Cell = ({cell, margin}) => {
   return <View style={styles.cell}><Text>{cell}</Text></View>
 }
 
-var Square = ({square, margin}) => {
-  var margins = margin ? margin.map(dir => styles[dir]) : [];
-  return <View style={[styles.square, ...margins]}>
-    <Cell cell={square[0]} margin={['cellTop', 'left']}/>
-    <View style={styles.sideLine}></View>
-    <Cell cell={square[1]}/>
-    <View style={styles.sideLine}></View>
-    <Cell cell={square[2]}/>
-    <View style={styles.bottomLine}></View>
-    <View style={styles.bottomLine}></View>
-    <View style={styles.bottomLine}></View>
-    <Cell cell={square[3]} margin={['left']}/>
-    <View style={styles.sideLine}></View>
-    <Cell cell={square[4]}/>
-    <View style={styles.sideLine}></View>
-    <Cell cell={square[5]}/>
-    <View style={styles.bottomLine}></View>
-    <View style={styles.bottomLine}></View>
-    <View style={styles.bottomLine}></View>
-    <Cell cell={square[6]} margin={['left']}/>
-    <View style={styles.sideLine}></View>
-    <Cell cell={square[7]}/>
-    <View style={styles.sideLine}></View>
-    <Cell cell={square[8]}/>
+var Square = ({square}) => {
+  return <View style={styles.square}>
+    <View style={styles.row}>
+      <Cell cell={square[0]}/>
+      <View style={styles.sideLine}></View>
+      <Cell cell={square[1]}/>
+      <View style={styles.sideLine}></View>
+      <Cell cell={square[2]}/>
+    </View>
+    <View style={styles.row}>
+      <View style={styles.bottomLine}></View>
+      <View style={styles.bottomLine}></View>
+      <View style={styles.bottomLine}></View>
+    </View>
+    <View style={styles.row}>
+      <Cell cell={square[3]}/>
+      <View style={styles.sideLine}></View>
+      <Cell cell={square[4]}/>
+      <View style={styles.sideLine}></View>
+      <Cell cell={square[5]}/>
+    </View>
+    <View style={styles.row}>
+      <View style={styles.bottomLine}></View>
+      <View style={styles.bottomLine}></View>
+      <View style={styles.bottomLine}></View>
+    </View>
+    <View style={styles.row}>
+      <Cell cell={square[6]}/>
+      <View style={styles.sideLine}></View>
+      <Cell cell={square[7]}/>
+      <View style={styles.sideLine}></View>
+      <Cell cell={square[8]}/>
+    </View>
   </View>
 }
 
@@ -37,27 +47,37 @@ export default function Grid({level}) {
   var [board, updateBoard] = useState(sudoku.generate(level))
   return (
     <View style={styles.board}>
-      <Square square={board[0]} margin={['right', 'bottom']}/>
-      <View style={styles.gSideLine}></View>
-      <Square square={board[1]} margin={['right', 'bottom']}/>
-      <View style={styles.gSideLine}></View>
-      <Square square={board[2]} margin={['bottom']}/>
-      <View style={styles.gBottomLine}></View>
-      <View style={styles.gBottomLine}></View>
-      <View style={styles.gBottomLine}></View>
-      <Square square={board[3]} margin={['right', 'bottom']}/>
-      <View style={styles.gSideLine}></View>
-      <Square square={board[4]} margin={['right', 'bottom']}/>
-      <View style={styles.gSideLine}></View>
-      <Square square={board[5]} margin={['bottom']}/>
-      <View style={styles.gBottomLine}></View>
-      <View style={styles.gBottomLine}></View>
-      <View style={styles.gBottomLine}></View>
-      <Square square={board[6]} margin={['right']}/>
-      <View style={styles.gSideLine}></View>
-      <Square square={board[7]} margin={['right']}/>
-      <View style={styles.gSideLine}></View>
-      <Square square={board[8]}/>
+      <View style={styles.gridRow}>
+        <Square square={board[0]}/>
+        <View style={styles.gSideLine}></View>
+        <Square square={board[1]}/>
+        <View style={styles.gSideLine}></View>
+        <Square square={board[2]}/>
+      </View>
+      <View style={styles.gridRow}>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+      </View>
+      <View style={styles.gridRow}>
+        <Square square={board[3]}/>
+        <View style={styles.gSideLine}></View>
+        <Square square={board[4]}/>
+        <View style={styles.gSideLine}></View>
+        <Square square={board[5]}/>
+      </View>
+      <View style={styles.gridRow}>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+      </View>
+      <View style={styles.gridRow}>
+        <Square square={board[6]}/>
+        <View style={styles.gSideLine}></View>
+        <Square square={board[7]}/>
+        <View style={styles.gSideLine}></View>
+        <Square square={board[8]}/>
+      </View>
     </View>
   );
 }
@@ -66,47 +86,45 @@ var marginWidth = 5;
 var colorTheme = 'pink';
 
 const styles = StyleSheet.create({
-  board: {
-    justifyContent: 'space-between',
+  gridRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
+    justifyContent: 'space-evenly',
   },
   gSideLine: {
-    backgroundColor: 'pink',
+    backgroundColor: colorTheme,
     width: 5,
-    height: 130,
-    borderRadius: 10
+    height: hp('14%'),
+    borderRadius: 10,
   },
   gBottomLine: {
-    backgroundColor: 'pink',
-    width: 130,
+    backgroundColor: colorTheme,
+    width: wp('34%'),
     height: 5,
     borderRadius: 10
-  },
-  square: {
-    height: 124,
-    width: 124,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
   },
   sideLine: {
     backgroundColor: 'black',
     width: 1,
-    height: 27
+    height: hp('4%'),
+    marginTop: hp('0.5%')
   },
   bottomLine: {
     backgroundColor: 'black',
-    width: 30,
+    width: wp('8%'),
     height: 1,
-    marginRight: 3,
-    marginLeft: 3
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
   },
   cell: {
-    height: 35,
-    width: 35,
+    marginTop: hp('0.5%'),
+    height: hp('4%'),
+    width: wp('10%'),
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
+
+
