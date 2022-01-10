@@ -5,7 +5,7 @@ const Header_Component = ({level}) => {
     return(
         <View  style={styles.container}>
             <View style={styles.difficultyText}>
-                <Text>Difficulty: {level.toUpperCase()}</Text>
+                <Text>{level.toUpperCase()}</Text>
             </View>
             <Timer style={styles.timerStyle}></Timer>
         </View>
