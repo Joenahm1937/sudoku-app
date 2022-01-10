@@ -11,10 +11,41 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Temporary_View_Navigator" component={Temporary_View_Navigator} />
-          <Stack.Screen name="gameBoard" component={Game_Board_View} />
-          <Stack.Screen name="homepage" component={HomePage} />
+          <Stack.Screen 
+            name="Temporary_View_Navigator" 
+            component={Temporary_View_Navigator} 
+            options={{
+              headerShadowVisible: false
+            }}
+          />
+          <Stack.Screen 
+            name="gameBoard" 
+            component={Game_Board_View} 
+            options={{
+              animation: 'fade',
+              headerShadowVisible: false,
+              headerShown: false
+            }} 
+          />
+          <Stack.Screen 
+            name="homepage" 
+            component={HomePage} 
+            options={{animation: 'fade'}} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
+};
+
+
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 50,
+    mass: 3,
+    overshootClamping: false,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
 };
