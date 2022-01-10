@@ -14,6 +14,16 @@ const styles = StyleSheet.create({
   },
   notchBlock: {
 	  height: hp('5%')
+  },
+  footerContainer: {
+	flexDirection: "row",
+	marginBottom: 36,
+	backgroundColor: '#EE5407',
+	position: 'absolute',
+	width: wp('100%'),
+	height: hp('5%'),
+	bottom: hp('-49%'),
+	justifyContent: 'center'
   }
 });
 
