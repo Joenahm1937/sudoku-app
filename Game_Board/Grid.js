@@ -16,7 +16,7 @@ var Square = ({square}) => {
       <View style={styles.sideLine}></View>
       <Cell cell={square[2]}/>
     </View>
-    <View style={styles.row}>
+    <View style={styles.lineRow}>
       <View style={styles.bottomLine}></View>
       <View style={styles.bottomLine}></View>
       <View style={styles.bottomLine}></View>
@@ -28,7 +28,7 @@ var Square = ({square}) => {
       <View style={styles.sideLine}></View>
       <Cell cell={square[5]}/>
     </View>
-    <View style={styles.row}>
+    <View style={styles.lineRow}>
       <View style={styles.bottomLine}></View>
       <View style={styles.bottomLine}></View>
       <View style={styles.bottomLine}></View>
@@ -86,6 +86,9 @@ var marginWidth = 5;
 var colorTheme = 'pink';
 
 const styles = StyleSheet.create({
+  board: {
+    padding: 10
+  },
   gridRow: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
@@ -117,6 +120,10 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
+  },
+  lineRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   },
   cell: {
     marginTop: hp('0.5%'),
