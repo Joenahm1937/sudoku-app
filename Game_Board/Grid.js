@@ -4,7 +4,11 @@ import { useState } from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 var Cell = ({cell, margin}) => {
-  return <View style={styles.cell}><Text>{cell}</Text></View>
+  return <View style={styles.cell}>
+    {cell === '.' ? null : <View style={styles.circle}>
+      <Text style={styles.numbers}>{cell}</Text>
+    </View>}
+  </View>
 }
 
 var Square = ({square}) => {
@@ -44,6 +48,7 @@ var Square = ({square}) => {
 }
 
 export default function Grid({level}) {
+  console.log(level)
   var [board, updateBoard] = useState(sudoku.generate(level))
   return (
     <View style={styles.board}>
@@ -87,7 +92,8 @@ var colorTheme = 'pink';
 
 const styles = StyleSheet.create({
   board: {
-    padding: 10
+    paddingRight: 10,
+    paddingLeft: 10,
   },
   gridRow: {
     flexDirection: 'row',
@@ -132,6 +138,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  square: {
+    marginBottom: 1
+  },
+  numbers: {
+    fontWeight: "300"
+  },
+  circle: {
+    backgroundColor: colorTheme,
+    height: hp('3%'),
+    width: wp('6%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 2
+  }
 });
 
 

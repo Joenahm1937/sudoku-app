@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import { styles } from './Styles';
-const Header_Component = () => {
+const Header_Component = ({level}) => {
     return(
         <View  style={styles.container}>
             <View style={styles.difficultyText}>
-                <Text>Difficulty: Medium</Text>
+                <Text>Difficulty: {level.toUpperCase()}</Text>
             </View>
             <Timer style={styles.timerStyle}></Timer>
         </View>
@@ -21,7 +21,7 @@ const Timer = (props) => {
             if (seconds === 60) {
                 setMinutes(minutes + 1);
                 setSeconds(0);
-            } 
+            }
         }, 1000)
         return ()=> {
             clearInterval(myInterval);
@@ -30,7 +30,7 @@ const Timer = (props) => {
 
     return (
         <View>
-            <Text> {minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</Text> 
+            <Text> {minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</Text>
         </View>
     )
 }

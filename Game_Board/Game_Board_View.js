@@ -4,8 +4,8 @@ import Grid from './Grid'
 const Game_Board_View = () => {
     return(
         <View>
-            <Header_Component></Header_Component>
-            <Grid></Grid>
+            <Header_Component level={'hard'}></Header_Component>
+            <Grid level={'hard'}></Grid>
         </View>
     )
 }
