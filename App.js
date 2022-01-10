@@ -1,23 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import HomePage from './Homepage/homepage_view';
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  Temporary_View_Navigator,
+} from "./Temporary_View_Navigator/Temporary_View_Navigator"
+import * as React from 'react';
+import { Game_Board_View } from "./Game_Board/Game_Board_View";
+import HomePage from "./Homepage/homepage_view";
 export default function App() {
-  return (
-    <View style={styles.container}>
-      
-      <HomePage />
-      
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const Stack = createNativeStackNavigator();
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Temporary_View_Navigator" component={Temporary_View_Navigator} />
+          <Stack.Screen name="gameBoard" component={Game_Board_View} />
+          <Stack.Screen name="homepage" component={HomePage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+};
