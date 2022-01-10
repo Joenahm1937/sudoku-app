@@ -6,9 +6,10 @@ var Cell = ({cell}) => {
   return <View style={styles.cell}><Text>{cell}</Text></View>
 }
 
-var Square = ({square}) => {
-  return <View style={styles.square}>
-    <Cell cell={square[0]}/>
+var Square = ({square, margin}) => {
+  var margins = margin ? margin.map(dir => styles[dir]) : [];
+  return <View style={[styles.square, ...margins]}>
+    <Cell cell={square[0]} margin={['cellTop', 'left']}/>
     <View style={styles.sideLine}></View>
     <Cell cell={square[1]}/>
     <View style={styles.sideLine}></View>
@@ -16,7 +17,7 @@ var Square = ({square}) => {
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
-    <Cell cell={square[3]}/>
+    <Cell cell={square[3]} margin={['left']}/>
     <View style={styles.sideLine}></View>
     <Cell cell={square[4]}/>
     <View style={styles.sideLine}></View>
@@ -24,7 +25,7 @@ var Square = ({square}) => {
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
     <View style={styles.bottomLine}></View>
-    <Cell cell={square[6]}/>
+    <Cell cell={square[6]} margin={['left']}/>
     <View style={styles.sideLine}></View>
     <Cell cell={square[7]}/>
     <View style={styles.sideLine}></View>
@@ -36,25 +37,25 @@ export default function Grid({level}) {
   var [board, updateBoard] = useState(sudoku.generate(level))
   return (
     <View style={styles.board}>
-      <Square square={board[0]}/>
+      <Square square={board[0]} margin={['right', 'bottom']}/>
       <View style={styles.gSideLine}></View>
-      <Square square={board[1]}/>
+      <Square square={board[1]} margin={['right', 'bottom']}/>
       <View style={styles.gSideLine}></View>
-      <Square square={board[2]}/>
+      <Square square={board[2]} margin={['bottom']}/>
       <View style={styles.gBottomLine}></View>
       <View style={styles.gBottomLine}></View>
       <View style={styles.gBottomLine}></View>
-      <Square square={board[3]}/>
+      <Square square={board[3]} margin={['right', 'bottom']}/>
       <View style={styles.gSideLine}></View>
-      <Square square={board[4]}/>
+      <Square square={board[4]} margin={['right', 'bottom']}/>
       <View style={styles.gSideLine}></View>
-      <Square square={board[5]}/>
+      <Square square={board[5]} margin={['bottom']}/>
       <View style={styles.gBottomLine}></View>
       <View style={styles.gBottomLine}></View>
       <View style={styles.gBottomLine}></View>
-      <Square square={board[6]}/>
+      <Square square={board[6]} margin={['right']}/>
       <View style={styles.gSideLine}></View>
-      <Square square={board[7]}/>
+      <Square square={board[7]} margin={['right']}/>
       <View style={styles.gSideLine}></View>
       <Square square={board[8]}/>
     </View>
