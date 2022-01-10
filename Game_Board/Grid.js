@@ -9,7 +9,7 @@ var Cell = ({cell}) => {
 var Square = ({square, margin}) => {
   var margins = margin ? margin.map(dir => styles[dir]) : [];
   return <View style={[styles.square, ...margins]}>
-    {/* {square.map((cell, i) => <Cell key={i} cell={cell}/>)} */}
+    {square.map((cell, i) => <Cell key={i} cell={cell}/>)}
   </View>
 }
 
@@ -19,17 +19,19 @@ export default function Grid({level}) {
     <View style={styles.board}>
       {/* {board.map((square,i) => <Square key={i} square={square}/>)} */}
       <Square square={board[0]} margin={['right', 'bottom']}/>
-      <Square square={board[1]} margin={['right', 'bottom', 'left']}/>
-      <Square square={board[2]} margin={['left', 'bottom']}/>
-      <Square square={board[3]} margin={['top', 'right', 'bottom']}/>
-      <Square square={board[4]} margin={['top', 'right', 'bottom', 'left']}/>
-      <Square square={board[5]} margin={['top', 'left', 'bottom']}/>
-      <Square square={board[6]} margin={['right', 'bottom']}/>
-      <Square square={board[7]} margin={['right', 'bottom']}/>
-      <Square square={board[8]} margin={['right', 'bottom']}/>
+      <Square square={board[1]} margin={['right', 'bottom']}/>
+      <Square square={board[2]} margin={['bottom']}/>
+      <Square square={board[3]} margin={['right', 'bottom']}/>
+      <Square square={board[4]} margin={['right', 'bottom']}/>
+      <Square square={board[5]} margin={['bottom']}/>
+      <Square square={board[6]} margin={['right']}/>
+      <Square square={board[7]} margin={['right']}/>
+      <Square square={board[8]}/>
     </View>
   );
 }
+
+var marginWidth = 5;
 
 const styles = StyleSheet.create({
   board: {
@@ -39,35 +41,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
   },
   right: {
-    marginRight: 4
+    marginRight: marginWidth
   },
   left: {
-    marginLeft: 4
+    marginLeft: marginWidth
   },
   bottom: {
-    marginBottom: 4
+    marginBottom: marginWidth
   },
   top: {
-    marginTop: 4
+    marginTop: marginWidth
   },
   square: {
-    height: 120,
-    width: 120,
-    backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth: 2
-
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    height: 126,
+    width: 126,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cell: {
-    // borderColor: 'black',
-    // borderWidth: 0.5,
-    // height: 38,
-    // width: 38,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    height: 38,
+    width: 38,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
