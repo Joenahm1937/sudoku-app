@@ -10,7 +10,7 @@ const Game_Board_View = (props = {navigation}) => {
     var [number, setNumber] = useState();
     var [board, updateBoard] = useState(sudoku.generate('hard'));
     var [target, setTarget] = useState();
-    var [errors, setErrors] = useState({});
+    var [errors, setErrors] = useState({}); //change to wrong move
     if (number && target) {
         var changedBoard = [...board];
         board[target[0]][target[1]] = number;
