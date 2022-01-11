@@ -46,5 +46,13 @@ const Check_Icon = () => {
         </Svg>
     );
 }
+const Back_Icon = () => {
+    return(
+        <Svg width="32" height="11" viewBox="0 0 32 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <Path d="M9.57568 7.49808H31.1429C31.6162 7.49808 32 7.22969 32 6.89867V4.10138C32 3.77036 31.6162 3.50197 31.1429 3.50197H9.57568V1.20125C9.57568 0.133192 7.72918 -0.401688 6.64918 0.353528L0.502124 4.6523C-0.167375 5.12049 -0.167375 5.87956 0.502124 6.3477L6.64918 10.6465C7.72911 11.4017 9.57568 10.8668 9.57568 9.79875V7.49808Z" fill="black"/>
+        </Svg>
+    )
+}
 
-export {Pencil_Icon, Undo_Icon, Redo_Icon, Check_Icon};
+
+export {Pencil_Icon, Undo_Icon, Redo_Icon, Check_Icon, Back_Icon};

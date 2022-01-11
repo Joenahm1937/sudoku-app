@@ -27,18 +27,10 @@ const Game_Board_View = (props = {navigation}) => {
     return(
         <View>
             <View style={styles.notchBlock}></View>
-            <Header_Component level={'hard'}></Header_Component>
+            <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
             <Grid number={number} board={board} updateBoard={updateBoard} target={target} setTarget={setTarget} errors={errors}></Grid>
             <Pieces setNumber={setNumber}/>
             <Actions_Component navigation={props.navigation}></Actions_Component>
-            <View style={styles.tempButton}>
-                <Button
-                    onPress={() => props.navigation.navigate("Temporary_View_Navigator")}
-                    title="Home"
-                >
-                    Navigate
-                </Button>
-            </View>
         </View>
     )
 }
