@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
 import { Header_Component } from './Header_Component';
 import { Footer_Component } from './Footer_Component'
 import Grid from './Grid'
@@ -30,6 +30,14 @@ const Game_Board_View = (props = {navigation}) => {
             <Grid number={number} board={board} updateBoard={updateBoard} target={target} setTarget={setTarget} errors={errors}></Grid>
             <Pieces setNumber={setNumber}/>
             <Footer_Component navigation={props.navigation}></Footer_Component>
+            <View style={styles.tempButton}>
+                <Button
+                    onPress={() => props.navigation.navigate("Temporary_View_Navigator")}
+                    title="Home"
+                >
+                    Navigate
+                </Button>
+            </View>
         </View>
     )
 }

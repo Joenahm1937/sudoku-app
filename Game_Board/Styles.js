@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   },
   difficultyText: {
     marginLeft: 5,
+
   },
   timerStyle: {
     marginRight: 5,
@@ -16,14 +17,22 @@ const styles = StyleSheet.create({
 	  height: hp('5%')
   },
   footerContainer: {
-	flexDirection: "row",
-	marginBottom: 36,
-	backgroundColor: '#EE5407',
-	position: 'absolute',
-	width: wp('100%'),
-	height: hp('5%'),
-	bottom: hp('-49%'),
-	justifyContent: 'center'
+    flexDirection: "row",
+    marginBottom: 36,
+    position: 'absolute',
+    width: wp('100%'),
+    height: hp('8%'),
+    bottom: hp('-20%'),
+    justifyContent: 'space-evenly'
+  },
+  tempButton: {
+    flexDirection: "row",
+    marginBottom: 26,
+    position: 'absolute',
+    width: wp('100%'),
+    height: hp('5%'),
+    bottom: hp('-30%'),
+    justifyContent: 'center'
   }
 });
 
