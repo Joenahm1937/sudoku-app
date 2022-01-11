@@ -6,10 +6,6 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: "space-between",
   },
-  difficultyText: {
-    marginLeft: 5,
-
-  },
   timerStyle: {
     marginRight: 5,
   },
@@ -24,15 +20,6 @@ const styles = StyleSheet.create({
     height: hp('8%'),
     bottom: hp('-20%'),
     justifyContent: 'space-evenly'
-  },
-  tempButton: {
-    flexDirection: "row",
-    marginBottom: 26,
-    position: 'absolute',
-    width: wp('100%'),
-    height: hp('5%'),
-    bottom: hp('-30%'),
-    justifyContent: 'center'
   }
 });
 

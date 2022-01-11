@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-const Icon_Component = ({SVG}) => {
+const Icon_Component = ({SVG, onPressFunction}) => {
   return(
     <View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onPressFunction()}>
           <SVG></SVG>
       </TouchableOpacity>
     </View>

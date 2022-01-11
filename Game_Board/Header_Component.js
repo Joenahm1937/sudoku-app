@@ -1,16 +1,26 @@
 import { Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import { styles } from './Styles';
-const Header_Component = ({level}) => {
+import { Icon_Component } from './Icon_Component/Icon_Component';
+import { Back_Icon } from './Icon_Component/Icons';
+
+
+const Header_Component = ({level, navigation}) => {
+    const Navigate_Home = () => {
+        navigation.navigate("Temporary_View_Navigator");
+        return;
+    }
     return(
         <View  style={styles.container}>
-            <View style={styles.difficultyText}>
+            <Icon_Component SVG={Back_Icon} onPressFunction={Navigate_Home}></Icon_Component>
+            <View>
                 <Text>{level.toUpperCase()}</Text>
             </View>
             <Timer style={styles.timerStyle}></Timer>
         </View>
     );
 }
+
 const Timer = (props) => {
     const {initialMinute = 0,initialSeconds = 0} = props;
     const [ minutes, setMinutes ] = useState(initialMinute);
