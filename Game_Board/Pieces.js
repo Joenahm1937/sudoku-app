@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   piece: {
-    width: 50,
-    height: 50,
+    width: wp('13%'),
+    height: hp('6%'),
     margin: wp('1%'),
     backgroundColor: colorTheme,
     borderRadius: 5,
