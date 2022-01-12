@@ -4,7 +4,8 @@ import { Actions_Component } from './Actions_Component'
 import { Grid } from './Grid'
 import { styles } from './Styles';
 import Pieces from './Pieces';
-import Lives from './Lives'
+import Lives from './Lives';
+import GameOver from './GameOver';
 import { useState, useEffect } from 'react';
 import sudoku from './gameLogic';
 const Game_Board_View = (props = {navigation}) => {
@@ -18,12 +19,14 @@ const Game_Board_View = (props = {navigation}) => {
     var [mistakes, setMistakes] = useState({});
     var [moves, setMoves] = useState([]);
     var [lives, setLives] = useState(3);
+    var [modalStatus, setModalStatus] = useState(false);
 
     useEffect(() => {
         var [unsolvedBoard, solvedBoard] = sudoku.generate('hard');
         setBoard(unsolvedBoard);
         setSolution(solvedBoard);
     }, []);
+
 
     if (number && target) {
         var changedBoard = [...board];
@@ -35,13 +38,15 @@ const Game_Board_View = (props = {navigation}) => {
             var copyMistakes = {...mistakes};
             copyMistakes[JSON.stringify(target)] = number;
             setMistakes(copyMistakes);
-            setLives(lives - 1)
+            setLives(lives - 1);
+            if (lives === 1) setModalStatus(true);
         }
         setBoard(changedBoard)
         setNumber(undefined);
     }
     return (
         <View>
+            <GameOver status={modalStatus}/>
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
             <Grid
