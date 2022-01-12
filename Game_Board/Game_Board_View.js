@@ -4,37 +4,48 @@ import { Actions_Component } from './Actions_Component'
 import { Grid } from './Grid'
 import { styles } from './Styles';
 import Pieces from './Pieces';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import sudoku from './gameLogic';
 const Game_Board_View = (props = {navigation}) => {
     var [number, setNumber] = useState();
-    var [board, updateBoard] = useState(sudoku.generate('hard'));
+    var [board, setBoard] = useState();
+    // the line below will cause the board to start empty between initial render and stateful render, but slower performance
+    // otherwise, the board will render with every square pink, but faster using default values in every child component
+    // var [board, setBoard] = useState([...Array(9)].map(() => [...Array(9)].fill('.')));
+    var [solution, setSolution] = useState();
     var [target, setTarget] = useState();
-    var [errors, setErrors] = useState({});
+    var [mistakes, setMistakes] = useState({});
     var [moves, setMoves] = useState([]);
+
+    useEffect(() => {
+        var [unsolvedBoard, solvedBoard] = sudoku.generate('hard');
+        setBoard(unsolvedBoard);
+        setSolution(solvedBoard);
+    }, []);
+
     if (number && target) {
         var changedBoard = [...board];
         board[target[0]][target[1]] = number;
-        var boardError = true; //hardcoded true for now, but write logic to check for errors
-        if (boardError) {
-            var newErrors = {...errors};
-            newErrors[JSON.stringify(target)] = true;
-            setErrors(newErrors);
+        var validMove = solution[target[0]][target[1]] === number.toString();
+        if (validMove) {
+            delete mistakes[JSON.stringify(target)]
+        } else {
+            var copyMistakes = {...mistakes};
+            copyMistakes[JSON.stringify(target)] = number;
+            setMistakes(copyMistakes);
         }
-        updateBoard(changedBoard)
+        setBoard(changedBoard)
         setNumber(undefined);
     }
-    return(
+    return (
         <View>
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
-            <Grid 
-                number={number}
-                board={board} 
-                updateBoard={updateBoard} 
-                target={target} 
-                setTarget={setTarget} 
-                errors={errors} 
+            <Grid
+                board={board}
+                target={target}
+                setTarget={setTarget}
+                mistakes={mistakes}
                 moves={moves}
             ></Grid>
             <Pieces setNumber={setNumber}/>
