@@ -12,82 +12,163 @@ var Cell = ({cell, loc, setClicked, touch, target, errors}) => {
   </View>
 }
 
-var Square = ({square, grid, setClicked, target, errors}) => {
-  return <View style={styles.square}>
+const SquareRowView = ({rowNumber, square, grid, setClicked, target, errors, moves}) => {
+  const square_index1 = rowNumber * 3;
+  const square_index2 = (rowNumber * 3) + 1;
+  const square_index3 = (rowNumber * 3) + 2;
+  return(
     <View style={styles.row}>
-      <Cell cell={square[0]} loc={[grid, 0]} setClicked={setClicked} target={target} errors={errors}/>
+      <Cell 
+        cell={square[square_index1]} 
+        loc={[grid, square_index1]} 
+        setClicked={setClicked} 
+        target={target} 
+        errors={errors}
+      />
       <View style={styles.sideLine}></View>
-      <Cell cell={square[1]} loc={[grid, 1]} setClicked={setClicked} target={target} errors={errors}/>
+      <Cell 
+        cell={square[square_index2]} 
+        loc={[grid, square_index2]} 
+        setClicked={setClicked} 
+        target={target} 
+        errors={errors}
+      />
       <View style={styles.sideLine}></View>
-      <Cell cell={square[2]} loc={[grid, 2]} setClicked={setClicked} target={target} errors={errors}/>
-    </View>
-    <View style={styles.lineRow}>
-      <View style={styles.bottomLine}></View>
-      <View style={styles.bottomLine}></View>
-      <View style={styles.bottomLine}></View>
-    </View>
-    <View style={styles.row}>
-      <Cell cell={square[3]} loc={[grid, 3]} setClicked={setClicked} target={target} errors={errors}/>
-      <View style={styles.sideLine}></View>
-      <Cell cell={square[4]} loc={[grid, 4]} setClicked={setClicked} target={target} errors={errors}/>
-      <View style={styles.sideLine}></View>
-      <Cell cell={square[5]} loc={[grid, 5]} setClicked={setClicked} target={target} errors={errors}/>
-    </View>
-    <View style={styles.lineRow}>
-      <View style={styles.bottomLine}></View>
-      <View style={styles.bottomLine}></View>
-      <View style={styles.bottomLine}></View>
-    </View>
-    <View style={styles.row}>
-      <Cell cell={square[6]} loc={[grid, 6]} setClicked={setClicked} target={target} errors={errors}/>
-      <View style={styles.sideLine}></View>
-      <Cell cell={square[7]} loc={[grid, 7]} setClicked={setClicked} target={target} errors={errors}/>
-      <View style={styles.sideLine}></View>
-      <Cell cell={square[8]} loc={[grid, 8]} setClicked={setClicked} target={target} errors={errors}/>
-    </View>
-  </View>
-}
-
-export default function Grid({level, number, board, updateBoard, target, setTarget, errors}) {
-  var setClicked = (loc) => setTarget(loc);
-  console.log(errors)
-  return (
-    <View style={styles.board}>
-      <View style={styles.gridRow}>
-        <Square square={board[0]} grid={0} setClicked={setClicked} target={target} errors={errors}/>
-        <View style={styles.gSideLine}></View>
-        <Square square={board[1]} grid={1} setClicked={setClicked} target={target} errors={errors}/>
-        <View style={styles.gSideLine}></View>
-        <Square square={board[2]} grid={2} setClicked={setClicked} target={target} errors={errors}/>
-      </View>
-      <View style={styles.gridRow}>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
-      </View>
-      <View style={styles.gridRow}>
-        <Square square={board[3]} grid={3} setClicked={setClicked} target={target} errors={errors}/>
-        <View style={styles.gSideLine}></View>
-        <Square square={board[4]} grid={4} setClicked={setClicked} target={target} errors={errors}/>
-        <View style={styles.gSideLine}></View>
-        <Square square={board[5]} grid={5} setClicked={setClicked} target={target} errors={errors}/>
-      </View>
-      <View style={styles.gridRow}>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
-      </View>
-      <View style={styles.gridRow}>
-        <Square square={board[6]} grid={6} setClicked={setClicked} target={target} errors={errors}/>
-        <View style={styles.gSideLine}></View>
-        <Square square={board[7]} grid={7} setClicked={setClicked} target={target} errors={errors}/>
-        <View style={styles.gSideLine}></View>
-        <Square square={board[8]} grid={8} setClicked={setClicked} target={target} errors={errors}/>
-      </View>
+      <Cell 
+        cell={square[square_index3]} 
+        loc={[grid, square_index3]} 
+        setClicked={setClicked} 
+        target={target} 
+        errors={errors}
+      />
     </View>
   );
 }
 
+var Square = ({square, grid, setClicked, target, errors, moves}) => {
+  return (
+    <View style={styles.square}>
+      <SquareRowView
+        rowNumber={0}
+        square={square}
+        grid={grid}
+        setClicked={setClicked}
+        target={target}
+        errors={errors}
+        moves={moves}
+      />
+      <View style={styles.lineRow}>
+        <View style={styles.bottomLine}></View>
+        <View style={styles.bottomLine}></View>
+        <View style={styles.bottomLine}></View>
+      </View>
+      <SquareRowView
+        rowNumber={1}
+        square={square}
+        grid={grid}
+        setClicked={setClicked}
+        target={target}
+        errors={errors}
+        moves={moves}
+      />
+      <View style={styles.lineRow}>
+        <View style={styles.bottomLine}></View>
+        <View style={styles.bottomLine}></View>
+        <View style={styles.bottomLine}></View>
+      </View>
+      <SquareRowView
+        rowNumber={2}
+        square={square}
+        grid={grid}
+        setClicked={setClicked}
+        target={target}
+        errors={errors}
+        moves={moves}
+      />
+    </View>
+  );
+}
+
+const GridRowView = ({rowNumber, board, setClicked, target, errors, moves}) => {
+  const board_and_grid_index1 = rowNumber * 3;
+  const board_and_grid_index2 = (rowNumber * 3) + 1;
+  const board_and_grid_index3 = (rowNumber * 3) + 2;
+  return (
+    <View style={styles.gridRow}>
+      <Square 
+        square={board[board_and_grid_index1]} 
+        grid={board_and_grid_index1} 
+        setClicked={setClicked} 
+        target={target} 
+        errors={errors} 
+        moves={moves}
+      />
+      <View style={styles.gSideLine}></View>
+      <Square 
+        square={board[board_and_grid_index2]} 
+        grid={board_and_grid_index2} 
+        setClicked={setClicked} 
+        target={target} 
+        errors={errors} 
+        moves={moves}
+      />
+      <View style={styles.gSideLine}></View>
+      <Square 
+        square={board[board_and_grid_index3]} 
+        grid={board_and_grid_index3} 
+        setClicked={setClicked} 
+        target={target} 
+        errors={errors} 
+        moves={moves}
+      />
+    </View>
+  );
+}
+
+const Grid = ({level, number, board, updateBoard, target, setTarget, errors, moves}) => {
+  var setClicked = (loc) => setTarget(loc);
+  console.log(errors)
+  return (
+    <View style={styles.board}>
+        <GridRowView
+          rowNumber={0}
+          board={board}
+          setClicked={setClicked}
+          target={target}
+          errors={errors}
+          moves={moves}
+        ></GridRowView>
+      <View style={styles.gridRow}>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+      </View>
+      <GridRowView
+          rowNumber={1}
+          board={board}
+          setClicked={setClicked}
+          target={target}
+          errors={errors}
+          moves={moves}
+      ></GridRowView>
+      <View style={styles.gridRow}>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+        <View style={styles.gBottomLine}></View>
+      </View>
+      <GridRowView
+          rowNumber={2}
+          board={board}
+          setClicked={setClicked}
+          target={target}
+          errors={errors}
+          moves={moves}
+      ></GridRowView>
+    </View>
+  );
+}
+
+export { Grid };
 
 var marginWidth = 5;
 var colorTheme = 'pink';
