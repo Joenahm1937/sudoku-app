@@ -18,11 +18,12 @@ export default function Pieces({setNumber}) {
   </View>
 }
 
-var colorTheme = 'pink';
+var colorTheme = '#F4C3C3';
 
 const styles = StyleSheet.create({
   container: {
-    margin: wp('6%'),
+    marginRight: wp('6%'),
+    marginLeft: wp('6%'),
     height: hp('10%'),
     flexDirection: 'row',
     flexWrap: 'wrap',

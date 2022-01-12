@@ -4,6 +4,7 @@ import { Actions_Component } from './Actions_Component'
 import { Grid } from './Grid'
 import { styles } from './Styles';
 import Pieces from './Pieces';
+import Lives from './Lives'
 import { useState, useEffect } from 'react';
 import sudoku from './gameLogic';
 const Game_Board_View = (props = {navigation}) => {
@@ -16,6 +17,7 @@ const Game_Board_View = (props = {navigation}) => {
     var [target, setTarget] = useState();
     var [mistakes, setMistakes] = useState({});
     var [moves, setMoves] = useState([]);
+    var [lives, setLives] = useState(3);
 
     useEffect(() => {
         var [unsolvedBoard, solvedBoard] = sudoku.generate('hard');
@@ -33,6 +35,7 @@ const Game_Board_View = (props = {navigation}) => {
             var copyMistakes = {...mistakes};
             copyMistakes[JSON.stringify(target)] = number;
             setMistakes(copyMistakes);
+            setLives(lives - 1)
         }
         setBoard(changedBoard)
         setNumber(undefined);
@@ -48,6 +51,7 @@ const Game_Board_View = (props = {navigation}) => {
                 mistakes={mistakes}
                 moves={moves}
             ></Grid>
+            <Lives lives={lives}/>
             <Pieces setNumber={setNumber}/>
             <Actions_Component navigation={props.navigation}></Actions_Component>
         </View>

@@ -170,7 +170,7 @@ const Grid = ({board=[], target, setTarget, mistakes, moves}) => {
 export { Grid };
 
 var marginWidth = 5;
-var colorTheme = 'pink';
+var colorTheme = '#F4C3C3';
 
 const styles = StyleSheet.create({
   board: {
