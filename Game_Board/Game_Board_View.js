@@ -1,7 +1,7 @@
 import { View, Button } from 'react-native';
 import { Header_Component } from './Header_Component';
 import { Actions_Component } from './Actions_Component'
-import Grid from './Grid'
+import { Grid } from './Grid'
 import { styles } from './Styles';
 import Pieces from './Pieces';
 import { useState } from 'react';
@@ -28,7 +28,15 @@ const Game_Board_View = (props = {navigation}) => {
         <View>
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
-            <Grid number={number} board={board} updateBoard={updateBoard} target={target} setTarget={setTarget} errors={errors}></Grid>
+            <Grid 
+                number={number}
+                board={board} 
+                updateBoard={updateBoard} 
+                target={target} 
+                setTarget={setTarget} 
+                errors={errors} 
+                moves={moves}
+            ></Grid>
             <Pieces setNumber={setNumber}/>
             <Actions_Component navigation={props.navigation}></Actions_Component>
         </View>
