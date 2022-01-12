@@ -821,10 +821,10 @@ var changeBoard = (board) => {
 
 var funcs = {
   generate(level) {
-    return changeBoard(sudoku.board_string_to_grid(sudoku.generate(level)))
-  },
-  solve(boardString) {
-    return sudoku.board_string_to_grid(sudoku.solve(sudoku.board_grid_to_string(boardString)))
+    var boardString = sudoku.generate(level);
+    var unsolvedBoard = changeBoard(sudoku.board_string_to_grid(boardString));
+    var solvedBoard = changeBoard(sudoku.board_string_to_grid(sudoku.solve(boardString)));
+    return [unsolvedBoard, solvedBoard];
   },
 }
 
@@ -832,11 +832,5 @@ var funcs = {
 
 export default funcs;
 
-// var formatBoard = (board) => {
-//     return board
-// }
-
-
-// console.log(formatBoard(sudoku.board_string_to_grid(sudoku.generate('easy'))))
 
 
