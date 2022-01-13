@@ -12,7 +12,7 @@ var Cell = ({cell=[], loc, setClicked, touch, target, mistakes}) => {
   </View>
 }
 
-const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, moves}) => {
+const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes}) => {
   const square_index1 = rowNumber * 3;
   const square_index2 = (rowNumber * 3) + 1;
   const square_index3 = (rowNumber * 3) + 2;
@@ -45,7 +45,7 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, m
   );
 }
 
-var Square = ({square=[], grid, setClicked, target, mistakes, moves}) => {
+var Square = ({square=[], grid, setClicked, target, mistakes}) => {
   return (
     <View style={styles.square}>
       <SquareRowView
@@ -55,7 +55,6 @@ var Square = ({square=[], grid, setClicked, target, mistakes, moves}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
-        moves={moves}
       />
       <View style={styles.lineRow}>
         <View style={styles.bottomLine}></View>
@@ -69,7 +68,6 @@ var Square = ({square=[], grid, setClicked, target, mistakes, moves}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
-        moves={moves}
       />
       <View style={styles.lineRow}>
         <View style={styles.bottomLine}></View>
@@ -83,13 +81,12 @@ var Square = ({square=[], grid, setClicked, target, mistakes, moves}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
-        moves={moves}
       />
     </View>
   );
 }
 
-const GridRowView = ({rowNumber, board, setClicked, target, mistakes, moves}) => {
+const GridRowView = ({rowNumber, board, setClicked, target, mistakes}) => {
   const board_and_grid_index1 = rowNumber * 3;
   const board_and_grid_index2 = (rowNumber * 3) + 1;
   const board_and_grid_index3 = (rowNumber * 3) + 2;
@@ -101,7 +98,6 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes, moves}) =>
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
-        moves={moves}
       />
       <View style={styles.gSideLine}></View>
       <Square
@@ -110,7 +106,6 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes, moves}) =>
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
-        moves={moves}
       />
       <View style={styles.gSideLine}></View>
       <Square
@@ -119,7 +114,6 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes, moves}) =>
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
-        moves={moves}
       />
     </View>
   );
