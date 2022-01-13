@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
 var Cell = ({cell=[], loc, setClicked, touch, target, mistakes}) => {
   var color = target && loc[0] === target[0] && loc[1] === target[1] ? styles.touched : {};
   var mistake = mistakes[JSON.stringify(loc)] ? styles.mistake : {};
