@@ -33,7 +33,10 @@ const Game_Board_View = (props = {navigation}) => {
         board[target[0]][target[1]] = number;
         var validMove = solution[target[0]][target[1]] === number.toString();
         if (validMove) {
+            var updatedMoves=[...moves]
             delete mistakes[JSON.stringify(target)];
+            updatedMoves.push([target[0], target[1]]);
+            setMoves(updatedMoves);
             setTarget(undefined);
         } else {
             var copyMistakes = {...mistakes};
@@ -55,11 +58,10 @@ const Game_Board_View = (props = {navigation}) => {
                 target={target}
                 setTarget={setTarget}
                 mistakes={mistakes}
-                moves={moves}
             ></Grid>
             <Lives lives={lives}/>
             <Pieces setNumber={setNumber}/>
-            <Actions_Component navigation={props.navigation}></Actions_Component>
+            <Actions_Component navigation={props.navigation} moves={moves} board={board} setBoard={setBoard}></Actions_Component>
         </View>
     )
 }
