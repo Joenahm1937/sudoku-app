@@ -33,7 +33,8 @@ const Game_Board_View = (props = {navigation}) => {
         board[target[0]][target[1]] = number;
         var validMove = solution[target[0]][target[1]] === number.toString();
         if (validMove) {
-            delete mistakes[JSON.stringify(target)]
+            delete mistakes[JSON.stringify(target)];
+            setTarget(undefined);
         } else {
             var copyMistakes = {...mistakes};
             copyMistakes[JSON.stringify(target)] = number;
