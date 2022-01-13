@@ -8,6 +8,12 @@ import Lives from './Lives';
 import GameOver from './GameOver';
 import { useState, useEffect } from 'react';
 import sudoku from './gameLogic';
+import * as Haptics from 'expo-haptics';
+const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false
+};
+
 const Game_Board_View = (props = {navigation}) => {
     var [number, setNumber] = useState();
     var [board, setBoard] = useState();
@@ -33,12 +39,14 @@ const Game_Board_View = (props = {navigation}) => {
         board[target[0]][target[1]] = number;
         var validMove = solution[target[0]][target[1]] === number.toString();
         if (validMove) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
             var updatedMoves=[...moves]
             delete mistakes[JSON.stringify(target)];
             updatedMoves.push([target[0], target[1]]);
             setMoves(updatedMoves);
             setTarget(undefined);
         } else {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
             var copyMistakes = {...mistakes};
             copyMistakes[JSON.stringify(target)] = number;
             setMistakes(copyMistakes);
