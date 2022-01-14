@@ -1,16 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-var Cell = ({cell=[], loc, setClicked, touch, target, mistakes}) => {
+var Cell = ({cell=[], loc, setClicked, touch, target, mistakes, notesMode, notes}) => {
+  var note = notes[JSON.stringify(loc)];
   var color = target && loc[0] === target[0] && loc[1] === target[1] ? styles.touched : {};
   var mistake = mistakes[JSON.stringify(loc)] ? styles.mistake : {};
   return <View style={styles.cell}>
-    {cell === '.' ? <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}></TouchableOpacity> : <View style={[styles.circle, mistake]}>
+    {cell === '.' ? !notesMode ? <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}></TouchableOpacity> :
+    <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}>
+      <Text style={styles.notes}>{note ? Array.from(note).sort() : null}</Text>
+    </TouchableOpacity> : <View style={[styles.circle, mistake]}>
       <Text style={styles.numbers}>{cell}</Text>
     </View>}
   </View>
 }
 
-const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes}) => {
+const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, notesMode, notes}) => {
   const square_index1 = rowNumber * 3;
   const square_index2 = (rowNumber * 3) + 1;
   const square_index3 = (rowNumber * 3) + 2;
@@ -22,6 +26,8 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes}) 
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
       <View style={styles.sideLine}></View>
       <Cell
@@ -30,6 +36,8 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes}) 
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
       <View style={styles.sideLine}></View>
       <Cell
@@ -38,12 +46,14 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes}) 
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
     </View>
   );
 }
 
-var Square = ({square=[], grid, setClicked, target, mistakes}) => {
+var Square = ({square=[], grid, setClicked, target, mistakes, notesMode, notes}) => {
   return (
     <View style={styles.square}>
       <SquareRowView
@@ -53,6 +63,8 @@ var Square = ({square=[], grid, setClicked, target, mistakes}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
       <View style={styles.lineRow}>
         <View style={styles.bottomLine}></View>
@@ -66,6 +78,8 @@ var Square = ({square=[], grid, setClicked, target, mistakes}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
       <View style={styles.lineRow}>
         <View style={styles.bottomLine}></View>
@@ -79,12 +93,14 @@ var Square = ({square=[], grid, setClicked, target, mistakes}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
     </View>
   );
 }
 
-const GridRowView = ({rowNumber, board, setClicked, target, mistakes}) => {
+const GridRowView = ({rowNumber, board, setClicked, target, mistakes, notesMode, notes}) => {
   const board_and_grid_index1 = rowNumber * 3;
   const board_and_grid_index2 = (rowNumber * 3) + 1;
   const board_and_grid_index3 = (rowNumber * 3) + 2;
@@ -96,6 +112,8 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
       <View style={styles.gSideLine}></View>
       <Square
@@ -104,6 +122,8 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
       <View style={styles.gSideLine}></View>
       <Square
@@ -112,12 +132,14 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes}) => {
         setClicked={setClicked}
         target={target}
         mistakes={mistakes}
+        notesMode={notesMode}
+        notes={notes}
       />
     </View>
   );
 }
 
-const Grid = ({board=[], target, setTarget, mistakes, moves}) => {
+const Grid = ({board=[], target, setTarget, mistakes, moves, notesMode, notes}) => {
   var setClicked = (loc) => setTarget(loc);
   return (
     <View style={styles.board}>
@@ -128,6 +150,8 @@ const Grid = ({board=[], target, setTarget, mistakes, moves}) => {
           target={target}
           mistakes={mistakes}
           moves={moves}
+          notesMode={notesMode}
+          notes={notes}
         ></GridRowView>
       <View style={styles.gridRow}>
         <View style={styles.gBottomLine}></View>
@@ -141,6 +165,8 @@ const Grid = ({board=[], target, setTarget, mistakes, moves}) => {
           target={target}
           mistakes={mistakes}
           moves={moves}
+          notesMode={notesMode}
+          notes={notes}
       ></GridRowView>
       <View style={styles.gridRow}>
         <View style={styles.gBottomLine}></View>
@@ -154,6 +180,8 @@ const Grid = ({board=[], target, setTarget, mistakes, moves}) => {
           target={target}
           mistakes={mistakes}
           moves={moves}
+          notesMode={notesMode}
+          notes={notes}
       ></GridRowView>
     </View>
   );
@@ -255,6 +283,9 @@ const styles = StyleSheet.create({
   },
   mistake: {
     backgroundColor: 'red'
+  },
+  notes: {
+    fontSize: 10,
   }
 });
 
