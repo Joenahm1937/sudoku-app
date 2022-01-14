@@ -40,17 +40,17 @@ const Game_Board_View = (props = {navigation}) => {
         var validMove = solution[target[0]][target[1]] === number.toString();
         if (validMove) {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-            var updatedMoves=[...moves]
             delete mistakes[JSON.stringify(target)];
-            updatedMoves.push([target[0], target[1]]);
-            setMoves(updatedMoves);
             setTarget(undefined);
         } else {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
             var copyMistakes = {...mistakes};
+            var updatedMoves=[...moves]
             copyMistakes[JSON.stringify(target)] = number;
+            updatedMoves.push([target[0], target[1]]);
             setMistakes(copyMistakes);
             setLives(lives - 1);
+            setMoves(updatedMoves);
             if (lives === 1) setModalStatus(true);
         }
         setBoard(changedBoard)
