@@ -9,10 +9,6 @@ import GameOver from './GameOver';
 import { useState, useEffect } from 'react';
 import sudoku from './gameLogic';
 import * as Haptics from 'expo-haptics';
-const options = {
-    enableVibrateFallback: true,
-    ignoreAndroidSystemSettings: false
-};
 
 const Game_Board_View = (props = {navigation}) => {
     var [number, setNumber] = useState();
@@ -26,11 +22,13 @@ const Game_Board_View = (props = {navigation}) => {
     var [gameEnded, setGameEnded] = useState(false);
     var [notesMode, setNotesMode] = useState(true);
     var [notes, setNotes] = useState({});
+    var [originalBoard, setOriginalBoard] = useState()
 
     useEffect(() => {
         var [unsolvedBoard, solvedBoard] = sudoku.generate('hard');
         setBoard(unsolvedBoard);
         setSolution(solvedBoard);
+        setOriginalBoard(unsolvedBoard);
     }, []);
 
     if (gameEnded) {
@@ -90,8 +88,8 @@ const Game_Board_View = (props = {navigation}) => {
                 notes={notes}
             ></Grid>
             <Lives lives={lives}/>
-            <Pieces setNumber={setNumber}/>
-            <Actions_Component navigation={props.navigation} moves={moves} board={board} setBoard={setBoard}></Actions_Component>
+            <Pieces setNumber={setNumber} moves={moves} board={board} setBoard={setBoard}/>
+            <Actions_Component navigation={props.navigation} board={board} setBoard={setBoard} originalBoard={originalBoard}></Actions_Component>
         </View>
     )
 }
