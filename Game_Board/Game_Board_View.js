@@ -6,7 +6,7 @@ import { styles } from './Styles';
 import Pieces from './Pieces';
 import Lives from './Lives';
 import GameOver from './GameOver';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import sudoku from './gameLogic';
 import * as Haptics from 'expo-haptics';
 
@@ -20,9 +20,10 @@ const Game_Board_View = (props = {navigation}) => {
     var [lives, setLives] = useState(3);
     var [modalStatus, setModalStatus] = useState(false);
     var [gameEnded, setGameEnded] = useState(false);
-    var [notesMode, setNotesMode] = useState(true);
+    var [notesMode, setNotesMode] = useState(false);
     var [notes, setNotes] = useState({});
-    var [originalBoard, setOriginalBoard] = useState()
+    var [originalBoard, setOriginalBoard] = useState();
+    var isInitialMount = useRef(true);
 
     useEffect(() => {
         var [unsolvedBoard, solvedBoard] = sudoku.generate('hard');
@@ -31,10 +32,14 @@ const Game_Board_View = (props = {navigation}) => {
         setOriginalBoard(unsolvedBoard);
     }, []);
 
-    if (gameEnded) {
-        props.navigation.navigate("Temporary_View_Navigator");
-        setGameEnded(false)
-    }
+    //This allows us to navigate back to home screen when user clicks out of game over modal
+    useEffect(() => {
+        if (isInitialMount.current) {
+           isInitialMount.current = false;
+        } else {
+            props.navigation.navigate("Temporary_View_Navigator");
+        }
+      }, [gameEnded]);
 
     if (notesMode) {
         if (number && target) {
@@ -89,7 +94,13 @@ const Game_Board_View = (props = {navigation}) => {
             ></Grid>
             <Lives lives={lives}/>
             <Pieces setNumber={setNumber} moves={moves} board={board} setBoard={setBoard}/>
-            <Actions_Component navigation={props.navigation} board={board} setBoard={setBoard} originalBoard={originalBoard}></Actions_Component>
+            <Actions_Component
+                navigation={props.navigation}
+                board={board} setBoard={setBoard}
+                originalBoard={originalBoard}
+                setNotesMode={setNotesMode}
+                notesMode={notesMode}
+            ></Actions_Component>
         </View>
     )
 }
