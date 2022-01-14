@@ -2,15 +2,17 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Icon_Component } from './Icon_Component/Icon_Component';
 import { Undo_Transparent_Icon } from './Icon_Component/Icons';
-var Piece = ({choice, setNumber}) => {
-  return <View style={styles.piece}>
-    <TouchableOpacity style={styles.touchable} onPress={() => setNumber(choice)}>
-      <Text style={styles.number}>{choice}</Text>
-    </TouchableOpacity>
-  </View>
+const Piece = ({choice, setNumber}) => {
+  return (
+    <View style={styles.piece}>
+      <TouchableOpacity style={styles.touchable} onPress={() => setNumber(choice)}>
+        <Text style={styles.number}>{choice}</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
-export default function Pieces(props = {setNumber, moves, board, setBoard}) {
+const Pieces_Component = (props = {setNumber, moves, board, setBoard}) => {
   const Undo = () => {
     const lastMove = props.moves.pop();
     if(!lastMove){
@@ -30,7 +32,7 @@ export default function Pieces(props = {setNumber, moves, board, setBoard}) {
     </View>
   );
 }
-
+export { Pieces_Component };
 var colorTheme = '#F4C3C3';
 
 const styles = StyleSheet.create({

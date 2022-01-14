@@ -3,9 +3,9 @@ import { Header_Component } from './Header_Component';
 import { Actions_Component } from './Actions_Component'
 import { Grid } from './Grid'
 import { styles } from './Styles';
-import Pieces from './Pieces';
+import { Pieces_Component } from './Pieces_Component';
 import Lives from './Lives';
-import GameOver from './GameOver';
+import { GameOver_Component } from './GameOver_Component';
 import { useState, useEffect, useRef } from 'react';
 import sudoku from './gameLogic';
 import * as Haptics from 'expo-haptics';
@@ -81,7 +81,7 @@ const Game_Board_View = (props = {navigation}) => {
 
     return (
         <View>
-            <GameOver status={modalStatus} setModalStatus={setModalStatus} setGameEnded={setGameEnded}/>
+            <GameOver_Component status={modalStatus} setModalStatus={setModalStatus} setGameEnded={setGameEnded}/>
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
             <Grid
@@ -93,7 +93,7 @@ const Game_Board_View = (props = {navigation}) => {
                 notes={notes}
             ></Grid>
             <Lives lives={lives}/>
-            <Pieces setNumber={setNumber} moves={moves} board={board} setBoard={setBoard}/>
+            <Pieces_Component setNumber={setNumber} moves={moves} board={board} setBoard={setBoard}/>
             <Actions_Component
                 board={board} setBoard={setBoard}
                 originalBoard={originalBoard}
