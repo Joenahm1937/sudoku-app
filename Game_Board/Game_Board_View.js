@@ -17,21 +17,24 @@ const options = {
 const Game_Board_View = (props = {navigation}) => {
     var [number, setNumber] = useState();
     var [board, setBoard] = useState();
-    // the line below will cause the board to start empty between initial render and stateful render, but slower performance
-    // otherwise, the board will render with every square pink, but faster using default values in every child component
-    // var [board, setBoard] = useState([...Array(9)].map(() => [...Array(9)].fill('.')));
     var [solution, setSolution] = useState();
     var [target, setTarget] = useState();
     var [mistakes, setMistakes] = useState({});
     var [moves, setMoves] = useState([]);
     var [lives, setLives] = useState(3);
     var [modalStatus, setModalStatus] = useState(false);
+    var [gameEnded, setGameEnded] = useState(false);
 
     useEffect(() => {
         var [unsolvedBoard, solvedBoard] = sudoku.generate('hard');
         setBoard(unsolvedBoard);
         setSolution(solvedBoard);
     }, []);
+
+    if (gameEnded) {
+        props.navigation.navigate("Temporary_View_Navigator");
+        setGameEnded(false)
+    }
 
 
     if (number && target) {
@@ -58,7 +61,7 @@ const Game_Board_View = (props = {navigation}) => {
     }
     return (
         <View>
-            <GameOver status={modalStatus}/>
+            <GameOver status={modalStatus} setModalStatus={setModalStatus} setGameEnded={setGameEnded}/>
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
             <Grid
