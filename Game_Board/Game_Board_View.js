@@ -95,7 +95,6 @@ const Game_Board_View = (props = {navigation}) => {
             <Lives lives={lives}/>
             <Pieces setNumber={setNumber} moves={moves} board={board} setBoard={setBoard}/>
             <Actions_Component
-                navigation={props.navigation}
                 board={board} setBoard={setBoard}
                 originalBoard={originalBoard}
                 setNotesMode={setNotesMode}
