@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
+import { Icon_Component } from './Icon_Component/Icon_Component';
+import { Undo_Transparent_Icon } from './Icon_Component/Icons';
 var Piece = ({choice, setNumber}) => {
   return <View style={styles.piece}>
     <TouchableOpacity style={styles.touchable} onPress={() => setNumber(choice)}>
@@ -9,13 +10,25 @@ var Piece = ({choice, setNumber}) => {
   </View>
 }
 
-export default function Pieces({setNumber}) {
-  return <View style={styles.container}>
-    {[...Array(9)].map((piece, i) => <Piece key={i} choice={i + 1} setNumber={setNumber}/>)}
-    <View style={styles.piece}>
-      <Text>Erase</Text>
+export default function Pieces(props = {setNumber, moves, board, setBoard}) {
+  const Undo = () => {
+    const lastMove = props.moves.pop();
+    if(!lastMove){
+        return;
+    }
+    var changedBoard = [...props.board];
+    changedBoard[lastMove[0]][lastMove[1]] = '.'
+    props.setBoard(changedBoard)
+    return;
+  }
+  return (
+    <View style={styles.container}>
+      {[...Array(9)].map((piece, i) => <Piece key={i} choice={i + 1} setNumber={props.setNumber}/>)}
+      <View style={styles.piece}>
+        <Icon_Component SVG={Undo_Transparent_Icon} onPressFunction={Undo}></Icon_Component>
+      </View>
     </View>
-  </View>
+  );
 }
 
 var colorTheme = '#F4C3C3';
