@@ -20,7 +20,16 @@ const styles = StyleSheet.create({
     height: hp('8%'),
     bottom: hp('-20%'),
     justifyContent: 'space-evenly'
-  }
+  },
+  dot: {
+    height: 20,
+    width: 20,
+    position: 'absolute',
+    backgroundColor: '#F4C3C3',
+    borderRadius: 50,
+    left: wp('53%'),
+    top: hp('-.5%')
+  },
 });
 
 export { styles };

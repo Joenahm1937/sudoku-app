@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     margin: wp('1%'),
     backgroundColor: colorTheme,
     borderRadius: 5,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
