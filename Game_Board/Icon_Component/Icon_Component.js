@@ -6,7 +6,9 @@ const Icon_Component = ({SVG, onPressFunction, text}) => {
       <TouchableOpacity onPress={() => onPressFunction()}>
           <SVG></SVG>
       </TouchableOpacity>
-      <Text>{text}</Text>
+      {
+        text && <Text>{text}</Text>
+      }
     </View>
   );
 }
