@@ -5,8 +5,7 @@ var Cell = ({cell=[], loc, setClicked, touch, target, mistakes, notesMode, notes
   var color = target && loc[0] === target[0] && loc[1] === target[1] ? styles.touched : {};
   var mistake = mistakes[JSON.stringify(loc)] ? styles.mistake : {};
   return <View style={styles.cell}>
-    {cell === '.' ? !notesMode ? <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}></TouchableOpacity> :
-    <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}>
+    {cell === '.' ? <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}>
       <Text style={styles.notes}>{note ? Array.from(note).sort() : null}</Text>
     </TouchableOpacity> : <View style={[styles.circle, mistake]}>
       <Text style={styles.numbers}>{cell}</Text>
