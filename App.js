@@ -4,8 +4,11 @@ import {
   Temporary_View_Navigator,
 } from "./Temporary_View_Navigator/Temporary_View_Navigator"
 import * as React from 'react';
+
 import { Game_Board_View } from "./Game_Board/Game_Board_View";
 import HomePage from "./Homepage/homepage_view";
+import { StatsPage } from "./StatsPage/StatsPage_View";
+
 export default function App() {
   const Stack = createNativeStackNavigator();
     return (
@@ -31,6 +34,11 @@ export default function App() {
             name="homepage"
             component={HomePage}
             options={{animation: 'fade'}}
+          />
+          <Stack.Screen
+            name="statspage"
+            component={StatsPage}
+            option={{animation: 'fade'}}
           />
         </Stack.Navigator>
       </NavigationContainer>

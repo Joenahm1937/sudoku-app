@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
+
 const Temporary_View_Navigator = (props = {navigation}) => {
   return (
     <View style={styles.container}>
@@ -14,6 +15,12 @@ const Temporary_View_Navigator = (props = {navigation}) => {
       <Button
         onPress={() => props.navigation.navigate("homepage")}
         title="Navigate to Home Page"
+        >
+        Navigate
+      </Button>
+      <Button
+        onPress={() => props.navigation.navigate("statspage")}
+        title="Navigate to Stats Page"
         >
         Navigate
       </Button>
