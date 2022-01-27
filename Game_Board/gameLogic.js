@@ -805,7 +805,7 @@ initialize();
 
 // Pass whatever the root object is, lsike 'window' in browsers
 
-var changeBoard = (board) => {
+const changeBoard = (board) => {
     return [
       [...board[0].slice(0,3), ...board[1].slice(0,3), ...board[2].slice(0,3)],
       [...board[0].slice(3,6), ...board[1].slice(3,6), ...board[2].slice(3,6)],
@@ -819,13 +819,32 @@ var changeBoard = (board) => {
      ]
 }
 
+const revertBoard = (board) => {
+    return [
+        ...board[0].slice(0,3), ...board[1].slice(0,3), ...board[2].slice(0,3),
+        ...board[0].slice(3,6), ...board[1].slice(3,6), ...board[2].slice(3,6),
+        ...board[0].slice(6,9), ...board[1].slice(6,9), ...board[2].slice(6,9),
+        ...board[3].slice(0,3), ...board[4].slice(0,3), ...board[5].slice(0,3),
+        ...board[3].slice(3,6), ...board[4].slice(3,6), ...board[5].slice(3,6),
+        ...board[3].slice(6,9), ...board[4].slice(6,9), ...board[5].slice(6,9),
+        ...board[6].slice(0,3), ...board[7].slice(0,3), ...board[8].slice(0,3),
+        ...board[6].slice(3,6), ...board[7].slice(3,6), ...board[8].slice(3,6),
+        ...board[6].slice(6,9), ...board[7].slice(6,9), ...board[8].slice(6,9)
+    ].join('')
+}
+
 var funcs = {
   generate(level) {
-    var boardString = sudoku.generate(level);
-    var unsolvedBoard = changeBoard(sudoku.board_string_to_grid(boardString));
-    var solvedBoard = changeBoard(sudoku.board_string_to_grid(sudoku.solve(boardString)));
+    const boardString = sudoku.generate(level);
+    const unsolvedBoard = changeBoard(sudoku.board_string_to_grid(boardString));
+    const solvedBoard = changeBoard(sudoku.board_string_to_grid(sudoku.solve(boardString)));
     return [unsolvedBoard, solvedBoard];
   },
+  getCandidates(modBoard) {
+    const boardString = revertBoard(modBoard);
+    const candidates = changeBoard(sudoku.get_candidates(boardString));
+    return candidates.map((square, i) => square.map((cell, j) => modBoard[i][j] === '.' ? cell : false))
+  }
 }
 
 

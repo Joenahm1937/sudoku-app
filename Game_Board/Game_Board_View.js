@@ -99,6 +99,7 @@ const Game_Board_View = (props = {navigation}) => {
                 originalBoard={originalBoard}
                 setNotesMode={setNotesMode}
                 notesMode={notesMode}
+                getCandidates={sudoku.getCandidates}
             ></Actions_Component>
         </View>
     )
