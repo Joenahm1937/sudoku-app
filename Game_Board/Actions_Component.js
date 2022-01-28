@@ -2,11 +2,15 @@ import { View, Fragment } from "react-native";
 import { styles } from './Styles';
 import { Icon_Component } from './Icon_Component/Icon_Component';
 import {Pencil_Icon, Restart_Icon, Hint_Icon} from './Icon_Component/Icons'
-const Actions_Component = (props = {board, setBoard, originalBoard, setNotesMode, notesMode, getCandidates}) => {
+const Actions_Component = (props = {mistakes, board, setBoard, originalBoard, setNotesMode, notesMode, getCandidates, setHintsModal, setHint}) => {
     const Restart = () => {
         props.setBoard(props.originalBoard);
     }
     const createHint = () => {
+        for (var mistake in props.mistakes) {
+            var [sq, cl] = JSON.parse(mistake)
+            props.board[sq][cl] = '.'
+        }
         const hints = props.getCandidates(props.board);
         var min = ["123456789"];
         for ( var i = 0; i < hints.length; i++ ) {
@@ -18,7 +22,8 @@ const Actions_Component = (props = {board, setBoard, originalBoard, setNotesMode
             }
         }
         var [candidates, square, cell] = min;
-        console.log(candidates, square, cell);
+        props.setHint([candidates, square, cell]);
+        props.setHintsModal(true);
     }
     const Notes_Icon = (props = {notesMode, setNotesMode}) => {
         if(!props.notesMode){
