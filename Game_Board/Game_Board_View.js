@@ -87,7 +87,13 @@ const Game_Board_View = (props = {navigation}) => {
     return (
         <View>
             <GameOver_Component status={endModal} setModalStatus={setEndModal} setGameEnded={setGameEnded}/>
-            <HintsModal status={hintsModal} setModalStatus={setHintsModal} hint={hint} setHintLoc={setHintLoc}/>
+            <HintsModal
+                status={hintsModal}
+                setModalStatus={setHintsModal}
+                hint={hint}
+                setHintLoc={setHintLoc}
+                setTarget={setTarget}
+            />
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
             <Grid

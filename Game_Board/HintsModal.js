@@ -1,18 +1,19 @@
 import { StyleSheet, Text, View, Modal, Button } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-const HintsModal = ({status, setModalStatus, hint, setHintLoc}) => {
+const HintsModal = ({setTarget, status, setModalStatus, hint, setHintLoc}) => {
   return (
     <Modal transparent visible={status} animationType='fade'>
       <View style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.end}>{hint ? hint[0] : null}</Text>
+          <Text style={styles.end}>{hint ? `Possible Values include: ${hint[0].split('').join(', ')}` : null}</Text>
           <Button
             onPress={() => {
               setModalStatus(false);
               setHintLoc([]);
+              setTarget([hint[1], hint[2]])
             }}
-            title="Return Home"
+            title="Return to Game"
           />
         </View>
       </View>
