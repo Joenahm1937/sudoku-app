@@ -6,9 +6,11 @@ import { styles } from './Styles';
 import { Pieces_Component } from './Pieces_Component';
 import Lives from './Lives';
 import { GameOver_Component } from './GameOver_Component';
+import { HintsModal } from './HintsModal';
 import { useState, useEffect, useRef } from 'react';
 import sudoku from './gameLogic';
 import * as Haptics from 'expo-haptics';
+
 
 const Game_Board_View = (props = {navigation}) => {
     var [number, setNumber] = useState();
@@ -18,7 +20,10 @@ const Game_Board_View = (props = {navigation}) => {
     var [mistakes, setMistakes] = useState({});
     var [moves, setMoves] = useState([]);
     var [lives, setLives] = useState(3);
-    var [modalStatus, setModalStatus] = useState(false);
+    var [endModal, setEndModal] = useState(false);
+    var [hintsModal, setHintsModal] = useState(false);
+    var [hint, setHint] = useState();
+    var [hintLoc, setHintLoc] = useState([]);
     var [gameEnded, setGameEnded] = useState(false);
     var [notesMode, setNotesMode] = useState(false);
     var [notes, setNotes] = useState({});
@@ -72,7 +77,7 @@ const Game_Board_View = (props = {navigation}) => {
                 setMistakes(copyMistakes);
                 setLives(lives - 1);
                 setMoves(updatedMoves);
-                if (lives === 1) setModalStatus(true);
+                if (lives === 1) setEndModal(true);
             }
             setBoard(changedBoard)
             setNumber(undefined);
@@ -81,7 +86,14 @@ const Game_Board_View = (props = {navigation}) => {
 
     return (
         <View>
-            <GameOver_Component status={modalStatus} setModalStatus={setModalStatus} setGameEnded={setGameEnded}/>
+            <GameOver_Component status={endModal} setModalStatus={setEndModal} setGameEnded={setGameEnded}/>
+            <HintsModal
+                status={hintsModal}
+                setModalStatus={setHintsModal}
+                hint={hint}
+                setHintLoc={setHintLoc}
+                setTarget={setTarget}
+            />
             <View style={styles.notchBlock}></View>
             <Header_Component level={'hard'} navigation={props.navigation}></Header_Component>
             <Grid
@@ -91,6 +103,7 @@ const Game_Board_View = (props = {navigation}) => {
                 mistakes={mistakes}
                 notesMode={notesMode}
                 notes={notes}
+                hintLoc={hintLoc}
             ></Grid>
             <Lives lives={lives}/>
             <Pieces_Component setNumber={setNumber} moves={moves} board={board} setBoard={setBoard}/>
@@ -99,6 +112,11 @@ const Game_Board_View = (props = {navigation}) => {
                 originalBoard={originalBoard}
                 setNotesMode={setNotesMode}
                 notesMode={notesMode}
+                getCandidates={sudoku.getCandidates}
+                setHintsModal={setHintsModal}
+                setHint={setHint}
+                mistakes={mistakes}
+                setHintLoc={setHintLoc}
             ></Actions_Component>
         </View>
     )
