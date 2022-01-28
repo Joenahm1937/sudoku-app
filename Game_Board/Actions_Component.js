@@ -2,7 +2,7 @@ import { View, Fragment } from "react-native";
 import { styles } from './Styles';
 import { Icon_Component } from './Icon_Component/Icon_Component';
 import {Pencil_Icon, Restart_Icon, Hint_Icon} from './Icon_Component/Icons'
-const Actions_Component = (props = {mistakes, board, setBoard, originalBoard, setNotesMode, notesMode, getCandidates, setHintsModal, setHint}) => {
+const Actions_Component = (props = {setHintLoc, mistakes, board, setBoard, originalBoard, setNotesMode, notesMode, getCandidates, setHintsModal, setHint}) => {
     const Restart = () => {
         props.setBoard(props.originalBoard);
     }
@@ -24,6 +24,7 @@ const Actions_Component = (props = {mistakes, board, setBoard, originalBoard, se
         var [candidates, square, cell] = min;
         props.setHint([candidates, square, cell]);
         props.setHintsModal(true);
+        props.setHintLoc([square, cell]);
     }
     const Notes_Icon = (props = {notesMode, setNotesMode}) => {
         if(!props.notesMode){

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Modal, Button } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-const HintsModal = ({status, setModalStatus, hint}) => {
+const HintsModal = ({status, setModalStatus, hint, setHintLoc}) => {
   return (
     <Modal transparent visible={status} animationType='fade'>
       <View style={styles.container}>
@@ -10,6 +10,7 @@ const HintsModal = ({status, setModalStatus, hint}) => {
           <Button
             onPress={() => {
               setModalStatus(false);
+              setHintLoc([]);
             }}
             title="Return Home"
           />

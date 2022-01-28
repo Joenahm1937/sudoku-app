@@ -1,11 +1,38 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated, Easing } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-var Cell = ({cell=[], loc, setClicked, touch, target, mistakes, notesMode, notes}) => {
+import { useEffect, useRef } from 'react';
+var Cell = ({cell=[], loc, setClicked, touch, target, mistakes, notesMode, notes, hintLoc}) => {
+  const opacity = useRef(new Animated.Value(1)).current;
   var note = notes[JSON.stringify(loc)];
   var color = target && loc[0] === target[0] && loc[1] === target[1] ? styles.touched : {};
   var mistake = mistakes[JSON.stringify(loc)] ? styles.mistake : {};
+  var hinted = JSON.stringify(loc) === JSON.stringify(hintLoc);
+
+  var breathe = Animated.loop(
+    Animated.sequence([
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 800,
+        ease: Easing.linear,
+        useNativeDriver: true
+      }),
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 800,
+        ease: Easing.linear,
+        useNativeDriver: true
+      })
+    ])
+  );
+
+  useEffect(() => {
+    breathe.start();
+  })
+
   return <View style={styles.cell}>
-    {cell === '.' ? <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}>
+    {cell === '.' ? hinted ? <Animated.View style={[styles.hinted, {opacity}]}>
+      <Text style={styles.numbers}>{cell}</Text>
+    </Animated.View> : <TouchableOpacity style={[styles.empty, color]} onPress={() => setClicked(loc)}>
       <Text style={styles.notes}>{note ? Array.from(note).sort() : null}</Text>
     </TouchableOpacity> : <View style={[styles.circle, mistake]}>
       <Text style={styles.numbers}>{cell}</Text>
@@ -13,7 +40,7 @@ var Cell = ({cell=[], loc, setClicked, touch, target, mistakes, notesMode, notes
   </View>
 }
 
-const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, notesMode, notes}) => {
+const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, notesMode, notes, hintLoc}) => {
   const square_index1 = rowNumber * 3;
   const square_index2 = (rowNumber * 3) + 1;
   const square_index3 = (rowNumber * 3) + 2;
@@ -27,6 +54,7 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, n
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
       <View style={styles.sideLine}></View>
       <Cell
@@ -37,6 +65,7 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, n
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
       <View style={styles.sideLine}></View>
       <Cell
@@ -47,12 +76,13 @@ const SquareRowView = ({rowNumber, square, grid, setClicked, target, mistakes, n
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
     </View>
   );
 }
 
-var Square = ({square=[], grid, setClicked, target, mistakes, notesMode, notes}) => {
+var Square = ({square=[], grid, setClicked, target, mistakes, notesMode, notes, hintLoc}) => {
   return (
     <View style={styles.square}>
       <SquareRowView
@@ -64,6 +94,7 @@ var Square = ({square=[], grid, setClicked, target, mistakes, notesMode, notes})
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
       <View style={styles.lineRow}>
         <View style={styles.bottomLine}></View>
@@ -79,6 +110,7 @@ var Square = ({square=[], grid, setClicked, target, mistakes, notesMode, notes})
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
       <View style={styles.lineRow}>
         <View style={styles.bottomLine}></View>
@@ -94,12 +126,13 @@ var Square = ({square=[], grid, setClicked, target, mistakes, notesMode, notes})
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
     </View>
   );
 }
 
-const GridRowView = ({rowNumber, board, setClicked, target, mistakes, notesMode, notes}) => {
+const GridRowView = ({rowNumber, board, setClicked, target, mistakes, notesMode, notes, hintLoc}) => {
   const board_and_grid_index1 = rowNumber * 3;
   const board_and_grid_index2 = (rowNumber * 3) + 1;
   const board_and_grid_index3 = (rowNumber * 3) + 2;
@@ -113,6 +146,7 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes, notesMode,
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
       <View style={styles.gSideLine}></View>
       <Square
@@ -123,6 +157,7 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes, notesMode,
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
       <View style={styles.gSideLine}></View>
       <Square
@@ -133,12 +168,13 @@ const GridRowView = ({rowNumber, board, setClicked, target, mistakes, notesMode,
         mistakes={mistakes}
         notesMode={notesMode}
         notes={notes}
+        hintLoc={hintLoc}
       />
     </View>
   );
 }
 
-const Grid = ({board=[], target, setTarget, mistakes, moves, notesMode, notes}) => {
+const Grid = ({board=[], target, setTarget, mistakes, moves, notesMode, notes, hintLoc}) => {
   var setClicked = (loc) => setTarget(loc);
   return (
     <View style={styles.board}>
@@ -151,6 +187,7 @@ const Grid = ({board=[], target, setTarget, mistakes, moves, notesMode, notes}) 
           moves={moves}
           notesMode={notesMode}
           notes={notes}
+          hintLoc={hintLoc}
         ></GridRowView>
       <View style={styles.gridRow}>
         <View style={styles.gBottomLine}></View>
@@ -166,6 +203,7 @@ const Grid = ({board=[], target, setTarget, mistakes, moves, notesMode, notes}) 
           moves={moves}
           notesMode={notesMode}
           notes={notes}
+          hintLoc={hintLoc}
       ></GridRowView>
       <View style={styles.gridRow}>
         <View style={styles.gBottomLine}></View>
@@ -181,6 +219,7 @@ const Grid = ({board=[], target, setTarget, mistakes, moves, notesMode, notes}) 
           moves={moves}
           notesMode={notesMode}
           notes={notes}
+          hintLoc={hintLoc}
       ></GridRowView>
     </View>
   );
@@ -285,6 +324,21 @@ const styles = StyleSheet.create({
   },
   notes: {
     fontSize: 10,
+  },
+  hinted: {
+    marginBottom: hp('0.4%'),
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    backgroundColor: '#87CEFA',
+    elevation: 2, // Android
+    justifyContent: 'center',
+    height: hp('3.5%'),
+    width: wp('8%'),
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 10
   }
 });
 
