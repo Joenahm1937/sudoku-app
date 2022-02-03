@@ -21,6 +21,7 @@ var Cell = ({
   notesMode,
   notes,
   hintLoc,
+  colorTheme,
 }) => {
   const opacity = useRef(new Animated.Value(1)).current;
   var note = notes[JSON.stringify(loc)];
@@ -70,7 +71,7 @@ var Cell = ({
           </TouchableOpacity>
         )
       ) : (
-        <View style={[styles.circle, mistake]}>
+        <View style={[colorTheme, styles.circle, mistake]}>
           <Text style={styles.numbers}>{cell}</Text>
         </View>
       )}
@@ -88,6 +89,7 @@ const SquareRowView = ({
   notesMode,
   notes,
   hintLoc,
+  colorTheme,
 }) => {
   const square_index1 = rowNumber * 3;
   const square_index2 = rowNumber * 3 + 1;
@@ -95,6 +97,7 @@ const SquareRowView = ({
   return (
     <View style={styles.row}>
       <Cell
+        colorTheme={colorTheme}
         cell={square[square_index1]}
         loc={[grid, square_index1]}
         setClicked={setClicked}
@@ -106,6 +109,7 @@ const SquareRowView = ({
       />
       <View style={styles.sideLine}></View>
       <Cell
+        colorTheme={colorTheme}
         cell={square[square_index2]}
         loc={[grid, square_index2]}
         setClicked={setClicked}
@@ -117,6 +121,7 @@ const SquareRowView = ({
       />
       <View style={styles.sideLine}></View>
       <Cell
+        colorTheme={colorTheme}
         cell={square[square_index3]}
         loc={[grid, square_index3]}
         setClicked={setClicked}
@@ -139,10 +144,12 @@ var Square = ({
   notesMode,
   notes,
   hintLoc,
+  colorTheme,
 }) => {
   return (
     <View style={styles.square}>
       <SquareRowView
+        colorTheme={colorTheme}
         rowNumber={0}
         square={square}
         grid={grid}
@@ -159,6 +166,7 @@ var Square = ({
         <View style={styles.bottomLine}></View>
       </View>
       <SquareRowView
+        colorTheme={colorTheme}
         rowNumber={1}
         square={square}
         grid={grid}
@@ -175,6 +183,7 @@ var Square = ({
         <View style={styles.bottomLine}></View>
       </View>
       <SquareRowView
+        colorTheme={colorTheme}
         rowNumber={2}
         square={square}
         grid={grid}
@@ -198,6 +207,7 @@ const GridRowView = ({
   notesMode,
   notes,
   hintLoc,
+  colorTheme,
 }) => {
   const board_and_grid_index1 = rowNumber * 3;
   const board_and_grid_index2 = rowNumber * 3 + 1;
@@ -205,6 +215,7 @@ const GridRowView = ({
   return (
     <View style={styles.gridRow}>
       <Square
+        colorTheme={colorTheme}
         square={board[board_and_grid_index1]}
         grid={board_and_grid_index1}
         setClicked={setClicked}
@@ -214,8 +225,9 @@ const GridRowView = ({
         notes={notes}
         hintLoc={hintLoc}
       />
-      <View style={styles.gSideLine}></View>
+      <View style={[styles.gSideLine, colorTheme]}></View>
       <Square
+        colorTheme={colorTheme}
         square={board[board_and_grid_index2]}
         grid={board_and_grid_index2}
         setClicked={setClicked}
@@ -225,8 +237,9 @@ const GridRowView = ({
         notes={notes}
         hintLoc={hintLoc}
       />
-      <View style={styles.gSideLine}></View>
+      <View style={[styles.gSideLine, colorTheme]}></View>
       <Square
+        colorTheme={colorTheme}
         square={board[board_and_grid_index3]}
         grid={board_and_grid_index3}
         setClicked={setClicked}
@@ -249,11 +262,13 @@ const Grid = ({
   notesMode,
   notes,
   hintLoc,
+  colorTheme,
 }) => {
   var setClicked = (loc) => setTarget(loc);
   return (
     <View style={styles.board}>
       <GridRowView
+        colorTheme={colorTheme}
         rowNumber={0}
         board={board}
         setClicked={setClicked}
@@ -265,11 +280,12 @@ const Grid = ({
         hintLoc={hintLoc}
       ></GridRowView>
       <View style={styles.gridRow}>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
+        <View style={[styles.gBottomLine, colorTheme]}></View>
+        <View style={[styles.gBottomLine, colorTheme]}></View>
+        <View style={[styles.gBottomLine, colorTheme]}></View>
       </View>
       <GridRowView
+        colorTheme={colorTheme}
         rowNumber={1}
         board={board}
         setClicked={setClicked}
@@ -281,11 +297,12 @@ const Grid = ({
         hintLoc={hintLoc}
       ></GridRowView>
       <View style={styles.gridRow}>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
-        <View style={styles.gBottomLine}></View>
+        <View style={[styles.gBottomLine, colorTheme]}></View>
+        <View style={[styles.gBottomLine, colorTheme]}></View>
+        <View style={[styles.gBottomLine, colorTheme]}></View>
       </View>
       <GridRowView
+        colorTheme={colorTheme}
         rowNumber={2}
         board={board}
         setClicked={setClicked}
@@ -303,7 +320,7 @@ const Grid = ({
 export { Grid };
 
 var marginWidth = 5;
-var colorTheme = "#F4C3C3";
+// var colorTheme = "#F4C3C3";
 
 const styles = StyleSheet.create({
   board: {
@@ -316,13 +333,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   gSideLine: {
-    backgroundColor: colorTheme,
+    // backgroundColor: colorTheme,
     width: 5,
     height: hp("15%"),
     borderRadius: 10,
   },
   gBottomLine: {
-    backgroundColor: colorTheme,
+    // backgroundColor: colorTheme,
     width: wp("34%"),
     height: 5,
     borderRadius: 10,
@@ -361,7 +378,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   circle: {
-    backgroundColor: colorTheme,
+    // backgroundColor: colorTheme,
     height: hp("4%"),
     width: wp("8%"),
     justifyContent: "center",
