@@ -98,6 +98,7 @@ const Game_Board_View = (props = { navigation }) => {
         hint={hint}
         setHintLoc={setHintLoc}
         setTarget={setTarget}
+        colorTheme={colorTheme}
       />
       <View style={styles.notchBlock}></View>
       <Header_Component
