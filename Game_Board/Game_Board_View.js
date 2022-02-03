@@ -6,6 +6,7 @@ import { styles } from "./Styles";
 import { Pieces_Component } from "./Pieces_Component";
 import Lives from "./Lives";
 import { GameOver_Component } from "./GameOver_Component";
+import { Success_Component } from "./Success_Component";
 import { HintsModal } from "./HintsModal";
 import { useState, useEffect, useRef } from "react";
 import sudoku from "./gameLogic";
@@ -21,6 +22,7 @@ const Game_Board_View = (props = { navigation }) => {
   var [lives, setLives] = useState(3);
   var [endModal, setEndModal] = useState(false);
   var [hintsModal, setHintsModal] = useState(false);
+  var [successModal, setSuccessModal] = useState(true);
   var [hint, setHint] = useState();
   var [hintLoc, setHintLoc] = useState([]);
   var [gameEnded, setGameEnded] = useState(false);
@@ -87,6 +89,11 @@ const Game_Board_View = (props = { navigation }) => {
 
   return (
     <View>
+      <Success_Component
+        status={successModal}
+        setModalStatus={setSuccessModal}
+        setGameEnded={setGameEnded}
+      />
       <GameOver_Component
         status={endModal}
         setModalStatus={setEndModal}
