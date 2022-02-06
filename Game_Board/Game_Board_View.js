@@ -22,7 +22,7 @@ const Game_Board_View = (props = { navigation }) => {
   var [lives, setLives] = useState(3);
   var [endModal, setEndModal] = useState(false);
   var [hintsModal, setHintsModal] = useState(false);
-  var [successModal, setSuccessModal] = useState(true);
+  var [successModal, setSuccessModal] = useState(false);
   var [hint, setHint] = useState();
   var [hintLoc, setHintLoc] = useState([]);
   var [gameEnded, setGameEnded] = useState(false);
@@ -33,11 +33,18 @@ const Game_Board_View = (props = { navigation }) => {
   var colorTheme = { backgroundColor: "#F4C3C3" };
   //   var colorTheme = { backgroundColor: "grey" };
 
-  useEffect(() => {
+  function start() {
     var [unsolvedBoard, solvedBoard] = sudoku.generate("hard");
     setBoard(unsolvedBoard);
     setSolution(solvedBoard);
     setOriginalBoard(unsolvedBoard);
+    setMistakes({});
+    setMoves([]);
+    setLives(3);
+  }
+
+  useEffect(() => {
+    start();
   }, []);
 
   //This allows us to navigate back to home screen when user clicks out of game over modal
@@ -71,6 +78,11 @@ const Game_Board_View = (props = { navigation }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         delete mistakes[JSON.stringify(target)];
         setTarget(undefined);
+        if (board.flat().join("") === solution.flat().join("")) {
+          setSuccessModal(true);
+        }
+        //to test success modal comment out all above
+        // setSuccessModal(true);
       } else {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         var copyMistakes = { ...mistakes };
@@ -93,6 +105,7 @@ const Game_Board_View = (props = { navigation }) => {
         status={successModal}
         setModalStatus={setSuccessModal}
         setGameEnded={setGameEnded}
+        start={start}
       />
       <GameOver_Component
         status={endModal}
