@@ -20,29 +20,69 @@ import {
   Montserrat_600SemiBold,
   Montserrat_500Medium,
 } from "@expo-google-fonts/montserrat";
+import ConfettiCannon from "react-native-confetti-cannon";
 
 const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
   LogBox.ignoreAllLogs();
-  var index = useRef(new Animated.Value(0)).current;
+  var opacities = useRef(
+    [...Array(3)].map((x) => new Animated.Value(1))
+  ).current;
+  var scales = useRef([...Array(3)].map((x) => new Animated.Value(1))).current;
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
 
+  function createLoop(opacity, scale, delay) {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          delay,
+          toValue: 0,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale, {
+          delay,
+          toValue: 1.5,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }
+
   useEffect(() => {
     if (status) {
-      index.setValue(0);
+      opacities.forEach((o) => o.setValue(1));
+      scales.forEach((s) => s.setValue(1));
       button1.setValue(0);
       button2.setValue(0);
-      Animated.timing(index, {
-        toValue: 1,
-        duration: 2000,
-        ease: Easing.linear,
-        useNativeDriver: true,
-      }).start();
+      createLoop(opacities[0], scales[0], 0);
+      createLoop(opacities[1], scales[1], 400);
+      createLoop(opacities[2], scales[2], 800);
 
       Animated.timing(button1, {
         toValue: 1,
         duration: 2000,
-        delay: 3000,
+        delay: 4000,
         ease: Easing.linear,
         useNativeDriver: true,
       }).start();
@@ -50,7 +90,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
       Animated.timing(button2, {
         toValue: 1,
         duration: 2000,
-        delay: 4000,
+        delay: 5000,
         ease: Easing.linear,
         useNativeDriver: true,
       }).start();
@@ -66,46 +106,36 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
     return <AppLoading />;
   } else {
     return (
-      <Modal visible={status} animationType="slide">
+      <Modal visible={status} animationType="fade">
         <View style={[styles.container]}>
-          <Animated.View
-            style={[
-              styles.outer,
-              styles.center,
-              {
-                opacity: index,
-                transform: [
-                  {
-                    scaleX: index.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.25, 1],
-                    }),
-                  },
-                  {
-                    scaleY: index.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.25, 1],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <Animated.View
-              style={[styles.midOuter, styles.center, { opacity: index }]}
-            >
+          <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} />
+          <View style={[styles.inner, styles.center, { marginTop: hp("8%") }]}>
+            {[...Array(3).keys()].map((i) => (
               <Animated.View
-                style={[styles.midInner, styles.center, { opacity: index }]}
-              >
-                <View style={[styles.inner, styles.center]}>
-                  <Text style={styles.text}>SUCCESS!</Text>
-                </View>
-              </Animated.View>
-            </Animated.View>
-          </Animated.View>
+                key={i}
+                style={[
+                  StyleSheet.absoluteFillObject,
+                  styles.inner,
+                  {
+                    backgroundColor: "green",
+                    opacity: opacities[i],
+                    transform: [
+                      {
+                        scaleX: scales[i],
+                      },
+                      {
+                        scaleY: scales[i],
+                      },
+                    ],
+                  },
+                ]}
+              ></Animated.View>
+            ))}
+            <Text style={styles.text}>SUCCESS!</Text>
+          </View>
           <Animated.View style={{ opacity: button1 }}>
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, { marginTop: hp("20%") }]}
               onPress={() => {
                 setModalStatus(false);
                 setGameEnded(true);
@@ -116,7 +146,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
           </Animated.View>
           <Animated.View style={{ opacity: button2 }}>
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, { marginTop: hp("6%") }]}
               onPress={() => {
                 setModalStatus(false);
                 start();
@@ -144,37 +174,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  outer: {
-    height: 360,
-    width: 360,
-    borderRadius: 340,
-    backgroundColor: "#337D19",
-  },
-  midOuter: {
-    height: 320,
-    width: 320,
-    borderRadius: 240,
-    backgroundColor: "#16F22C",
-  },
-  midInner: {
-    height: 280,
-    width: 280,
-    borderRadius: 220,
-    backgroundColor: "#CAF3C3",
-  },
   inner: {
-    height: 240,
-    width: 240,
+    height: 170,
+    width: 170,
     borderRadius: 160,
     backgroundColor: "#FFFFFF",
   },
   text: {
-    fontSize: 35,
+    fontSize: 28,
     fontWeight: "600",
     fontFamily: "Montserrat_600SemiBold",
+    color: "white",
   },
   button: {
-    marginTop: hp("6%"),
     backgroundColor: "#79E467",
     width: wp("65%"),
     height: hp("5%"),
