@@ -11,19 +11,19 @@ import { HintsModal } from "./HintsModal";
 import { useState, useEffect, useRef } from "react";
 import sudoku from "./gameLogic";
 import * as Haptics from "expo-haptics";
-import { Audio } from 'expo-av';
+import { Audio } from "expo-av";
 
 const UNDEFINED_BOARD = [
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."],
-  [".",".",".",".",".",".",".",".","."]
-]
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", ".", ".", ".", ".", "."],
+];
 
 const Game_Board_View = (props = { navigation }) => {
   var [number, setNumber] = useState();
@@ -47,9 +47,9 @@ const Game_Board_View = (props = { navigation }) => {
   var colorTheme = { backgroundColor: "#F4C3C3" };
   //   var colorTheme = { backgroundColor: "grey" };
 
-  async function playTileSound(){
+  async function playTileSound() {
     const { sound } = await Audio.Sound.createAsync(
-      require('./Sounds/tile_press.mp3')
+      require("./Sounds/tile_press.mp3")
     );
     setTileSound(sound);
     await sound.playAsync();
@@ -72,8 +72,9 @@ const Game_Board_View = (props = { navigation }) => {
   useEffect(() => {
     return tileSound
       ? () => {
-          console.log('Unloading Sound');
-          tileSound.unloadAsync(); }
+          console.log("Unloading Sound");
+          tileSound.unloadAsync();
+        }
       : undefined;
   }, [tileSound]);
 
@@ -164,6 +165,7 @@ const Game_Board_View = (props = { navigation }) => {
         notes={notes}
         hintLoc={hintLoc}
         colorTheme={colorTheme}
+        hintsModal={hintsModal}
       ></Grid>
       <Lives lives={lives} />
       <Pieces_Component

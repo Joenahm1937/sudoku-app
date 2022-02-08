@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   TouchableOpacity,
+  LogBox,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -21,6 +22,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 
 const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
+  LogBox.ignoreAllLogs();
   var index = useRef(new Animated.Value(0)).current;
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
