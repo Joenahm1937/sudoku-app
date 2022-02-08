@@ -22,6 +22,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 
 const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
+  console.log("hello");
   LogBox.ignoreAllLogs();
   var index = useRef(new Animated.Value(0)).current;
   var button1 = useRef(new Animated.Value(0)).current;
