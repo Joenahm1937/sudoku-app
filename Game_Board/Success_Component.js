@@ -20,132 +20,69 @@ import {
   Montserrat_600SemiBold,
   Montserrat_500Medium,
 } from "@expo-google-fonts/montserrat";
+import ConfettiCannon from "react-native-confetti-cannon";
 
 const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
   LogBox.ignoreAllLogs();
-  var opacity1 = useRef(new Animated.Value(1)).current;
-  var opacity2 = useRef(new Animated.Value(1)).current;
-  var opacity3 = useRef(new Animated.Value(1)).current;
-  const opacities = [opacity1, opacity2, opacity2];
-  var scale1 = useRef(new Animated.Value(1)).current;
-  var scale2 = useRef(new Animated.Value(1)).current;
-  var scale3 = useRef(new Animated.Value(1)).current;
-  const scales = [scale1, scale2, scale3];
+  var opacities = useRef(
+    [...Array(3)].map((x) => new Animated.Value(1))
+  ).current;
+  var scales = useRef([...Array(3)].map((x) => new Animated.Value(1))).current;
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
 
+  function createLoop(opacity, scale, delay) {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          delay,
+          toValue: 0,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale, {
+          delay,
+          toValue: 1.5,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }
+
   useEffect(() => {
     if (status) {
-      opacity1.setValue(1);
-      opacity2.setValue(1);
-      opacity3.setValue(1);
-      scale1.setValue(1);
-      scale2.setValue(1);
-      scale3.setValue(1);
+      opacities.forEach((o) => o.setValue(1));
+      scales.forEach((s) => s.setValue(1));
       button1.setValue(0);
       button2.setValue(0);
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(opacity1, {
-            toValue: 0,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(opacity1, {
-            toValue: 1,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(opacity2, {
-            toValue: 0,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(opacity1, {
-            toValue: 1,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(opacity3, {
-            toValue: 0,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(opacity1, {
-            toValue: 1,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
-
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scale1, {
-            toValue: 2,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scale1, {
-            toValue: 1,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scale2, {
-            toValue: 2,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scale2, {
-            toValue: 1,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scale3, {
-            toValue: 2,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scale3, {
-            toValue: 1,
-            duration: 800,
-            ease: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
+      createLoop(opacities[0], scales[0], 0);
+      createLoop(opacities[1], scales[1], 400);
+      createLoop(opacities[2], scales[2], 800);
 
       Animated.timing(button1, {
         toValue: 1,
         duration: 2000,
-        delay: 800,
+        delay: 4000,
         ease: Easing.linear,
         useNativeDriver: true,
       }).start();
@@ -153,7 +90,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
       Animated.timing(button2, {
         toValue: 1,
         duration: 2000,
-        delay: 1600,
+        delay: 5000,
         ease: Easing.linear,
         useNativeDriver: true,
       }).start();
@@ -169,11 +106,13 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
     return <AppLoading />;
   } else {
     return (
-      <Modal visible={status} animationType="slide">
+      <Modal visible={status} animationType="fade">
         <View style={[styles.container]}>
+          <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} />
           <View style={[styles.inner, styles.center, { marginTop: hp("8%") }]}>
             {[...Array(3).keys()].map((i) => (
               <Animated.View
+                key={i}
                 style={[
                   StyleSheet.absoluteFillObject,
                   styles.inner,
@@ -183,6 +122,8 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
                     transform: [
                       {
                         scaleX: scales[i],
+                      },
+                      {
                         scaleY: scales[i],
                       },
                     ],
@@ -234,8 +175,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inner: {
-    height: 160,
-    width: 160,
+    height: 170,
+    width: 170,
     borderRadius: 160,
     backgroundColor: "#FFFFFF",
   },
@@ -243,6 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "600",
     fontFamily: "Montserrat_600SemiBold",
+    color: "white",
   },
   button: {
     backgroundColor: "#79E467",
