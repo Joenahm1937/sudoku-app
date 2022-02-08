@@ -22,28 +22,130 @@ import {
 } from "@expo-google-fonts/montserrat";
 
 const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
-  console.log("hello");
   LogBox.ignoreAllLogs();
-  var index = useRef(new Animated.Value(0)).current;
+  var opacity1 = useRef(new Animated.Value(1)).current;
+  var opacity2 = useRef(new Animated.Value(1)).current;
+  var opacity3 = useRef(new Animated.Value(1)).current;
+  const opacities = [opacity1, opacity2, opacity2];
+  var scale1 = useRef(new Animated.Value(1)).current;
+  var scale2 = useRef(new Animated.Value(1)).current;
+  var scale3 = useRef(new Animated.Value(1)).current;
+  const scales = [scale1, scale2, scale3];
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (status) {
-      index.setValue(0);
+      opacity1.setValue(1);
+      opacity2.setValue(1);
+      opacity3.setValue(1);
+      scale1.setValue(1);
+      scale2.setValue(1);
+      scale3.setValue(1);
       button1.setValue(0);
       button2.setValue(0);
-      Animated.timing(index, {
-        toValue: 1,
-        duration: 2000,
-        ease: Easing.linear,
-        useNativeDriver: true,
-      }).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(opacity1, {
+            toValue: 0,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacity1, {
+            toValue: 1,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(opacity2, {
+            toValue: 0,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacity1, {
+            toValue: 1,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(opacity3, {
+            toValue: 0,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacity1, {
+            toValue: 1,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scale1, {
+            toValue: 2,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scale1, {
+            toValue: 1,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scale2, {
+            toValue: 2,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scale2, {
+            toValue: 1,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scale3, {
+            toValue: 2,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scale3, {
+            toValue: 1,
+            duration: 800,
+            ease: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
 
       Animated.timing(button1, {
         toValue: 1,
         duration: 2000,
-        delay: 3000,
+        delay: 800,
         ease: Easing.linear,
         useNativeDriver: true,
       }).start();
@@ -51,7 +153,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
       Animated.timing(button2, {
         toValue: 1,
         duration: 2000,
-        delay: 4000,
+        delay: 1600,
         ease: Easing.linear,
         useNativeDriver: true,
       }).start();
@@ -69,44 +171,30 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
     return (
       <Modal visible={status} animationType="slide">
         <View style={[styles.container]}>
-          <Animated.View
-            style={[
-              styles.outer,
-              styles.center,
-              {
-                opacity: index,
-                transform: [
-                  {
-                    scaleX: index.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.25, 1],
-                    }),
-                  },
-                  {
-                    scaleY: index.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.25, 1],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <Animated.View
-              style={[styles.midOuter, styles.center, { opacity: index }]}
-            >
+          <View style={[styles.inner, styles.center, { marginTop: hp("8%") }]}>
+            {[...Array(3).keys()].map((i) => (
               <Animated.View
-                style={[styles.midInner, styles.center, { opacity: index }]}
-              >
-                <View style={[styles.inner, styles.center]}>
-                  <Text style={styles.text}>SUCCESS!</Text>
-                </View>
-              </Animated.View>
-            </Animated.View>
-          </Animated.View>
+                style={[
+                  StyleSheet.absoluteFillObject,
+                  styles.inner,
+                  {
+                    backgroundColor: "green",
+                    opacity: opacities[i],
+                    transform: [
+                      {
+                        scaleX: scales[i],
+                        scaleY: scales[i],
+                      },
+                    ],
+                  },
+                ]}
+              ></Animated.View>
+            ))}
+            <Text style={styles.text}>SUCCESS!</Text>
+          </View>
           <Animated.View style={{ opacity: button1 }}>
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, { marginTop: hp("20%") }]}
               onPress={() => {
                 setModalStatus(false);
                 setGameEnded(true);
@@ -117,7 +205,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
           </Animated.View>
           <Animated.View style={{ opacity: button2 }}>
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, { marginTop: hp("6%") }]}
               onPress={() => {
                 setModalStatus(false);
                 start();
@@ -145,37 +233,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  outer: {
-    height: 360,
-    width: 360,
-    borderRadius: 340,
-    backgroundColor: "#337D19",
-  },
-  midOuter: {
-    height: 320,
-    width: 320,
-    borderRadius: 240,
-    backgroundColor: "#16F22C",
-  },
-  midInner: {
-    height: 280,
-    width: 280,
-    borderRadius: 220,
-    backgroundColor: "#CAF3C3",
-  },
   inner: {
-    height: 240,
-    width: 240,
+    height: 160,
+    width: 160,
     borderRadius: 160,
     backgroundColor: "#FFFFFF",
   },
   text: {
-    fontSize: 35,
+    fontSize: 28,
     fontWeight: "600",
     fontFamily: "Montserrat_600SemiBold",
   },
   button: {
-    marginTop: hp("6%"),
     backgroundColor: "#79E467",
     width: wp("65%"),
     height: hp("5%"),
