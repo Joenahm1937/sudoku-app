@@ -11,10 +11,23 @@ import { HintsModal } from "./HintsModal";
 import { useState, useEffect, useRef } from "react";
 import sudoku from "./gameLogic";
 import * as Haptics from "expo-haptics";
+import { Audio } from 'expo-av';
+
+const UNDEFINED_BOARD = [
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."]
+]
 
 const Game_Board_View = (props = { navigation }) => {
   var [number, setNumber] = useState();
-  var [board, setBoard] = useState();
+  var [board, setBoard] = useState(UNDEFINED_BOARD);
   var [solution, setSolution] = useState();
   var [target, setTarget] = useState();
   var [mistakes, setMistakes] = useState({});
@@ -30,9 +43,17 @@ const Game_Board_View = (props = { navigation }) => {
   var [notes, setNotes] = useState({});
   var [originalBoard, setOriginalBoard] = useState();
   var isInitialMount = useRef(true);
+  var [tileSound, setTileSound] = useState();
   var colorTheme = { backgroundColor: "#F4C3C3" };
   //   var colorTheme = { backgroundColor: "grey" };
 
+  async function playTileSound(){
+    const { sound } = await Audio.Sound.createAsync(
+      require('./Sounds/tile_press.mp3')
+    );
+    setTileSound(sound);
+    await sound.playAsync();
+  }
   function start() {
     var [unsolvedBoard, solvedBoard] = sudoku.generate("hard");
     setBoard(unsolvedBoard);
@@ -46,6 +67,15 @@ const Game_Board_View = (props = { navigation }) => {
   useEffect(() => {
     start();
   }, []);
+
+  //Cleanup I think? lol
+  useEffect(() => {
+    return tileSound
+      ? () => {
+          console.log('Unloading Sound');
+          tileSound.unloadAsync(); }
+      : undefined;
+  }, [tileSound]);
 
   //This allows us to navigate back to home screen when user clicks out of game over modal
   useEffect(() => {
@@ -75,6 +105,7 @@ const Game_Board_View = (props = { navigation }) => {
       board[target[0]][target[1]] = number;
       var validMove = solution[target[0]][target[1]] === number.toString();
       if (validMove) {
+        playTileSound();
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         delete mistakes[JSON.stringify(target)];
         setTarget(undefined);
@@ -98,7 +129,6 @@ const Game_Board_View = (props = { navigation }) => {
       setNumber(undefined);
     }
   }
-
   return (
     <View>
       <Success_Component
