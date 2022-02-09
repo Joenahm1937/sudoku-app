@@ -1,38 +1,45 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import styles from './styles';
-import Large_button from './Large_button/button';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import { styles } from './Styles';
+import { Button_Component } from './Buttons_Component';
+import { Header_Component } from './Header_Component';
+import { Footer_Component } from './Footer_Component';
+import { Selections_Component } from './Selections_Component';
+import { PopUp } from './popups/PopUp'
+import { InfoPopUp } from './info_popup/InfoPopUp';
 
-const HomePage = (props) => {
+const HomePage = (props = {navigation}) => {
+    const [infoVisible, setInfoVisible] = React.useState(false);
+    const [plusVisible, setPlusVisible] = React.useState(false);
     return (
         <View style={styles.HomePageContainer}>
-            <View style={styles.titles}>
-                <Text style={styles.title}>This is the Home Page</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Large_button 
-                    content="d a i l y d o k u"
-                    onPress={() => {
-                        console.warn("dailydoku pressed")
-                    }}
-                />
-                <Large_button 
-                    content="n e w g a m e"
-                    onPress={() => {
-                        console.warn("newgame pressed")
-                    }}
-                />
-                <Large_button 
-                    content="r e s u m e"
-                    onPress={() => {
-                        console.warn("resume pressed")
-                    }}
-                />
-            </View>
-
-            <View style={styles.iconContainer}>
-                
-            </View>
+            
+           <Header_Component></Header_Component>
+            <Selections_Component></Selections_Component>
+            <Button_Component navigation={props.navigation}></Button_Component>
+           <Footer_Component setInfoVisible={setInfoVisible} setPlusVisible={setPlusVisible}></Footer_Component>
+           <PopUp visible={infoVisible}>
+               <View style={{alignItems: 'center'}}>
+                   <View style={styles.popupHeader}>
+                       <TouchableOpacity onPress={() => setInfoVisible(false)}>
+                        <Image 
+                        source={require('../assets/x.png')}
+                        style={{height:30, width:30}}
+                        />
+                       </TouchableOpacity>
+                   </View>
+               </View>
+               <Text style={styles.PUsubtitle}>What is Sudoku?</Text>
+                <Text style={styles.PUparagraphs}>Sudoku is a traditional game played by people on their phones!</Text>
+                <Text style={styles.PUsubtitle}>Gamemodes!</Text>
+                <Text style={styles.PUparagraphs}>Classic Mode - Plain and simple sudoku for beginners and pros alike!</Text>
+                <Text style={styles.PUparagraphs}>Timed Mode - Race against the clock in this fast paced doku puzzle!</Text>
+                <Text style={styles.PUsubtitle}>Credits:</Text>
+                <Text style={styles.PUparagraphs}>Thank you to these people...</Text>
+                <Text style={styles.PUparagraphs}>Colin.</Text>
+                <TouchableOpacity style={[styles.PUbutton, styles.center]} onPress={()=>console.warn('ur mum')}></TouchableOpacity>
+            </PopUp>
+            
         </View>
     );
 };

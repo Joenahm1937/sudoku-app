@@ -30,7 +30,11 @@ export default function App() {
           <Stack.Screen
             name="homepage"
             component={HomePage}
-            options={{animation: 'fade'}}
+            options={{
+              animation: 'fade',
+              headerShadowVisible: false,
+              headerShown: false
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

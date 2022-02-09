@@ -4,15 +4,22 @@ import styles from './styles';
 
 const LargeButton = (props) => {
 
-    const {content, onPress} = props;
+    const {content, ID, navigation} = props;
+
+    const Navigate_GameBoard = () => {
+        if (ID == "1") {
+            navigation.navigate("gameBoard");
+        }
+        return;
+    }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.button_container}>
             <Pressable
-                style={styles.button}
-                onPress={() => onPress()}
+                style={styles.large_button}
+                onPress={Navigate_GameBoard}
             >
-                <Text style={styles.text}>{content}</Text>
+                <Text style={styles.button_text}>{content}</Text>
             </Pressable>
         </View>
     );
