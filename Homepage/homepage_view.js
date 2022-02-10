@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import { styles } from './Styles';
+import { styles } from './Styles'
 import { Button_Component } from './Buttons_Component';
 import { Header_Component } from './Header_Component';
 import { Footer_Component } from './Footer_Component';

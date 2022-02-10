@@ -7,7 +7,7 @@ import { Back_Icon } from './Icon_Component/Icons';
 
 const Header_Component = ({level, navigation}) => {
     const Navigate_Home = () => {
-        navigation.navigate("Temporary_View_Navigator");
+        navigation.navigate("homepage");
         return;
     }
     return(
