@@ -35,7 +35,7 @@ const Game_Board_View = (props = { navigation }) => {
   var [lives, setLives] = useState(3);
   var [endModal, setEndModal] = useState(false);
   var [hintsModal, setHintsModal] = useState(false);
-  var [successModal, setSuccessModal] = useState(true);
+  var [successModal, setSuccessModal] = useState(false);
   var [hint, setHint] = useState();
   var [hintLoc, setHintLoc] = useState([]);
   var [gameEnded, setGameEnded] = useState(false);
