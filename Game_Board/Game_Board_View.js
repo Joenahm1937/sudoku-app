@@ -24,7 +24,7 @@ const UNDEFINED_BOARD = [
   [".", ".", ".", ".", ".", ".", ".", ".", "."],
   [".", ".", ".", ".", ".", ".", ".", ".", "."],
 ];
-
+var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
   var [number, setNumber] = useState();
   var [board, setBoard] = useState(UNDEFINED_BOARD);
@@ -35,7 +35,7 @@ const Game_Board_View = (props = { navigation }) => {
   var [lives, setLives] = useState(3);
   var [endModal, setEndModal] = useState(false);
   var [hintsModal, setHintsModal] = useState(false);
-  var [successModal, setSuccessModal] = useState(true);
+  var [successModal, setSuccessModal] = useState(false);
   var [hint, setHint] = useState();
   var [hintLoc, setHintLoc] = useState([]);
   var [gameEnded, setGameEnded] = useState(false);
@@ -48,12 +48,21 @@ const Game_Board_View = (props = { navigation }) => {
   //   var colorTheme = { backgroundColor: "grey" };
 
   async function playTileSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require("./Sounds/tile_press.mp3")
-    );
-    setTileSound(sound);
-    await sound.playAsync();
+    await tileSound.replayAsync();
   }
+  async function initializeAudio(){
+    console.log('Intializing Tile Sound')
+    const audioObject = new Audio.Sound();
+    try{
+      await audioObject.loadAsync(
+        require("./Sounds/tile_press.mp3")
+      );
+    } catch(err){
+      console.error(err);
+    }
+    setTileSound(audioObject);
+  }
+
   function start() {
     var [unsolvedBoard, solvedBoard] = sudoku.generate("hard");
     setBoard(unsolvedBoard);
@@ -65,25 +74,24 @@ const Game_Board_View = (props = { navigation }) => {
   }
 
   useEffect(() => {
+    initializeAudio();
     start();
   }, []);
 
   //Cleanup I think? lol
   useEffect(() => {
-    return tileSound
-      ? () => {
-          console.log("Unloading Sound");
-          tileSound.unloadAsync();
-        }
-      : undefined;
-  }, [tileSound]);
+    return () => {
+      console.log("Unloading Sound");
+      tileSound.unloadAsync();
+    };
+  }, []);
 
   //This allows us to navigate back to home screen when user clicks out of game over modal
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      props.navigation.navigate("Temporary_View_Navigator");
+      props.navigation.navigate("homepage");
     }
   }, [gameEnded]);
 
