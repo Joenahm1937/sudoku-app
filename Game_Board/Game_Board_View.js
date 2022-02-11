@@ -33,7 +33,7 @@ const Game_Board_View = (props = { navigation }) => {
   var [mistakes, setMistakes] = useState({});
   var [moves, setMoves] = useState([]);
   var [lives, setLives] = useState(3);
-  var [endModal, setEndModal] = useState(true);
+  var [endModal, setEndModal] = useState(false);
   var [hintsModal, setHintsModal] = useState(false);
   var [successModal, setSuccessModal] = useState(false);
   var [hint, setHint] = useState();
@@ -69,6 +69,7 @@ const Game_Board_View = (props = { navigation }) => {
     setMistakes({});
     setMoves([]);
     setLives(3);
+    setTarget(undefined);
   }
 
   useEffect(() => {
@@ -159,6 +160,7 @@ const Game_Board_View = (props = { navigation }) => {
         status={endModal}
         setModalStatus={setEndModal}
         setGameEnded={setGameEnded}
+        start={start}
       />
       <HintsModal
         status={hintsModal}
