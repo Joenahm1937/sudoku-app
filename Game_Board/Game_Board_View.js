@@ -33,7 +33,7 @@ const Game_Board_View = (props = { navigation }) => {
   var [mistakes, setMistakes] = useState({});
   var [moves, setMoves] = useState([]);
   var [lives, setLives] = useState(3);
-  var [endModal, setEndModal] = useState(false);
+  var [endModal, setEndModal] = useState(true);
   var [hintsModal, setHintsModal] = useState(false);
   var [successModal, setSuccessModal] = useState(false);
   var [hint, setHint] = useState();

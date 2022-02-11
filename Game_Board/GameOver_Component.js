@@ -1,13 +1,49 @@
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Button,
+  Animated,
+  Easing,
+} from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Svg, { G, Path, Rect, Defs, ClipPath } from "react-native-svg";
+import {
+  useFonts,
+  Montserrat_600SemiBold,
+  Montserrat_500Medium,
+} from "@expo-google-fonts/montserrat";
+import { useRef, useEffect } from "react";
+import AppLoading from "expo-app-loading";
 
 const Line = (props) => {
+  var shift = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(shift, {
+          toValue: 10,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shift, {
+          toValue: 0,
+          duration: 2000,
+          ease: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
+
   return (
-    <View
+    <Animated.View
       style={[
         StyleSheet.absoluteFillObject,
         {
@@ -16,6 +52,7 @@ const Line = (props) => {
           left: props.left,
           width: "110%",
         },
+        { transform: [{ translateX: shift }] },
       ]}
     >
       <Svg
@@ -34,7 +71,7 @@ const Line = (props) => {
           />
         </G>
       </Svg>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -78,29 +115,47 @@ const FillRectangle = ({ top = 0, height }) => {
 };
 
 const GameOver_Component = ({ status, setModalStatus, setGameEnded }) => {
-  return (
-    <Modal visible={status} animationType="slide">
-      <View style={styles.container}>
-        <FillRectangle height={50} />
-        <FillRectangle height={500} top={400} />
-        <Line strokeWidth={38} top={0} height={120} color={"#DD4545"}></Line>
-        <Line strokeWidth={32} top={368} height={120} color={"#DD4545"}></Line>
-        <Line strokeWidth={28} top={30} height={110} color={"#FB7979"}></Line>
-        <Line strokeWidth={28} top={340} height={110} color={"#FB7979"}></Line>
-        <LineGroup />
-        <LineGroup offset={200} />
+  let [fontsLoaded] = useFonts({
+    Montserrat_600SemiBold,
+    Montserrat_500Medium,
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <Modal visible={status} animationType="slide">
+        <View style={styles.container}>
+          <FillRectangle height={50} />
+          <FillRectangle height={500} top={400} />
+          <Line strokeWidth={38} top={0} height={120} color={"#DD4545"}></Line>
+          <Line
+            strokeWidth={32}
+            top={368}
+            height={120}
+            color={"#DD4545"}
+          ></Line>
+          <Line strokeWidth={28} top={30} height={110} color={"#FB7979"}></Line>
+          <Line
+            strokeWidth={28}
+            top={340}
+            height={110}
+            color={"#FB7979"}
+          ></Line>
+          <LineGroup />
+          <LineGroup offset={200} />
 
-        {/* <Text style={styles.end}>Game Over</Text>
-        <Button
-          onPress={() => {
-            setModalStatus(false);
-            setGameEnded(true);
-          }}
-          title="Return Home"
-        /> */}
-      </View>
-    </Modal>
-  );
+          {/* <Text style={styles.end}>Game Over</Text>
+          <Button
+            onPress={() => {
+              setModalStatus(false);
+              setGameEnded(true);
+            }}
+            title="Return Home"
+          /> */}
+        </View>
+      </Modal>
+    );
+  }
 };
 
 export { GameOver_Component };
