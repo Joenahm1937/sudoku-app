@@ -50,14 +50,12 @@ const Game_Board_View = (props = { navigation }) => {
   async function playTileSound() {
     await tileSound.replayAsync();
   }
-  async function initializeAudio(){
-    console.log('Intializing Tile Sound')
+  async function initializeAudio() {
+    console.log("Intializing Tile Sound");
     const audioObject = new Audio.Sound();
-    try{
-      await audioObject.loadAsync(
-        require("./Sounds/tile_press.mp3")
-      );
-    } catch(err){
+    try {
+      await audioObject.loadAsync(require("./Sounds/tile_press.mp3"));
+    } catch (err) {
       console.error(err);
     }
     setTileSound(audioObject);
@@ -76,15 +74,26 @@ const Game_Board_View = (props = { navigation }) => {
   useEffect(() => {
     initializeAudio();
     start();
-  }, []);
-
-  //Cleanup I think? lol
-  useEffect(() => {
     return () => {
-      console.log("Unloading Sound");
       tileSound.unloadAsync();
     };
   }, []);
+
+  function eraseNotes() {
+    if (notes[JSON.stringify(target)]) {
+      var copyNotes = { ...notes };
+      copyNotes[JSON.stringify(target)].clear();
+      setNotes(copyNotes);
+    }
+  }
+
+  //Cleanup I think? lol
+  // useEffect(() => {
+  //   return () => {
+  //     console.log("Unloading Sound");
+  //     tileSound.unloadAsync();
+  //   };
+  // }, []);
 
   //This allows us to navigate back to home screen when user clicks out of game over modal
   useEffect(() => {
@@ -195,6 +204,7 @@ const Game_Board_View = (props = { navigation }) => {
         setHint={setHint}
         mistakes={mistakes}
         setHintLoc={setHintLoc}
+        eraseNotes={eraseNotes}
       ></Actions_Component>
     </View>
   );
