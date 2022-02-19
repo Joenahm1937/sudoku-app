@@ -16,7 +16,9 @@ const Header_Component = ({level, navigation}) => {
             <View>
                 <Text>{level.toUpperCase()}</Text>
             </View>
-            <Timer style={styles.timerStyle}></Timer>
+            <View style={styles.timerContainer}>
+                <Timer></Timer>
+            </View>
         </View>
     );
 }

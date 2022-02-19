@@ -146,6 +146,7 @@ const GameOver_Component = ({
   setModalStatus,
   setGameEnded,
   start,
+  playDefeatSound
 }) => {
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
@@ -156,6 +157,7 @@ const GameOver_Component = ({
 
   useEffect(() => {
     if (status) {
+      playDefeatSound()
       button1.setValue(0);
       button2.setValue(0);
 

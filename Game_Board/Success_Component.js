@@ -22,7 +22,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 import ConfettiCannon from "react-native-confetti-cannon";
 
-const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
+const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVictorySound }) => {
   LogBox.ignoreAllLogs();
   var opacities = useRef(
     [...Array(3)].map((x) => new Animated.Value(1))
@@ -71,6 +71,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
 
   useEffect(() => {
     if (status) {
+      playVictorySound()
       opacities.forEach((o) => o.setValue(1));
       scales.forEach((s) => s.setValue(1));
       button1.setValue(0);
@@ -108,7 +109,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start }) => {
     return (
       <Modal visible={status} animationType="fade">
         <View style={[styles.container]}>
-          <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} />
+          <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} autoStartDelay={540} />
           <View style={[styles.inner, styles.center, { marginTop: hp("8%") }]}>
             {[...Array(3).keys()].map((i) => (
               <Animated.View

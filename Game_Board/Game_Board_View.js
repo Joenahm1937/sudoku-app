@@ -26,6 +26,7 @@ const UNDEFINED_BOARD = [
 ];
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
+<<<<<<< HEAD
   console.log(props.route.params.data)
   var [number, setNumber] = useState();
   var [board, setBoard] = useState(UNDEFINED_BOARD);
@@ -45,21 +46,81 @@ const Game_Board_View = (props = { navigation }) => {
   var [originalBoard, setOriginalBoard] = useState();
   var isInitialMount = useRef(true);
   var [tileSound, setTileSound] = useState();
+=======
+  const [number, setNumber] = useState();
+  const [board, setBoard] = useState(UNDEFINED_BOARD);
+  const [solution, setSolution] = useState();
+  const [target, setTarget] = useState();
+  const [mistakes, setMistakes] = useState({});
+  const [moves, setMoves] = useState([]);
+  const [lives, setLives] = useState(3);
+  const [endModal, setEndModal] = useState(false);
+  const [hintsModal, setHintsModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [hint, setHint] = useState();
+  const [hintLoc, setHintLoc] = useState([]);
+  const [gameEnded, setGameEnded] = useState(false);
+  const [notesMode, setNotesMode] = useState(false);
+  const [notes, setNotes] = useState({});
+  const [originalBoard, setOriginalBoard] = useState();
+  const isInitialMount = useRef(true);
+  // AUDIO STATES
+  const [tileSound, setTileSound] = useState();
+  const [invalidTileSound, setInvalidTileSound] = useState();
+  const [victorySound, setVictorySound] = useState();
+  const [defeatSound, setDefeatSound] = useState();
+>>>>>>> 82c0fcbb30464929f71c57b3a9ee721aa71a1c13
   var colorTheme = { backgroundColor: "#F4C3C3" };
   //   var colorTheme = { backgroundColor: "grey" };
 
   async function playTileSound() {
     await tileSound.replayAsync();
   }
+  async function playVictorySound() {
+    await victorySound.replayAsync();
+  }
+
+  async function playDefeatSound(){
+    await defeatSound.replayAsync();
+  }
+
+  async function playInvalidTileSound() {
+    await invalidTileSound.replayAsync();
+  }
   async function initializeAudio() {
-    console.log("Intializing Tile Sound");
-    const audioObject = new Audio.Sound();
+    console.log("Intializing Audio Files");
+    const tileAudioObject = new Audio.Sound();
+    const invalidTileAudioObject = new Audio.Sound();
+    const victoryAudioObject = new Audio.Sound();
+    const defeatAudioObject = new Audio.Sound();
     try {
-      await audioObject.loadAsync(require("./Sounds/tile_press.mp3"));
+      await tileAudioObject.loadAsync(require("./Sounds/tile_press1.mp3"));
+      console.log('Tile Press audio Initialized')
     } catch (err) {
       console.error(err);
     }
-    setTileSound(audioObject);
+    try{
+      await invalidTileAudioObject.loadAsync(require("./Sounds/invalid_press.mp3"));
+      console.log('Invalid Tile audio Press Initialized')
+    } catch (err){
+      console.error(err);
+    }
+    try{
+      await victoryAudioObject.loadAsync(require("./Sounds/victory2.mp3"));
+      console.log('Victory audio Initialized')
+    } catch (err){
+      console.error(err);
+    }
+    try{
+      await defeatAudioObject.loadAsync(require("./Sounds/defeat.mp3"));
+      console.log('Defeat audio Initialized')
+    } catch (err){
+      console.error(err);
+    }
+    setTileSound(tileAudioObject);
+    setInvalidTileSound(invalidTileAudioObject);
+    setVictorySound(victoryAudioObject);
+    setDefeatSound(defeatAudioObject);
   }
 
   function start() {
@@ -78,6 +139,9 @@ const Game_Board_View = (props = { navigation }) => {
     start();
     return () => {
       tileSound.unloadAsync();
+      victorySound.unloadAsync();
+      invalidTileSound.unloadAsync();
+      defeatSound.unloadAsync();
     };
   }, []);
 
@@ -88,14 +152,6 @@ const Game_Board_View = (props = { navigation }) => {
       setNotes(copyNotes);
     }
   }
-
-  //Cleanup I think? lol
-  // useEffect(() => {
-  //   return () => {
-  //     console.log("Unloading Sound");
-  //     tileSound.unloadAsync();
-  //   };
-  // }, []);
 
   //This allows us to navigate back to home screen when user clicks out of game over modal
   useEffect(() => {
@@ -133,8 +189,10 @@ const Game_Board_View = (props = { navigation }) => {
           setSuccessModal(true);
         }
         //to test success modal comment out all above
-        // setSuccessModal(true);
+        //setSuccessModal(true);
+        //setEndModal(true);
       } else {
+        playInvalidTileSound()
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         var copyMistakes = { ...mistakes };
         var updatedMoves = [...moves];
@@ -156,12 +214,14 @@ const Game_Board_View = (props = { navigation }) => {
         setModalStatus={setSuccessModal}
         setGameEnded={setGameEnded}
         start={start}
+        playVictorySound={playVictorySound}
       />
       <GameOver_Component
         status={endModal}
         setModalStatus={setEndModal}
         setGameEnded={setGameEnded}
         start={start}
+        playDefeatSound={playDefeatSound}
       />
       <HintsModal
         status={hintsModal}
