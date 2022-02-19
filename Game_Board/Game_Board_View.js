@@ -26,6 +26,27 @@ const UNDEFINED_BOARD = [
 ];
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
+<<<<<<< HEAD
+  console.log(props.route.params.data)
+  var [number, setNumber] = useState();
+  var [board, setBoard] = useState(UNDEFINED_BOARD);
+  var [solution, setSolution] = useState();
+  var [target, setTarget] = useState();
+  var [mistakes, setMistakes] = useState({});
+  var [moves, setMoves] = useState([]);
+  var [lives, setLives] = useState(props.route.params.lives);
+  var [endModal, setEndModal] = useState(false);
+  var [hintsModal, setHintsModal] = useState(false);
+  var [successModal, setSuccessModal] = useState(false);
+  var [hint, setHint] = useState();
+  var [hintLoc, setHintLoc] = useState([]);
+  var [gameEnded, setGameEnded] = useState(false);
+  var [notesMode, setNotesMode] = useState(false);
+  var [notes, setNotes] = useState({});
+  var [originalBoard, setOriginalBoard] = useState();
+  var isInitialMount = useRef(true);
+  var [tileSound, setTileSound] = useState();
+=======
   const [number, setNumber] = useState();
   const [board, setBoard] = useState(UNDEFINED_BOARD);
   const [solution, setSolution] = useState();
@@ -48,6 +69,7 @@ const Game_Board_View = (props = { navigation }) => {
   const [invalidTileSound, setInvalidTileSound] = useState();
   const [victorySound, setVictorySound] = useState();
   const [defeatSound, setDefeatSound] = useState();
+>>>>>>> 82c0fcbb30464929f71c57b3a9ee721aa71a1c13
   var colorTheme = { backgroundColor: "#F4C3C3" };
   //   var colorTheme = { backgroundColor: "grey" };
 
@@ -102,13 +124,13 @@ const Game_Board_View = (props = { navigation }) => {
   }
 
   function start() {
-    var [unsolvedBoard, solvedBoard] = sudoku.generate("hard");
+    var [unsolvedBoard, solvedBoard] = sudoku.generate(props.route.params.difficulty);
     setBoard(unsolvedBoard);
     setSolution(solvedBoard);
     setOriginalBoard(unsolvedBoard);
     setMistakes({});
     setMoves([]);
-    setLives(3);
+    setLives(props.route.params.lives);
     setTarget(undefined);
   }
 
