@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: "space-between",
   },
-  timerStyle: {
-    marginRight: 5,
+  timerContainer: {
+    width: 40,
   },
   notchBlock: {
 	  height: hp('5%')
