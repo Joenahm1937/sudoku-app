@@ -213,6 +213,7 @@ const Game_Board_View = (props = { navigation }) => {
       <Header_Component
         level={"hard"}
         navigation={props.navigation}
+        isTimed={true}
       ></Header_Component>
       <Grid
         board={board}
@@ -225,7 +226,7 @@ const Game_Board_View = (props = { navigation }) => {
         colorTheme={colorTheme}
         hintsModal={hintsModal}
       ></Grid>
-      <Lives lives={lives} />
+      <Lives lives={lives} isLifeMode={false} />
       <Pieces_Component
         setNumber={setNumber}
         target={target}

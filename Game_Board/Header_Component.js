@@ -5,7 +5,7 @@ import { Icon_Component } from './Icon_Component/Icon_Component';
 import { Back_Icon } from './Icon_Component/Icons';
 
 
-const Header_Component = ({level, navigation}) => {
+const Header_Component = ({level, navigation, isTimed}) => {
     const Navigate_Home = () => {
         navigation.navigate("homepage");
         return;
@@ -16,9 +16,11 @@ const Header_Component = ({level, navigation}) => {
             <View>
                 <Text>{level.toUpperCase()}</Text>
             </View>
-            <View style={styles.timerContainer}>
-                <Timer></Timer>
-            </View>
+            {isTimed && 
+                <View style={styles.timerContainer}>
+                    <Timer></Timer>
+                </View>
+            }
         </View>
     );
 }
