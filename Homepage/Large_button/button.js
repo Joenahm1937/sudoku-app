@@ -8,7 +8,7 @@ const LargeButton = (props) => {
 
     const Navigate_GameBoard = () => {
         if (ID == "1") {
-            navigation.navigate("gameBoard");
+            navigation.navigate("gameBoard", {difficulty: "easy", lives: 2});
         }
         return;
     }

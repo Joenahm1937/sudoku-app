@@ -26,13 +26,14 @@ const UNDEFINED_BOARD = [
 ];
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
+  console.log(props.route.params.data)
   var [number, setNumber] = useState();
   var [board, setBoard] = useState(UNDEFINED_BOARD);
   var [solution, setSolution] = useState();
   var [target, setTarget] = useState();
   var [mistakes, setMistakes] = useState({});
   var [moves, setMoves] = useState([]);
-  var [lives, setLives] = useState(3);
+  var [lives, setLives] = useState(props.route.params.lives);
   var [endModal, setEndModal] = useState(false);
   var [hintsModal, setHintsModal] = useState(false);
   var [successModal, setSuccessModal] = useState(false);
@@ -62,13 +63,13 @@ const Game_Board_View = (props = { navigation }) => {
   }
 
   function start() {
-    var [unsolvedBoard, solvedBoard] = sudoku.generate("hard");
+    var [unsolvedBoard, solvedBoard] = sudoku.generate(props.route.params.difficulty);
     setBoard(unsolvedBoard);
     setSolution(solvedBoard);
     setOriginalBoard(unsolvedBoard);
     setMistakes({});
     setMoves([]);
-    setLives(3);
+    setLives(props.route.params.lives);
     setTarget(undefined);
   }
 
