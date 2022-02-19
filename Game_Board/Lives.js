@@ -3,33 +3,27 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useEffect } from "react";
-import AppLoading from "expo-app-loading";
 import { useFonts, Montserrat_400Regular } from "@expo-google-fonts/montserrat";
 
-export default function Pieces({ lives }) {
+export default function Pieces({ lives, isLifeMode }) {
   let [fontsLoaded] = useFonts({
     Montserrat_400Regular,
   });
-
+  var font_style = null;
   if (!fontsLoaded) {
-    // return <AppLoading />;
-    return (
-      <View style={styles.container}>
-        <Text style={styles.size}>
-          Lives: {lives > 0 ? [...Array(lives)].fill("I").join("") : 0}
-        </Text>
-      </View>
-    );
+    font_style = styles.size;
   } else {
-    return (
-      <View style={styles.container}>
-        <Text style={[styles.size, styles.family]}>
+    font_style = [styles.size, styles.family];
+  }
+  return (
+    <View style={styles.container}>
+      {isLifeMode && 
+        <Text style={font_style}>
           Lives: {lives > 0 ? [...Array(lives)].fill("I").join("") : 0}
         </Text>
-      </View>
-    );
-  }
+      }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
