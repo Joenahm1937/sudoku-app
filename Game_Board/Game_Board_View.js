@@ -102,13 +102,13 @@ const Game_Board_View = (props = { navigation }) => {
   }
 
   function start() {
-    var [unsolvedBoard, solvedBoard] = sudoku.generate("hard");
+    var [unsolvedBoard, solvedBoard] = sudoku.generate(props.route.params.difficulty);
     setBoard(unsolvedBoard);
     setSolution(solvedBoard);
     setOriginalBoard(unsolvedBoard);
     setMistakes({});
     setMoves([]);
-    setLives(3);
+    setLives(props.route.params.lives);
     setTarget(undefined);
   }
 
