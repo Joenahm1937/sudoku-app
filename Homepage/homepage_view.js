@@ -6,7 +6,8 @@ import { Header_Component } from "./Header_Component";
 import { Footer_Component } from "./Footer_Component";
 import { Selections_Component } from "./Selections_Component";
 import { PopUp } from "./popups/PopUp";
-import { InfoPopUp } from "./info_popup/InfoPopUp";
+import { IconButton } from "./icon_button/IconButton";
+import { Plus_Icon2 } from "./icon_button/Icons";
 
 const HomePage = (props = { navigation }) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
@@ -50,6 +51,7 @@ const HomePage = (props = { navigation }) => {
         setInfoVisible={setInfoVisible}
         setPlusVisible={setPlusVisible}
       ></Footer_Component>
+
       <PopUp visible={infoVisible}>
         <View style={{ alignItems: "center" }}>
           <View style={styles.popupHeader}>
@@ -80,6 +82,28 @@ const HomePage = (props = { navigation }) => {
           onPress={() => console.warn("ur mum")}
         ></TouchableOpacity>
       </PopUp>
+
+      <PopUp visible={plusVisible}>
+          <View style={{ alignItems: "center"}}>
+              <View style={styles.popupHeader}>
+                <TouchableOpacity onPress={() => setPlusVisible(false)}>
+                    <Image
+                        source={require("../assets/x.png")}
+                        style={{ height: 30, width: 30 }}
+                    />
+                </TouchableOpacity>
+              </View>
+            <IconButton
+            SVG={Plus_Icon2}
+            onPressFunction={() => console.log("urmum")}
+            ></IconButton>
+          </View>
+          <TouchableOpacity
+                style={styles.PUbutton}
+                onPress={() => console.log("urmum")}
+            ></TouchableOpacity>
+      </PopUp>
+
     </View>
   );
 };
