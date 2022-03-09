@@ -30,7 +30,7 @@ const HintsModal = ({
     return (
       <Modal transparent visible={status} animationType="fade">
         <View style={styles.container}>
-          <View style={[styles.content, colorTheme]}>
+          <View style={[styles.content, {"backgroundColor": colorTheme}]}>
             <View style={styles.header}>
               <Icon_Component
                 SVG={Exit_Icon}
@@ -58,7 +58,6 @@ const HintsModal = ({
 };
 
 export { HintsModal };
-var colorTheme = "#F4C3C3";
 
 const styles = StyleSheet.create({
   container: {

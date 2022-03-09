@@ -7,7 +7,7 @@ import { Icon_Component } from "./Icon_Component/Icon_Component";
 import { Undo_Transparent_Icon } from "./Icon_Component/Icons";
 const Piece = ({ choice, setNumber, colorTheme, target }) => {
   return (
-    <View style={[styles.piece, colorTheme]}>
+    <View style={[styles.piece, {"backgroundColor": colorTheme}]}>
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => {
@@ -44,7 +44,7 @@ const Pieces_Component = (
           target={props.target}
         />
       ))}
-      <View style={[styles.piece, props.colorTheme]}>
+      <View style={[styles.piece, {"backgroundColor": props.colorTheme}]}>
         <Icon_Component
           SVG={Undo_Transparent_Icon}
           onPressFunction={Undo}

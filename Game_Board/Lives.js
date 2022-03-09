@@ -5,7 +5,7 @@ import {
 } from "react-native-responsive-screen";
 import { useFonts, Montserrat_400Regular } from "@expo-google-fonts/montserrat";
 
-export default function Pieces({ lives, isLifeMode }) {
+export default function Pieces({ lives, isLifeMode, backTheme }) {
   let [fontsLoaded] = useFonts({
     Montserrat_400Regular,
   });
@@ -16,8 +16,8 @@ export default function Pieces({ lives, isLifeMode }) {
     font_style = [styles.size, styles.family];
   }
   return (
-    <View style={styles.container}>
-      {isLifeMode && 
+    <View style={[styles.container, {"backgroundColor": backTheme }]}>
+      {isLifeMode &&
         <Text style={font_style}>
           Lives: {lives > 0 ? [...Array(lives)].fill("I").join("") : 0}
         </Text>

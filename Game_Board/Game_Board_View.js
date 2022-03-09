@@ -13,18 +13,6 @@ import sudoku from "./gameLogic";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
-// const UNDEFINED_BOARD = [
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-//   [".", ".", ".", ".", ".", ".", ".", ".", "."],
-// ];
-
 const UNDEFINED_BOARD = [...Array(9)].map(x => [...Array(9)].fill("."));
 
 var tileSound = null;
@@ -54,8 +42,9 @@ const Game_Board_View = (props = { navigation }) => {
   const [invalidTileSound, setInvalidTileSound] = useState();
   const [victorySound, setVictorySound] = useState();
   const [defeatSound, setDefeatSound] = useState();
-  var colorTheme = { backgroundColor: "#F4C3C3" };
-  //   var colorTheme = { backgroundColor: "grey" };
+  //COLOR THEME
+  const [tileTheme, setTileTheme] = useState("#F4C3C3");
+  const [backColor, setBackColor] = useState("white");
 
   async function playTileSound() {
     await tileSound.replayAsync();
@@ -120,8 +109,7 @@ const Game_Board_View = (props = { navigation }) => {
       III: 3,
     }
 
-    const { difficulty, lives, gameMode } = props.route.params;
-    // console.log({ difficulty, lives: lives.split(' ')[1], gameMode })
+    const { difficulty, lives, gameMode, colorTheme } = props.route.params;
     setLevel(difficulty)
     var [unsolvedBoard, solvedBoard] = sudoku.generate(difficultyMappings[difficulty]);
     setBoard(unsolvedBoard);
@@ -129,6 +117,8 @@ const Game_Board_View = (props = { navigation }) => {
     setOriginalBoard(unsolvedBoard);
     setMistakes({});
     setMoves([]);
+    setTileTheme(colorTheme.tileColor)
+    setBackColor(colorTheme.backgroundColor)
     livesMappings[lives.split(' ')[1]] ? setLives(livesMappings[lives.split(' ')[1]]) : setIsLifeMode(false)
     gameMode === "CLASSIC" && setClockMode(false);
     setTarget(undefined);
@@ -208,7 +198,7 @@ const Game_Board_View = (props = { navigation }) => {
     }
   }
   return (
-    <View>
+    <View style={{"backgroundColor": backColor, flex: 1}}>
       <Success_Component
         status={successModal}
         setModalStatus={setSuccessModal}
@@ -229,7 +219,7 @@ const Game_Board_View = (props = { navigation }) => {
         hint={hint}
         setHintLoc={setHintLoc}
         setTarget={setTarget}
-        colorTheme={colorTheme}
+        colorTheme={tileTheme}
       />
       <View style={styles.notchBlock}></View>
       <Header_Component
@@ -245,7 +235,7 @@ const Game_Board_View = (props = { navigation }) => {
         notesMode={notesMode}
         notes={notes}
         hintLoc={hintLoc}
-        colorTheme={colorTheme}
+        colorTheme={tileTheme}
         hintsModal={hintsModal}
       ></Grid>
       <Lives lives={lives} isLifeMode={isLifeMode} />
@@ -255,7 +245,7 @@ const Game_Board_View = (props = { navigation }) => {
         moves={moves}
         board={board}
         setBoard={setBoard}
-        colorTheme={colorTheme}
+        colorTheme={tileTheme}
       />
       <Actions_Component
         board={board}

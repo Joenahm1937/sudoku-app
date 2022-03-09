@@ -8,6 +8,7 @@ const Button_Component = (
     difficulty,
     gameMode,
     lives,
+    colorTheme
   }
 ) => {
   return (
@@ -19,11 +20,13 @@ const Button_Component = (
         difficulty={props.difficulty}
         gameMode={props.gameMode}
         lives={props.lives}
+        colorTheme={props.colorTheme}
       />
       <Large_button
         content="r e s u m e"
         ID="0"
         navigation={props.navigation}
+        colorTheme={props.colorTheme}
       />
     </View>
   );
