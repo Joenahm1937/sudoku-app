@@ -26,7 +26,12 @@ const HomePage = (props = { navigation }) => {
         lives={lives}
         setLives={setLives}
       ></Selections_Component>
-      <Button_Component navigation={props.navigation}></Button_Component>
+      <Button_Component
+        difficulty={difficulty}
+        gameMode={gameMode}
+        lives={lives}
+        navigation={props.navigation}
+      ></Button_Component>
       <Footer_Component
         setInfoVisible={setInfoVisible}
         setPlusVisible={setPlusVisible}

@@ -1,28 +1,36 @@
-import React from 'react';
-import {View, Text, Pressable} from 'react-native';
-import styles from './styles';
+import React from "react";
+import { View, Text, Pressable } from "react-native";
+import styles from "./styles";
 
-const LargeButton = (props) => {
-
-    const {content, ID, navigation} = props;
-
-    const Navigate_GameBoard = () => {
-        if (ID == "1") {
-            navigation.navigate("gameBoard", {difficulty: "easy", lives: 2});
-        }
+const LargeButton = ({
+  content,
+  ID,
+  navigation,
+  difficulty,
+  gameMode,
+  lives,
+}) => {
+  const Navigate_GameBoard = () => {
+    if (ID == "1") {
+      if (
+        difficulty === "DIFFICULTY" ||
+        gameMode === "GAME MODE" ||
+        lives === "LIVES"
+      )
         return;
+      navigation.navigate("gameBoard", { difficulty, lives, gameMode });
     }
+  };
 
-    return (
-        <View style={styles.button_container}>
-            <Pressable
-                style={styles.large_button}
-                onPress={Navigate_GameBoard}
-            >
-                <Text style={styles.button_text}>{content}</Text>
-            </Pressable>
-        </View>
-    );
+  // if (difficulty === "DIFFICULTY" || gameMode === "GAME MODE" || lives !== "LIVES") return;
+
+  return (
+    <View style={styles.button_container}>
+      <Pressable style={styles.large_button} onPress={Navigate_GameBoard}>
+        <Text style={styles.button_text}>{content}</Text>
+      </Pressable>
+    </View>
+  );
 };
 
 export default LargeButton;
