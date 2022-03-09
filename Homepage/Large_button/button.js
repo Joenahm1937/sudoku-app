@@ -3,9 +3,15 @@ import {View, Text, Pressable} from 'react-native';
 import { Audio } from "expo-av";
 import styles from './styles';
 
-const LargeButton = (props) => {
-
-    const {content, ID, navigation} = props;
+const LargeButton = ({
+  content,
+  ID,
+  navigation,
+  difficulty,
+  gameMode,
+  lives,
+  colorTheme,
+}) => {
     const [buttonSound, setButtonSound] = useState();
 
     async function playButtonSound() {
@@ -30,25 +36,22 @@ const LargeButton = (props) => {
           buttonSound.unloadAsync();
         };
       }, []);
-    
+
     const Navigate_GameBoard = () => {
         playButtonSound()
         if (ID == "1") {
-            navigation.navigate("gameBoard", {difficulty: "easy", lives: 2});
+          if (difficulty === "DIFFICULTY" || gameMode === "GAME MODE" || lives === "LIVES") return;
+          navigation.navigate("gameBoard", { difficulty, lives, gameMode, colorTheme });
         }
-        return;
     }
 
-    return (
-        <View style={styles.button_container}>
-            <Pressable
-                style={styles.large_button}
-                onPress={Navigate_GameBoard}
-            >
-                <Text style={styles.button_text}>{content}</Text>
-            </Pressable>
-        </View>
-    );
+  return (
+    <View style={styles.button_container}>
+      <Pressable style={[{"backgroundColor": colorTheme.tileColor}, styles.large_button]} onPress={Navigate_GameBoard}>
+        <Text style={styles.button_text}>{content}</Text>
+      </Pressable>
+    </View>
+  );
 };
 
 export default LargeButton;

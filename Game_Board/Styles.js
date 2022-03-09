@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: wp('100%'),
     height: hp('8%'),
-    bottom: hp('-20%'),
-    justifyContent: 'space-evenly'
+    bottom: hp('5%'),
+    justifyContent: 'space-evenly',
   },
   dot: {
     height: 20,

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
       padding: 15,
     },
     large_button: {
-      backgroundColor: '#F3C3C3',
+      // backgroundColor: '#F3C3C3',
       height: 48,
       borderRadius: 18,
       justifyContent: 'center',

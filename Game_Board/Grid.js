@@ -73,7 +73,7 @@ var Cell = ({
           </TouchableOpacity>
         )
       ) : (
-        <View style={[colorTheme, styles.circle, mistake]}>
+        <View style={[{"backgroundColor": colorTheme}, styles.circle, mistake]}>
           <Text style={styles.numbers}>{cell}</Text>
         </View>
       )}
@@ -237,7 +237,7 @@ const GridRowView = ({
         hintLoc={hintLoc}
         hintsModal={hintsModal}
       />
-      <View style={[styles.gSideLine, colorTheme]}></View>
+      <View style={[styles.gSideLine, {"backgroundColor": colorTheme}]}></View>
       <Square
         colorTheme={colorTheme}
         square={board[board_and_grid_index2]}
@@ -250,7 +250,7 @@ const GridRowView = ({
         hintLoc={hintLoc}
         hintsModal={hintsModal}
       />
-      <View style={[styles.gSideLine, colorTheme]}></View>
+      <View style={[styles.gSideLine, {"backgroundColor": colorTheme}]}></View>
       <Square
         colorTheme={colorTheme}
         square={board[board_and_grid_index3]}
@@ -296,9 +296,9 @@ const Grid = ({
         hintsModal={hintsModal}
       ></GridRowView>
       <View style={styles.gridRow}>
-        <View style={[styles.gBottomLine, colorTheme]}></View>
-        <View style={[styles.gBottomLine, colorTheme]}></View>
-        <View style={[styles.gBottomLine, colorTheme]}></View>
+        <View style={[styles.gBottomLine, {"backgroundColor": colorTheme}]}></View>
+        <View style={[styles.gBottomLine, {"backgroundColor": colorTheme}]}></View>
+        <View style={[styles.gBottomLine, {"backgroundColor": colorTheme}]}></View>
       </View>
       <GridRowView
         colorTheme={colorTheme}
@@ -314,9 +314,9 @@ const Grid = ({
         hintsModal={hintsModal}
       ></GridRowView>
       <View style={styles.gridRow}>
-        <View style={[styles.gBottomLine, colorTheme]}></View>
-        <View style={[styles.gBottomLine, colorTheme]}></View>
-        <View style={[styles.gBottomLine, colorTheme]}></View>
+        <View style={[styles.gBottomLine, {"backgroundColor": colorTheme}]}></View>
+        <View style={[styles.gBottomLine, {"backgroundColor": colorTheme}]}></View>
+        <View style={[styles.gBottomLine, {"backgroundColor": colorTheme}]}></View>
       </View>
       <GridRowView
         colorTheme={colorTheme}

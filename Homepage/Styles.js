@@ -5,17 +5,15 @@ const styles = StyleSheet.create({
     HomePageContainer: {
       width: wp('100%'),
       height: hp('100%'),
-      backgroundColor: 'white',
     },
     headerContainer: {
       width: wp('100%'),
       flexDirection: "row",
       marginTop: 50,
       justifyContent: "space-between",
-      backgroundColor: 'white',
     },
     calendarContainer: {
-      backgroundColor:'#F3C3C3',
+      // backgroundColor:'#F3C3C3',
       top: 70,
       padding: 40,
       borderRadius:15,
@@ -25,11 +23,9 @@ const styles = StyleSheet.create({
       shadowOffset:{width:0, height:3},
     },
     soundContainer: {
-      backgroundColor:'white',
       padding: 10
     },
     palleteContainer: {
-      backgroundColor:'white',
       padding: 10
     },
     buttonContainer: {
@@ -37,26 +33,22 @@ const styles = StyleSheet.create({
       bottom: 125,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'white',
     },
     selectionsContainer: {
       bottom: 175,
       width: '100%',
       alignItems: 'center',
       marginTop: 280,
-      backgroundColor: 'white',
     },
     footerContainer: {
       width:'100%',
       height: 32,
       flexDirection: "row",
       justifyContent: "center",
-      backgroundColor: 'white',
       bottom: 75
     },
     footerIcons: {
       flexDirection: 'row',
-      backgroundColor: 'white',
       width: '50%',
       justifyContent: "center",
       justifyContent: 'space-between'

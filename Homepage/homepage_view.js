@@ -16,10 +16,22 @@ const HomePage = (props = { navigation }) => {
   const [difficulty, setDifficulty] = useState("DIFFICULTY");
   const [gameMode, setGameMode] = useState("GAME MODE");
   const [lives, setLives] = useState("LIVES");
-  return (
-    <View style={styles.HomePageContainer}>
-      <Header_Component></Header_Component>
+  const [colorTheme, setColorTheme] = useState({
+    tileColor: "#F4C3C3",
+    backgroundColor: "white"
+  });
 
+  return (
+    <View
+      style={[
+        styles.HomePageContainer,
+        { backgroundColor: colorTheme.backgroundColor },
+      ]}
+    >
+      <Header_Component
+        colorTheme={colorTheme}
+        setColorTheme={setColorTheme}
+      ></Header_Component>
       <Selections_Component
         difficulty={difficulty}
         setDifficulty={setDifficulty}
@@ -28,9 +40,13 @@ const HomePage = (props = { navigation }) => {
         lives={lives}
         setLives={setLives}
       ></Selections_Component>
-
-      <Button_Component navigation={props.navigation}></Button_Component>
-
+      <Button_Component
+        difficulty={difficulty}
+        gameMode={gameMode}
+        lives={lives}
+        colorTheme={colorTheme}
+        navigation={props.navigation}
+      ></Button_Component>
       <Footer_Component
         setInfoVisible={setInfoVisible}
         setPlusVisible={setPlusVisible}
