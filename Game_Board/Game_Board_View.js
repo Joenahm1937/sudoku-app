@@ -13,8 +13,6 @@ import sudoku from "./gameLogic";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
-const UNDEFINED_BOARD = [...Array(9)].map((x) => [...Array(9)].fill("."));
-
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
   //Initial State (Passed from Home Page)
@@ -30,19 +28,20 @@ const Game_Board_View = (props = { navigation }) => {
     III: 3,
   };
 
-  const { difficulty, lives, gameMode, colorTheme } = props.route.params;
+  const { difficulty, lives, gameMode, colorTheme, unsolvedBoard, solvedBoard } = props.route.params;
+  const initialLife = lives.split(" ")[1];
   const level = difficulty;
   const tileTheme = colorTheme.tileColor;
   const backColor = colorTheme.backgroundColor;
   const clockMode = gameMode === "CLASSIC" ? false : true;
-  const isLifeMode = livesMappings[lives.split(" ")[1]] ? true : false;
-  const [life, setLife] = useState(livesMappings[lives.split(" ")[1]]);
+  const isLifeMode = livesMappings[initialLife] ? true : false;
+  const [life, setLife] = useState(livesMappings[initialLife]);
 
   //Game Config
   const [number, setNumber] = useState();
-  const [board, setBoard] = useState(UNDEFINED_BOARD);
-  const [solution, setSolution] = useState();
-  const [target, setTarget] = useState();
+  const [board, setBoard] = useState(unsolvedBoard);
+  const [solution, setSolution] = useState(solvedBoard);
+  const [target, setTarget] = useState(undefined);
   const [mistakes, setMistakes] = useState({});
   const [moves, setMoves] = useState([]);
   const [endModal, setEndModal] = useState(false);
@@ -53,7 +52,7 @@ const Game_Board_View = (props = { navigation }) => {
   const [gameEnded, setGameEnded] = useState(false);
   const [notesMode, setNotesMode] = useState(false);
   const [notes, setNotes] = useState({});
-  const [originalBoard, setOriginalBoard] = useState();
+  const [originalBoard, setOriginalBoard] = useState(unsolvedBoard);
   const isInitialMount = useRef(true);
   // AUDIO STATES
   const [tileSound, setTileSound] = useState();
@@ -117,9 +116,10 @@ const Game_Board_View = (props = { navigation }) => {
     var [unsolvedBoard, solvedBoard] = sudoku.generate(
       difficultyMappings[difficulty]
     );
+    setLife(livesMappings[initialLife]);
     setBoard(unsolvedBoard);
-    setSolution(solvedBoard);
     setOriginalBoard(unsolvedBoard);
+    setSolution(solvedBoard);
     setMistakes({});
     setMoves([]);
     setTarget(undefined);
@@ -127,7 +127,7 @@ const Game_Board_View = (props = { navigation }) => {
 
   useEffect(() => {
     initializeAudio();
-    start();
+    // start();
     return () => {
       tileSound.unloadAsync();
       victorySound.unloadAsync();
