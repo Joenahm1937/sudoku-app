@@ -13,18 +13,37 @@ import sudoku from "./gameLogic";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
-const UNDEFINED_BOARD = [...Array(9)].map(x => [...Array(9)].fill("."));
-
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
+  //Initial State (Passed from Home Page)
+  const difficultyMappings = {
+    EASY: 53,
+    MEDIUM: 44,
+    HARD: 35,
+  };
+
+  const livesMappings = {
+    I: 1,
+    II: 2,
+    III: 3,
+  };
+
+  const { difficulty, lives, gameMode, colorTheme, unsolvedBoard, solvedBoard } = props.route.params;
+  const initialLife = lives.split(" ")[1];
+  const level = difficulty;
+  const tileTheme = colorTheme.tileColor;
+  const backColor = colorTheme.backgroundColor;
+  const clockMode = gameMode === "CLASSIC" ? false : true;
+  const isLifeMode = livesMappings[initialLife] ? true : false;
+  const [life, setLife] = useState(livesMappings[initialLife]);
+
+  //Game Config
   const [number, setNumber] = useState();
-  const [board, setBoard] = useState(UNDEFINED_BOARD);
-  const [solution, setSolution] = useState();
-  const [target, setTarget] = useState();
+  const [board, setBoard] = useState(unsolvedBoard);
+  const [solution, setSolution] = useState(solvedBoard);
+  const [target, setTarget] = useState(undefined);
   const [mistakes, setMistakes] = useState({});
   const [moves, setMoves] = useState([]);
-  const [lives, setLives] = useState();
-  const [isLifeMode, setIsLifeMode] = useState(true);
   const [endModal, setEndModal] = useState(false);
   const [hintsModal, setHintsModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -33,18 +52,13 @@ const Game_Board_View = (props = { navigation }) => {
   const [gameEnded, setGameEnded] = useState(false);
   const [notesMode, setNotesMode] = useState(false);
   const [notes, setNotes] = useState({});
-  const [originalBoard, setOriginalBoard] = useState();
-  const [clockMode, setClockMode] = useState(true);
-  const [level, setLevel] = useState("");
+  const [originalBoard, setOriginalBoard] = useState(unsolvedBoard);
   const isInitialMount = useRef(true);
   // AUDIO STATES
   const [tileSound, setTileSound] = useState();
   const [invalidTileSound, setInvalidTileSound] = useState();
   const [victorySound, setVictorySound] = useState();
   const [defeatSound, setDefeatSound] = useState();
-  //COLOR THEME
-  const [tileTheme, setTileTheme] = useState("#F4C3C3");
-  const [backColor, setBackColor] = useState("white");
 
   async function playTileSound() {
     await tileSound.replayAsync();
@@ -53,7 +67,7 @@ const Game_Board_View = (props = { navigation }) => {
     await victorySound.replayAsync();
   }
 
-  async function playDefeatSound(){
+  async function playDefeatSound() {
     await defeatSound.replayAsync();
   }
 
@@ -68,26 +82,28 @@ const Game_Board_View = (props = { navigation }) => {
     const defeatAudioObject = new Audio.Sound();
     try {
       await tileAudioObject.loadAsync(require("./Sounds/tile_press1.mp3"));
-      console.log('Tile Press audio Initialized')
+      console.log("Tile Press audio Initialized");
     } catch (err) {
       console.error(err);
     }
-    try{
-      await invalidTileAudioObject.loadAsync(require("./Sounds/invalid_press.mp3"));
-      console.log('Invalid Tile audio Press Initialized')
-    } catch (err){
+    try {
+      await invalidTileAudioObject.loadAsync(
+        require("./Sounds/invalid_press.mp3")
+      );
+      console.log("Invalid Tile audio Press Initialized");
+    } catch (err) {
       console.error(err);
     }
-    try{
+    try {
       await victoryAudioObject.loadAsync(require("./Sounds/victory2.mp3"));
-      console.log('Victory audio Initialized')
-    } catch (err){
+      console.log("Victory audio Initialized");
+    } catch (err) {
       console.error(err);
     }
-    try{
+    try {
       await defeatAudioObject.loadAsync(require("./Sounds/defeat.mp3"));
-      console.log('Defeat audio Initialized')
-    } catch (err){
+      console.log("Defeat audio Initialized");
+    } catch (err) {
       console.error(err);
     }
     setTileSound(tileAudioObject);
@@ -97,36 +113,21 @@ const Game_Board_View = (props = { navigation }) => {
   }
 
   function start() {
-    const difficultyMappings = {
-      EASY: 53,
-      MEDIUM: 44,
-      HARD: 35
-    }
-
-    const livesMappings = {
-      I: 1,
-      II: 2,
-      III: 3,
-    }
-
-    const { difficulty, lives, gameMode, colorTheme } = props.route.params;
-    setLevel(difficulty)
-    var [unsolvedBoard, solvedBoard] = sudoku.generate(difficultyMappings[difficulty]);
+    var [unsolvedBoard, solvedBoard] = sudoku.generate(
+      difficultyMappings[difficulty]
+    );
+    setLife(livesMappings[initialLife]);
     setBoard(unsolvedBoard);
-    setSolution(solvedBoard);
     setOriginalBoard(unsolvedBoard);
+    setSolution(solvedBoard);
     setMistakes({});
     setMoves([]);
-    setTileTheme(colorTheme.tileColor)
-    setBackColor(colorTheme.backgroundColor)
-    livesMappings[lives.split(' ')[1]] ? setLives(livesMappings[lives.split(' ')[1]]) : setIsLifeMode(false)
-    gameMode === "CLASSIC" && setClockMode(false);
     setTarget(undefined);
   }
 
   useEffect(() => {
     initializeAudio();
-    start();
+    // start();
     return () => {
       tileSound.unloadAsync();
       victorySound.unloadAsync();
@@ -182,23 +183,23 @@ const Game_Board_View = (props = { navigation }) => {
         // setSuccessModal(true);
         // setEndModal(true);
       } else {
-        playInvalidTileSound()
+        playInvalidTileSound();
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         var copyMistakes = { ...mistakes };
         var updatedMoves = [...moves];
         copyMistakes[JSON.stringify(target)] = number;
         updatedMoves.push([target[0], target[1]]);
         setMistakes(copyMistakes);
-        setLives(lives - 1);
+        setLife(life - 1);
         setMoves(updatedMoves);
-        if (lives === 1) setEndModal(true);
+        if (life === 1) setEndModal(true);
       }
       setBoard(changedBoard);
       setNumber(undefined);
     }
   }
   return (
-    <View style={{"backgroundColor": backColor, flex: 1}}>
+    <View style={{ backgroundColor: backColor, flex: 1 }}>
       <Success_Component
         status={successModal}
         setModalStatus={setSuccessModal}
@@ -238,7 +239,7 @@ const Game_Board_View = (props = { navigation }) => {
         colorTheme={tileTheme}
         hintsModal={hintsModal}
       ></Grid>
-      <Lives lives={lives} isLifeMode={isLifeMode} />
+      <Lives lives={life} isLifeMode={isLifeMode} />
       <Pieces_Component
         setNumber={setNumber}
         target={target}
