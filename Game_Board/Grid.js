@@ -22,7 +22,7 @@ var Cell = ({ cell = [], loc }) => {
     notesMode,
     notes,
     hintLoc,
-    colorTheme,
+    tileTheme,
     hintsModal,
   } = useContext(GameContext);
   const opacity = useRef(new Animated.Value(1)).current;
@@ -74,13 +74,7 @@ var Cell = ({ cell = [], loc }) => {
           </TouchableOpacity>
         )
       ) : (
-        <View
-          style={[
-            { backgroundColor: colorTheme.tileColor },
-            styles.circle,
-            mistake,
-          ]}
-        >
+        <View style={[{ backgroundColor: tileTheme }, styles.circle, mistake]}>
           <Text style={styles.numbers}>{cell}</Text>
         </View>
       )}
@@ -108,14 +102,14 @@ var Square = ({ square = [], grid }) => {
     <View style={styles.square}>
       <SquareRowView rowNumber={0} square={square} grid={grid} />
       <View style={styles.lineRow}>
-        {[...Array(3)].map((line) => (
-          <View style={styles.bottomLine}></View>
+        {[...Array(3)].map((line, i) => (
+          <View key={i} style={styles.bottomLine}></View>
         ))}
       </View>
       <SquareRowView rowNumber={1} square={square} grid={grid} />
       <View style={styles.lineRow}>
-        {[...Array(3)].map((line) => (
-          <View style={styles.bottomLine}></View>
+        {[...Array(3)].map((line, i) => (
+          <View key={i} style={styles.bottomLine}></View>
         ))}
       </View>
       <SquareRowView rowNumber={2} square={square} grid={grid} />
@@ -127,7 +121,7 @@ const GridRowView = ({ rowNumber }) => {
   const board_and_grid_index1 = rowNumber * 3;
   const board_and_grid_index2 = rowNumber * 3 + 1;
   const board_and_grid_index3 = rowNumber * 3 + 2;
-  const { colorTheme, board } = useContext(GameContext);
+  const { tileTheme, board } = useContext(GameContext);
 
   return (
     <View style={styles.gridRow}>
@@ -135,16 +129,12 @@ const GridRowView = ({ rowNumber }) => {
         square={board[board_and_grid_index1]}
         grid={board_and_grid_index1}
       />
-      <View
-        style={[styles.gSideLine, { backgroundColor: colorTheme.tileColor }]}
-      ></View>
+      <View style={[styles.gSideLine, { backgroundColor: tileTheme }]}></View>
       <Square
         square={board[board_and_grid_index2]}
         grid={board_and_grid_index2}
       />
-      <View
-        style={[styles.gSideLine, { backgroundColor: colorTheme.tileColor }]}
-      ></View>
+      <View style={[styles.gSideLine, { backgroundColor: tileTheme }]}></View>
       <Square
         square={board[board_and_grid_index3]}
         grid={board_and_grid_index3}
@@ -155,28 +145,24 @@ const GridRowView = ({ rowNumber }) => {
 
 const Grid = () => {
   var setClicked = (loc) => setTarget(loc);
-  const { colorTheme } = useContext(GameContext);
+  const { tileTheme } = useContext(GameContext);
   return (
     <View style={styles.board}>
       <GridRowView rowNumber={0}></GridRowView>
       <View style={styles.gridRow}>
-        {[...Array(3)].map((line) => (
+        {[...Array(3)].map((line, i) => (
           <View
-            style={[
-              styles.gBottomLine,
-              { backgroundColor: colorTheme.tileColor },
-            ]}
+            key={i}
+            style={[styles.gBottomLine, { backgroundColor: tileTheme }]}
           ></View>
         ))}
       </View>
       <GridRowView rowNumber={1}></GridRowView>
       <View style={styles.gridRow}>
-        {[...Array(3)].map((line) => (
+        {[...Array(3)].map((line, i) => (
           <View
-            style={[
-              styles.gBottomLine,
-              { backgroundColor: colorTheme.tileColor },
-            ]}
+            key={i}
+            style={[styles.gBottomLine, { backgroundColor: tileTheme }]}
           ></View>
         ))}
       </View>

@@ -217,8 +217,11 @@ const Game_Board_View = (props = { navigation }) => {
         notesMode,
         notes,
         hintLoc,
-        colorTheme,
+        tileTheme,
+        hint,
         hintsModal,
+        setHintsModal,
+        setHintLoc,
         successModal,
         setSuccessModal,
         setGameEnded,
@@ -232,14 +235,7 @@ const Game_Board_View = (props = { navigation }) => {
       <View style={{ backgroundColor: backColor, flex: 1 }}>
         <Success_Component />
         <GameOver_Component />
-        <HintsModal
-          status={hintsModal}
-          setModalStatus={setHintsModal}
-          hint={hint}
-          setHintLoc={setHintLoc}
-          setTarget={setTarget}
-          colorTheme={tileTheme}
-        />
+        <HintsModal />
         <View style={styles.notchBlock}></View>
         <Header_Component
           level={level}
