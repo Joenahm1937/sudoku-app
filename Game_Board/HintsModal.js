@@ -11,15 +11,18 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { Icon_Component } from "./Icon_Component/Icon_Component";
 import { Exit_Icon } from "./Icon_Component/Icons";
+import { useContext } from "react";
+import { GameContext } from "./GameContext";
 
-const HintsModal = ({
-  setTarget,
-  status,
-  setModalStatus,
-  hint,
-  setHintLoc,
-  colorTheme,
-}) => {
+const HintsModal = () => {
+  const {
+    setTarget,
+    hintsModal,
+    setHintsModal,
+    hint,
+    setHintLoc,
+    tileTheme,
+  } = useContext(GameContext);
   let [fontsLoaded] = useFonts({
     Montserrat_800ExtraBold,
     Montserrat_400Regular,
@@ -28,14 +31,14 @@ const HintsModal = ({
     return <AppLoading />;
   } else {
     return (
-      <Modal transparent visible={status} animationType="fade">
+      <Modal transparent visible={hintsModal} animationType="fade">
         <View style={styles.container}>
-          <View style={[styles.content, {"backgroundColor": colorTheme}]}>
+          <View style={[styles.content, {"backgroundColor": tileTheme}]}>
             <View style={styles.header}>
               <Icon_Component
                 SVG={Exit_Icon}
                 onPressFunction={() => {
-                  setModalStatus(false);
+                  setHintsModal(false);
                   setHintLoc([]);
                   setTarget([hint[1], hint[2]]);
                 }}

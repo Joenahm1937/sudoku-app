@@ -13,7 +13,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
+import { GameContext } from "./GameContext";
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -22,7 +23,14 @@ import {
 } from "@expo-google-fonts/montserrat";
 import ConfettiCannon from "react-native-confetti-cannon";
 
-const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVictorySound }) => {
+const Success_Component = () => {
+  const {
+    successModal,
+    setSuccessModal,
+    setGameEnded,
+    start,
+    playVictorySound,
+  } = useContext(GameContext);
   LogBox.ignoreAllLogs();
   var opacities = useRef(
     [...Array(3)].map((x) => new Animated.Value(1))
@@ -70,8 +78,8 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVi
   }
 
   useEffect(() => {
-    if (status) {
-      playVictorySound()
+    if (successModal) {
+      playVictorySound();
       opacities.forEach((o) => o.setValue(1));
       scales.forEach((s) => s.setValue(1));
       button1.setValue(0);
@@ -96,7 +104,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVi
         useNativeDriver: true,
       }).start();
     }
-  }, [status]);
+  }, [successModal]);
 
   let [fontsLoaded] = useFonts({
     Montserrat_600SemiBold,
@@ -107,9 +115,13 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVi
     return <AppLoading />;
   } else {
     return (
-      <Modal visible={status} animationType="fade">
+      <Modal visible={successModal} animationType="fade">
         <View style={[styles.container]}>
-          <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} autoStartDelay={540} />
+          <ConfettiCannon
+            count={200}
+            origin={{ x: -10, y: 0 }}
+            autoStartDelay={540}
+          />
           <View style={[styles.inner, styles.center, { marginTop: hp("8%") }]}>
             {[...Array(3).keys()].map((i) => (
               <Animated.View
@@ -138,7 +150,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVi
             <TouchableOpacity
               style={[styles.button, { marginTop: hp("20%") }]}
               onPress={() => {
-                setModalStatus(false);
+                setSuccessModal(false);
                 setGameEnded(true);
               }}
             >
@@ -149,7 +161,7 @@ const Success_Component = ({ status, setModalStatus, setGameEnded, start, playVi
             <TouchableOpacity
               style={[styles.button, { marginTop: hp("6%") }]}
               onPress={() => {
-                setModalStatus(false);
+                setSuccessModal(false);
                 start();
               }}
             >

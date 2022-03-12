@@ -12,6 +12,7 @@ import { useState, useEffect, useRef } from "react";
 import sudoku from "./gameLogic";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
+import { GameContext } from "./GameContext";
 
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
@@ -28,7 +29,14 @@ const Game_Board_View = (props = { navigation }) => {
     III: 3,
   };
 
-  const { difficulty, lives, gameMode, colorTheme, unsolvedBoard, solvedBoard } = props.route.params;
+  const {
+    difficulty,
+    lives,
+    gameMode,
+    colorTheme,
+    unsolvedBoard,
+    solvedBoard,
+  } = props.route.params;
   const initialLife = lives.split(" ")[1];
   const level = difficulty;
   const tileTheme = colorTheme.tileColor;
@@ -198,70 +206,67 @@ const Game_Board_View = (props = { navigation }) => {
       setNumber(undefined);
     }
   }
+
   return (
-    <View style={{ backgroundColor: backColor, flex: 1 }}>
-      <Success_Component
-        status={successModal}
-        setModalStatus={setSuccessModal}
-        setGameEnded={setGameEnded}
-        start={start}
-        playVictorySound={playVictorySound}
-      />
-      <GameOver_Component
-        status={endModal}
-        setModalStatus={setEndModal}
-        setGameEnded={setGameEnded}
-        start={start}
-        playDefeatSound={playDefeatSound}
-      />
-      <HintsModal
-        status={hintsModal}
-        setModalStatus={setHintsModal}
-        hint={hint}
-        setHintLoc={setHintLoc}
-        setTarget={setTarget}
-        colorTheme={tileTheme}
-      />
-      <View style={styles.notchBlock}></View>
-      <Header_Component
-        level={level}
-        navigation={props.navigation}
-        isTimed={clockMode}
-      ></Header_Component>
-      <Grid
-        board={board}
-        target={target}
-        setTarget={setTarget}
-        mistakes={mistakes}
-        notesMode={notesMode}
-        notes={notes}
-        hintLoc={hintLoc}
-        colorTheme={tileTheme}
-        hintsModal={hintsModal}
-      ></Grid>
-      <Lives lives={life} isLifeMode={isLifeMode} />
-      <Pieces_Component
-        setNumber={setNumber}
-        target={target}
-        moves={moves}
-        board={board}
-        setBoard={setBoard}
-        colorTheme={tileTheme}
-      />
-      <Actions_Component
-        board={board}
-        setBoard={setBoard}
-        originalBoard={originalBoard}
-        setNotesMode={setNotesMode}
-        notesMode={notesMode}
-        getCandidates={sudoku.getCandidates}
-        setHintsModal={setHintsModal}
-        setHint={setHint}
-        mistakes={mistakes}
-        setHintLoc={setHintLoc}
-        eraseNotes={eraseNotes}
-      ></Actions_Component>
-    </View>
+    <GameContext.Provider
+      value={{
+        board,
+        target,
+        setTarget,
+        mistakes,
+        notesMode,
+        notes,
+        hintLoc,
+        tileTheme,
+        hint,
+        hintsModal,
+        setHintsModal,
+        setHintLoc,
+        successModal,
+        setSuccessModal,
+        setGameEnded,
+        start,
+        playVictorySound,
+        endModal,
+        setEndModal,
+        playDefeatSound,
+      }}
+    >
+      <View style={{ backgroundColor: backColor, flex: 1 }}>
+        <Success_Component />
+        <GameOver_Component />
+        <HintsModal />
+        <View style={styles.notchBlock}></View>
+        <Header_Component
+          level={level}
+          navigation={props.navigation}
+          isTimed={clockMode}
+        ></Header_Component>
+        <Grid></Grid>
+        <Lives lives={life} isLifeMode={isLifeMode} />
+        <Pieces_Component
+          setNumber={setNumber}
+          target={target}
+          moves={moves}
+          board={board}
+          setBoard={setBoard}
+          colorTheme={tileTheme}
+        />
+        <Actions_Component
+          board={board}
+          setBoard={setBoard}
+          originalBoard={originalBoard}
+          setNotesMode={setNotesMode}
+          notesMode={notesMode}
+          getCandidates={sudoku.getCandidates}
+          setHintsModal={setHintsModal}
+          setHint={setHint}
+          mistakes={mistakes}
+          setHintLoc={setHintLoc}
+          eraseNotes={eraseNotes}
+        ></Actions_Component>
+      </View>
+    </GameContext.Provider>
   );
 };
 

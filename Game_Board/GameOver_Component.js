@@ -18,14 +18,16 @@ import {
   Montserrat_600SemiBold,
   Montserrat_500Medium,
 } from "@expo-google-fonts/montserrat";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import AppLoading from "expo-app-loading";
+import { GameContext } from "./GameContext";
 
 const Line = (props) => {
+  const { endModal } = useContext(GameContext);
   var shift = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (props.status) {
+    if (endModal) {
       if (props.rev) {
         Animated.loop(
           Animated.sequence([
@@ -97,7 +99,7 @@ const Line = (props) => {
   );
 };
 
-const LineGroup = ({ offset = 0, status }) => {
+const LineGroup = ({ offset = 0 }) => {
   return (
     <>
       <Line
@@ -107,7 +109,6 @@ const LineGroup = ({ offset = 0, status }) => {
         height={110}
         color={"#FF1515"}
         rev={true}
-        status={status}
       ></Line>
       <Line
         strokeWidth={2}
@@ -116,7 +117,6 @@ const LineGroup = ({ offset = 0, status }) => {
         height={110}
         color={"#F49740"}
         rev={true}
-        status={status}
       ></Line>
       <Line
         strokeWidth={2}
@@ -124,7 +124,6 @@ const LineGroup = ({ offset = 0, status }) => {
         top={85 + offset}
         height={110}
         color={"black"}
-        status={status}
       ></Line>
     </>
   );
@@ -141,13 +140,10 @@ const FillRectangle = ({ top = 0, height }) => {
   );
 };
 
-const GameOver_Component = ({
-  status,
-  setModalStatus,
-  setGameEnded,
-  start,
-  playDefeatSound
-}) => {
+const GameOver_Component = () => {
+  const { endModal, setEndModal, setGameEnded, start, playDefeatSound } =
+    useContext(GameContext);
+
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
   let [fontsLoaded] = useFonts({
@@ -156,8 +152,8 @@ const GameOver_Component = ({
   });
 
   useEffect(() => {
-    if (status) {
-      playDefeatSound()
+    if (endModal) {
+      playDefeatSound();
       button1.setValue(0);
       button2.setValue(0);
 
@@ -177,46 +173,32 @@ const GameOver_Component = ({
         useNativeDriver: true,
       }).start();
     }
-  }, [status]);
+  }, [endModal]);
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-      <Modal visible={status} animationType="fade">
+      <Modal visible={endModal} animationType="fade">
         <View style={styles.container}>
           <FillRectangle height={50} />
           <FillRectangle height={500} top={400} />
-          <Line
-            strokeWidth={38}
-            top={0}
-            height={120}
-            color={"#DD4545"}
-            status={status}
-          ></Line>
+          <Line strokeWidth={38} top={0} height={120} color={"#DD4545"}></Line>
           <Line
             strokeWidth={32}
             top={368}
             height={120}
             color={"#DD4545"}
-            status={status}
           ></Line>
-          <Line
-            strokeWidth={28}
-            top={30}
-            height={110}
-            color={"#FB7979"}
-            status={status}
-          ></Line>
+          <Line strokeWidth={28} top={30} height={110} color={"#FB7979"}></Line>
           <Line
             strokeWidth={28}
             top={340}
             height={110}
             color={"#FB7979"}
-            status={status}
           ></Line>
-          <LineGroup status={status} />
-          <LineGroup offset={200} status={status} />
+          <LineGroup />
+          <LineGroup offset={200} />
           <View style={[styles.center, { marginTop: 220 }]}>
             <Text style={styles.text}>Game Over</Text>
           </View>
@@ -224,7 +206,7 @@ const GameOver_Component = ({
             <TouchableOpacity
               style={[styles.button, { marginTop: 210 }]}
               onPress={() => {
-                setModalStatus(false);
+                setEndModal(false);
                 setGameEnded(true);
               }}
             >
@@ -235,7 +217,7 @@ const GameOver_Component = ({
             <TouchableOpacity
               style={[styles.button, { marginTop: hp("6%") }]}
               onPress={() => {
-                setModalStatus(false);
+                setEndModal(false);
                 start();
               }}
             >
