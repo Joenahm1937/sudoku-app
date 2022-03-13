@@ -1,8 +1,9 @@
 import { View, Text } from "react-native";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styles } from "./Styles.js";
 import { Left_Arrow, Right_Arrow } from "./icon_button/Icons";
 import { IconButton } from "./icon_button/IconButton";
+import { Audio } from "expo-av";
 
 const Selections_Component = ({
   difficulty,
@@ -15,10 +16,48 @@ const Selections_Component = ({
   const [diffIdx, setDiffIdx] = useState(-1);
   const [modeIdx, setModeIdx] = useState(-1);
   const [livesIdx, setLivesIdx] = useState(-1);
+  const [leftButtonSound, setLeftButtonSound] = useState();
+  const [rightButtonSound, setRightButtonSound] = useState();
 
   const diff = ["EASY", "MEDIUM", "HARD"];
   const mode = ["CLASSIC", "CLOCK RACE"];
   const live = ["LIVES: I", "LIVES: II", "LIVES: III", "LIVES: ∞"];
+
+  async function playLeftButtonSound() {
+    await leftButtonSound.replayAsync();
+  }
+
+  async function playRightButtonSound() {
+    await rightButtonSound.replayAsync();
+  }
+
+  async function initAudio() {
+    console.log("Initializing HomePage Selections Audio")
+    const leftButtonAudioObject = new Audio.Sound();
+    const rightButtonAudioObject = new Audio.Sound();
+    try {
+      await leftButtonAudioObject.loadAsync(require("../Game_Board/Sounds/left_selection.mp3"));
+      console.log('left selection audio initialized');
+    } catch (err) {
+      console.error(err);
+    }
+    try {
+      await rightButtonAudioObject.loadAsync(require("../Game_Board/Sounds/right_selection.mp3"));
+      console.log('right selection audio initialized');
+    } catch (err) {
+      console.error(err)
+    }
+    setLeftButtonSound(leftButtonAudioObject);
+    setRightButtonSound(rightButtonAudioObject);
+  }
+
+  useEffect(() => {
+    initAudio();
+    return () => {
+      leftButtonSound.unloadAsync();
+      rightButtonSound.unloadAsync();
+    };
+  }, []);
 
   const cycle = (flag, index, setIndex, setSelection, selection) => {
     let newIndex;
@@ -30,6 +69,7 @@ const Selections_Component = ({
       } else {
         newIndex = index - 1;
       }
+      playLeftButtonSound();
     } else if (flag == "right") {
       if (index === selection.length - 1) {
         newIndex = 0;
@@ -38,6 +78,7 @@ const Selections_Component = ({
       } else {
         newIndex = index + 1;
       }
+      playRightButtonSound();
     }
     setIndex(newIndex);
     setSelection(selection[newIndex]);

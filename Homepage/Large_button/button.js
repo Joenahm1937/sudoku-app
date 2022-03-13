@@ -3,6 +3,7 @@ import {View, Text, Pressable} from 'react-native';
 import { Audio } from "expo-av";
 import styles from './styles';
 import sudoku from "../../Game_Board/gameLogic";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 const difficultyMappings = {
   EASY: 53,
   MEDIUM: 44,
@@ -56,9 +57,9 @@ const LargeButton = ({
 
   return (
     <View style={styles.button_container}>
-      <Pressable style={[{"backgroundColor": colorTheme.tileColor}, styles.large_button]} onPress={Navigate_GameBoard}>
+      <TouchableOpacity style={[{"backgroundColor": colorTheme.tileColor}, styles.large_button]} onPress={Navigate_GameBoard}>
         <Text style={styles.button_text}>{content}</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };
