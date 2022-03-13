@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     calendarContainer: {
       // backgroundColor:'#F3C3C3',
       top: 70,
+      right: 125,
       padding: 40,
       borderRadius:15,
       shadowColor:'grey',
