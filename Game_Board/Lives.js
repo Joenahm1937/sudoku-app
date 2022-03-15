@@ -3,7 +3,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-// import { useFonts, Montserrat_400Regular } from "@expo-google-fonts/montserrat";
 import { useFonts } from "expo-font";
 
 export default function Pieces({ lives, isLifeMode, backTheme }) {

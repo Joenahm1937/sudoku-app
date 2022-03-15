@@ -13,11 +13,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Svg, { G, Path, Rect, Defs, ClipPath } from "react-native-svg";
-// import {
-//   useFonts,
-//   Montserrat_600SemiBold,
-//   Montserrat_500Medium,
-// } from "@expo-google-fonts/montserrat";
 import { useFonts } from "expo-font";
 import { useRef, useEffect, useContext } from "react";
 import AppLoading from "expo-app-loading";
@@ -147,10 +142,6 @@ const GameOver_Component = () => {
 
   var button1 = useRef(new Animated.Value(0)).current;
   var button2 = useRef(new Animated.Value(0)).current;
-  // let [fontsLoaded] = useFonts({
-  //   Montserrat_600SemiBold,
-  //   Montserrat_500Medium,
-  // });
   const [fontsLoaded] = useFonts({
     Montserrat_600SemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
     Montserrat_500Medium: require('../assets/fonts/Montserrat-Medium.ttf')

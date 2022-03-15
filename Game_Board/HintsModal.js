@@ -4,11 +4,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import AppLoading from "expo-app-loading";
-// import {
-//   // useFonts,
-//   Montserrat_800ExtraBold,
-//   Montserrat_400Regular,
-// } from "@expo-google-fonts/montserrat";
 import { useFonts } from "expo-font";
 import { Icon_Component } from "./Icon_Component/Icon_Component";
 import { Exit_Icon } from "./Icon_Component/Icons";
@@ -24,10 +19,6 @@ const HintsModal = () => {
     setHintLoc,
     tileTheme,
   } = useContext(GameContext);
-  // let [fontsLoaded] = useFonts({
-  //   Montserrat_800ExtraBold,
-  //   Montserrat_400Regular,
-  // });
   const [fontsLoaded] = useFonts({
     Montserrat_800ExtraBold: require('../assets/fonts/Montserrat-Bold.ttf'),
     Montserrat_400Regular: require('../assets/fonts/Montserrat-Regular.ttf')
