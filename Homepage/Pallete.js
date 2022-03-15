@@ -106,37 +106,37 @@ export default class Pallete extends React.Component {
 
         return (
             <View style={[styles.container, this.props.style]}>
-                
+
                 {/* orange */}
-                <TouchableWithoutFeedback onPress={console.log('orange')}>
+                <TouchableWithoutFeedback onPress={() => console.log('orange')}>
                     <Animated.View
                         style={[{backgroundColor:"#FA7022"},styles.colorCircle, orange]}
                     ></Animated.View>
                 </TouchableWithoutFeedback>
 
                 {/* green */}
-                <TouchableWithoutFeedback onPress={console.log('green')}>
+                <TouchableWithoutFeedback onPress={() => console.log('green')}>
                     <Animated.View
                         style={[{backgroundColor:"#54976F"},styles.colorCircle, green]}
                     ></Animated.View>
                 </TouchableWithoutFeedback>
 
                 {/* black */}
-                <TouchableWithoutFeedback onPress={console.log('black')}>
+                <TouchableWithoutFeedback onPress={() => this.props.setColorTheme(colorMap[1])}>
                     <Animated.View
                         style={[{backgroundColor:"black"},styles.colorCircle, black]}
                     ></Animated.View>
                 </TouchableWithoutFeedback>
 
                 {/* lavender */}
-                <TouchableWithoutFeedback onPress={console.log('lavender')}>
+                <TouchableWithoutFeedback onPress={() => this.props.setColorTheme(colorMap[2])}>
                     <Animated.View
                         style={[{backgroundColor:"#AEA6E2"},styles.colorCircle, lavender]}
                     ></Animated.View>
                 </TouchableWithoutFeedback>
 
                 {/* pinkish */}
-                <TouchableWithoutFeedback onPress={console.log('pink')}>
+                <TouchableWithoutFeedback onPress={() => this.props.setColorTheme(colorMap[0])}>
                     <Animated.View
                         style={[{backgroundColor:"#D78ACF"},styles.colorCircle, pink]}
                     ></Animated.View>
