@@ -16,11 +16,12 @@ import {
 import { useEffect, useRef, useContext } from "react";
 import { GameContext } from "./GameContext";
 import AppLoading from "expo-app-loading";
-import {
-  useFonts,
-  Montserrat_600SemiBold,
-  Montserrat_500Medium,
-} from "@expo-google-fonts/montserrat";
+// import {
+//   useFonts,
+//   Montserrat_600SemiBold,
+//   Montserrat_500Medium,
+// } from "@expo-google-fonts/montserrat";
+import { useFonts } from "expo-font";
 import ConfettiCannon from "react-native-confetti-cannon";
 
 const Success_Component = () => {
@@ -106,9 +107,13 @@ const Success_Component = () => {
     }
   }, [successModal]);
 
-  let [fontsLoaded] = useFonts({
-    Montserrat_600SemiBold,
-    Montserrat_500Medium,
+  // let [fontsLoaded] = useFonts({
+  //   Montserrat_600SemiBold,
+  //   Montserrat_500Medium,
+  // });
+  const [fontsLoaded] = useFonts({
+    Montserrat_600SemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
+    Montserrat_500Medium: require('../assets/fonts/Montserrat-Medium.ttf')
   });
 
   if (!fontsLoaded) {
