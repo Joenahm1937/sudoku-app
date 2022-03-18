@@ -1,4 +1,5 @@
 import { View, Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Header_Component } from "./Header_Component";
 import { Actions_Component } from "./Actions_Component";
 import { Grid } from "./Grid";
@@ -27,6 +28,9 @@ const Game_Board_View = (props = { navigation }) => {
     I: 1,
     II: 2,
     III: 3,
+    1: 'I',
+    2: 'II',
+    3: 'III'
   };
 
   const {
@@ -44,14 +48,15 @@ const Game_Board_View = (props = { navigation }) => {
   const clockMode = gameMode === "CLASSIC" ? false : true;
   const isLifeMode = livesMappings[initialLife] ? true : false;
   const [life, setLife] = useState(livesMappings[initialLife]);
-
   //Game Config
   const [number, setNumber] = useState();
   const [board, setBoard] = useState(unsolvedBoard);
   const [solution, setSolution] = useState(solvedBoard);
   const [target, setTarget] = useState(undefined);
-  const [mistakes, setMistakes] = useState({});
-  const [moves, setMoves] = useState([]);
+  const prevMistakes = props.route.params.mistakes || {}
+  const [mistakes, setMistakes] = useState(prevMistakes);                         //get this from params
+  const prevMoves = props.route.params.moves || []
+  const [moves, setMoves] = useState(prevMoves);
   const [endModal, setEndModal] = useState(false);
   const [hintsModal, setHintsModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -83,14 +88,14 @@ const Game_Board_View = (props = { navigation }) => {
     await invalidTileSound.replayAsync();
   }
   async function initializeAudio() {
-    console.log("Intializing Audio Files");
+    //
     const tileAudioObject = new Audio.Sound();
     const invalidTileAudioObject = new Audio.Sound();
     const victoryAudioObject = new Audio.Sound();
     const defeatAudioObject = new Audio.Sound();
     try {
       await tileAudioObject.loadAsync(require("./Sounds/tile_press1.mp3"));
-      console.log("Tile Press audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
@@ -98,19 +103,19 @@ const Game_Board_View = (props = { navigation }) => {
       await invalidTileAudioObject.loadAsync(
         require("./Sounds/invalid_press.mp3")
       );
-      console.log("Invalid Tile audio Press Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
     try {
       await victoryAudioObject.loadAsync(require("./Sounds/victory2.mp3"));
-      console.log("Victory audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
     try {
       await defeatAudioObject.loadAsync(require("./Sounds/defeat.mp3"));
-      console.log("Defeat audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
@@ -119,6 +124,25 @@ const Game_Board_View = (props = { navigation }) => {
     setVictorySound(victoryAudioObject);
     setDefeatSound(defeatAudioObject);
   }
+
+  const save = async () => {
+    try {
+      const gameState = {
+        board,
+        difficulty,
+        lives: `LIVES: ${livesMappings[life]}`,
+        gameMode,
+        solvedBoard,
+        mistakes,
+        moves
+      }
+      const gameStateString = JSON.stringify(gameState);
+      await AsyncStorage.setItem("currentGame", gameStateString);
+      return gameStateString;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   function start() {
     var [unsolvedBoard, solvedBoard] = sudoku.generate(
@@ -241,6 +265,7 @@ const Game_Board_View = (props = { navigation }) => {
           level={level}
           navigation={props.navigation}
           isTimed={clockMode}
+          save={save}
         ></Header_Component>
         <Grid></Grid>
         <Lives lives={life} isLifeMode={isLifeMode} />
