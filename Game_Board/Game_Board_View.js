@@ -28,6 +28,9 @@ const Game_Board_View = (props = { navigation }) => {
     I: 1,
     II: 2,
     III: 3,
+    1: 'I',
+    2: 'II',
+    3: 'III'
   };
 
   const {
@@ -45,14 +48,15 @@ const Game_Board_View = (props = { navigation }) => {
   const clockMode = gameMode === "CLASSIC" ? false : true;
   const isLifeMode = livesMappings[initialLife] ? true : false;
   const [life, setLife] = useState(livesMappings[initialLife]);
-
   //Game Config
   const [number, setNumber] = useState();
   const [board, setBoard] = useState(unsolvedBoard);
   const [solution, setSolution] = useState(solvedBoard);
   const [target, setTarget] = useState(undefined);
-  const [mistakes, setMistakes] = useState({});                         //get this from params
-  const [moves, setMoves] = useState([]);
+  const prevMistakes = props.route.params.mistakes || {}
+  const [mistakes, setMistakes] = useState(prevMistakes);                         //get this from params
+  const prevMoves = props.route.params.moves || []
+  const [moves, setMoves] = useState(prevMoves);
   const [endModal, setEndModal] = useState(false);
   const [hintsModal, setHintsModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -126,10 +130,11 @@ const Game_Board_View = (props = { navigation }) => {
       const gameState = {
         board,
         difficulty,
-        lives,
+        lives: `LIVES: ${livesMappings[life]}`,
         gameMode,
         solvedBoard,
-        mistakes
+        mistakes,
+        moves
       }
       const gameStateString = JSON.stringify(gameState);
       await AsyncStorage.setItem("currentGame", gameStateString);

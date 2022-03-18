@@ -76,6 +76,8 @@ const LargeButton = ({
         colorTheme,
         unsolvedBoard: prevGame.board,
         solvedBoard: prevGame.solvedBoard,
+        mistakes: prevGame.mistakes,
+        moves: prevGame.moves
       });
     }
   };
