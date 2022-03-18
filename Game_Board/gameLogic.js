@@ -403,7 +403,7 @@ sudoku._assign = function(candidates, square, val){
             sudoku._eliminate(candidates, square, other_val);
 
         if(!candidates_next){
-            //console.log("Contradiction found by _eliminate.");
+            ////
             return false;
         }
     }
@@ -670,7 +670,7 @@ sudoku.print_board = function(board){
         }
     }
 
-    console.log(display_string);
+    //
 };
 
 sudoku.validate_board = function(board){

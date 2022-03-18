@@ -17,6 +17,7 @@ const LargeButton = ({
   gameMode,
   lives,
   colorTheme,
+  gameState
 }) => {
   const [buttonSound, setButtonSound] = useState();
 
@@ -25,13 +26,13 @@ const LargeButton = ({
   }
 
   async function initAudio() {
-    console.log("Intializing HomePage Audio Files");
+    //
     const buttonAudioObject = new Audio.Sound();
     try {
       await buttonAudioObject.loadAsync(
         require("../../Game_Board/Sounds/main_buttons.mp3")
       );
-      console.log("Button Press audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
@@ -64,6 +65,17 @@ const LargeButton = ({
         colorTheme,
         unsolvedBoard,
         solvedBoard,
+      });
+    } else if (ID == "0") {
+      const prevGame = JSON.parse(gameState);
+
+      navigation.navigate("gameBoard", {
+        difficulty: prevGame.difficulty,
+        lives: prevGame.lives,
+        gameMode: prevGame.gameMode,
+        colorTheme,
+        unsolvedBoard: prevGame.board,
+        solvedBoard: prevGame.solvedBoard,
       });
     }
   };

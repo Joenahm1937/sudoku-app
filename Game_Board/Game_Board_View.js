@@ -1,4 +1,5 @@
 import { View, Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Header_Component } from "./Header_Component";
 import { Actions_Component } from "./Actions_Component";
 import { Grid } from "./Grid";
@@ -50,7 +51,7 @@ const Game_Board_View = (props = { navigation }) => {
   const [board, setBoard] = useState(unsolvedBoard);
   const [solution, setSolution] = useState(solvedBoard);
   const [target, setTarget] = useState(undefined);
-  const [mistakes, setMistakes] = useState({});
+  const [mistakes, setMistakes] = useState({});                         //get this from params
   const [moves, setMoves] = useState([]);
   const [endModal, setEndModal] = useState(false);
   const [hintsModal, setHintsModal] = useState(false);
@@ -83,14 +84,14 @@ const Game_Board_View = (props = { navigation }) => {
     await invalidTileSound.replayAsync();
   }
   async function initializeAudio() {
-    console.log("Intializing Audio Files");
+    //
     const tileAudioObject = new Audio.Sound();
     const invalidTileAudioObject = new Audio.Sound();
     const victoryAudioObject = new Audio.Sound();
     const defeatAudioObject = new Audio.Sound();
     try {
       await tileAudioObject.loadAsync(require("./Sounds/tile_press1.mp3"));
-      console.log("Tile Press audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
@@ -98,19 +99,19 @@ const Game_Board_View = (props = { navigation }) => {
       await invalidTileAudioObject.loadAsync(
         require("./Sounds/invalid_press.mp3")
       );
-      console.log("Invalid Tile audio Press Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
     try {
       await victoryAudioObject.loadAsync(require("./Sounds/victory2.mp3"));
-      console.log("Victory audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
     try {
       await defeatAudioObject.loadAsync(require("./Sounds/defeat.mp3"));
-      console.log("Defeat audio Initialized");
+      //
     } catch (err) {
       console.error(err);
     }
@@ -119,6 +120,24 @@ const Game_Board_View = (props = { navigation }) => {
     setVictorySound(victoryAudioObject);
     setDefeatSound(defeatAudioObject);
   }
+
+  const save = async () => {
+    try {
+      const gameState = {
+        board,
+        difficulty,
+        lives,
+        gameMode,
+        solvedBoard,
+        mistakes
+      }
+      const gameStateString = JSON.stringify(gameState);
+      await AsyncStorage.setItem("currentGame", gameStateString);
+      return gameStateString;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   function start() {
     var [unsolvedBoard, solvedBoard] = sudoku.generate(
@@ -241,6 +260,7 @@ const Game_Board_View = (props = { navigation }) => {
           level={level}
           navigation={props.navigation}
           isTimed={clockMode}
+          save={save}
         ></Header_Component>
         <Grid></Grid>
         <Lives lives={life} isLifeMode={isLifeMode} />

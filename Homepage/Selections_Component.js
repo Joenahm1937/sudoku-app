@@ -37,13 +37,13 @@ const Selections_Component = ({
     const rightButtonAudioObject = new Audio.Sound();
     try {
       await leftButtonAudioObject.loadAsync(require("../Game_Board/Sounds/left_selection.mp3"));
-      console.log('left selection audio initialized');
+      //
     } catch (err) {
       console.error(err);
     }
     try {
       await rightButtonAudioObject.loadAsync(require("../Game_Board/Sounds/right_selection.mp3"));
-      console.log('right selection audio initialized');
+      //
     } catch (err) {
       console.error(err)
     }

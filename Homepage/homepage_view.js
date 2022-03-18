@@ -46,6 +46,7 @@ const HomePage = (props = { navigation }) => {
         lives={lives}
         colorTheme={colorTheme}
         navigation={props.navigation}
+        prevGame={props?.route?.params?.gameState}
       ></Button_Component>
       <Footer_Component
         setInfoVisible={setInfoVisible}
