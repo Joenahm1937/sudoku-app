@@ -46,7 +46,7 @@ const HintsModal = () => {
             </View>
             <View style={styles.values}>
               <Text style={styles.nums}>
-                {hint ? hint[0].split("").join(" , ") : null}
+                {hint ? hint[0] : null}
               </Text>
             </View>
           </View>

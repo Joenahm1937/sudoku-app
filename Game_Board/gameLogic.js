@@ -847,9 +847,11 @@ var funcs = {
   }
 }
 
+console.log(changeBoard(sudoku.board_string_to_grid(sudoku.generate('easy'))))
 
 
-export default funcs;
+
+// export default funcs;
 
 
 

@@ -352,26 +352,60 @@ function removeElement(array, from, to) {
   array.length = from < 0 ? array.length + from : from;
   return array.push.apply(array, rest);
 }
-module.exports = {
-  makepuzzle: function () {
-    return makepuzzle(solvepuzzle(Array(81).fill(null)));
-  },
-  solvepuzzle: solvepuzzle,
-  ratepuzzle: ratepuzzle,
-  posfor: posfor
+
+// module.exports = {
+//   makepuzzle: function () {
+//     return makepuzzle(solvepuzzle(Array(81).fill(null)));
+//   },
+//   solvepuzzle: solvepuzzle,
+//   ratepuzzle: ratepuzzle,
+//   posfor: posfor
+// };
+
+const changeBoard = (board) => {
+  return [
+    [...board.slice(0,3), ...board.slice(9,12), ...board.slice(18,21)],
+    [...board.slice(3,6), ...board.slice(12,15), ...board.slice(21,24)],
+    [...board.slice(6,9), ...board.slice(15,18), ...board.slice(24,27)],
+    [...board.slice(27,30), ...board.slice(36,39), ...board.slice(45,48)],
+    [...board.slice(30,33), ...board.slice(39,42), ...board.slice(48,51)],
+    [...board.slice(33,36), ...board.slice(42,45), ...board.slice(51,54)],
+    [...board.slice(54,57), ...board.slice(63,66), ...board.slice(72,75)],
+    [...board.slice(57,60), ...board.slice(66,69), ...board.slice(75,78)],
+    [...board.slice(60,63), ...board.slice(69,72), ...board.slice(78,81)],
+   ]
 };
 
-// const res = []
-// for (let i = 0; i < 100; i++) {
-//   var puzzle     = makepuzzle(solvepuzzle(Array(81).fill(null)));
-//   var difficulty = ratepuzzle(puzzle, 4);
-//   res.push(difficulty)
-// }
-// console.log(res)
+const updateBoard = (cell) => {
+  if (cell === null) return '.';
+  if (cell === 0) return '9';
+  return cell.toString()
+}
 
-// var difficulty = null
-// while (difficulty < 4) {
-//   var puzzle     = makepuzzle(solvepuzzle(Array(81).fill(null)));
-//   var difficulty = ratepuzzle(puzzle, 4);
-// }
-// https://github.com/dachev/sudoku
+//inclusive - start, exclusive - end
+const levels = {
+  EASY: [0, 2],
+  MEDIUM: [2, 4],
+  HARD: [4, 5],
+};
+
+var funcs = {
+  generate(level) {
+    const [lower, upper] = levels[level];
+    let rating = lower - 1;
+    let solvedPuzzle;
+    let puzzle;
+    while (rating < lower || rating >= upper) {
+      solvedPuzzle = solvepuzzle(Array(81).fill(null));
+      puzzle = makepuzzle(solvedPuzzle);
+      rating = ratepuzzle(puzzle, 4)
+    }
+    solvedPuzzle = solvedPuzzle.map(updateBoard)
+    puzzle = puzzle.map(updateBoard)
+    const solvedBoard = changeBoard(solvedPuzzle);
+    const unsolvedBoard = changeBoard(puzzle);
+    return [unsolvedBoard, solvedBoard];
+  }
+}
+
+export default funcs;

@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 import styles from "./styles";
-import sudoku from "../../Game_Board/gameLogic";
-const difficultyMappings = {
-  EASY: 53,
-  MEDIUM: 44,
-  HARD: 35,
-};
+import sudoku from "../../Game_Board/gameLogic2";
 
 const LargeButton = ({
   content,
@@ -17,7 +12,7 @@ const LargeButton = ({
   gameMode,
   lives,
   colorTheme,
-  gameState
+  gameState,
 }) => {
   const [buttonSound, setButtonSound] = useState();
 
@@ -55,9 +50,7 @@ const LargeButton = ({
         lives === "LIVES"
       )
         return;
-      var [unsolvedBoard, solvedBoard] = sudoku.generate(
-        difficultyMappings[difficulty]
-      );
+      var [unsolvedBoard, solvedBoard] = sudoku.generate(difficulty);
       navigation.navigate("gameBoard", {
         difficulty,
         lives,
@@ -77,7 +70,7 @@ const LargeButton = ({
         unsolvedBoard: prevGame.board,
         solvedBoard: prevGame.solvedBoard,
         mistakes: prevGame.mistakes,
-        moves: prevGame.moves
+        moves: prevGame.moves,
       });
     }
   };
