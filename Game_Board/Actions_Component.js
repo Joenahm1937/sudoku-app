@@ -9,9 +9,9 @@ const Actions_Component = (
     board,
     setBoard,
     originalBoard,
+    solution,
     setNotesMode,
     notesMode,
-    getCandidates,
     setHintsModal,
     setHint,
     eraseNotes,
@@ -25,20 +25,16 @@ const Actions_Component = (
       var [sq, cl] = JSON.parse(mistake);
       props.board[sq][cl] = ".";
     }
-    const hints = props.getCandidates(props.board);
-    var min = ["123456789"];
-    for (var i = 0; i < hints.length; i++) {
-      for (var j = 0; j < hints[i].length; j++) {
-        const cell = hints[i][j];
-        if (cell.length && cell.length < min[0].length) {
-          min = [cell, i, j];
+    for (var square = 0; square < props.board.length; square++) {
+      for (var cell = 0; cell < props.board[square].length; cell++) {
+        if (props.board[square][cell] === ".") {
+          props.setHint([props.solution[square][cell], square, cell]);
+          props.setHintsModal(true);
+          props.setHintLoc([square, cell]);
+          return;
         }
       }
     }
-    var [candidates, square, cell] = min;
-    props.setHint([candidates, square, cell]);
-    props.setHintsModal(true);
-    props.setHintLoc([square, cell]);
   };
   const Notes_Icon = (props = { notesMode, setNotesMode }) => {
     if (!props.notesMode) {

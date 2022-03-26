@@ -10,7 +10,7 @@ import { GameOver_Component } from "./GameOver_Component";
 import { Success_Component } from "./Success_Component";
 import { HintsModal } from "./HintsModal";
 import { useState, useEffect, useRef } from "react";
-import sudoku from "./gameLogic";
+import sudoku from "./gameLogic2";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 import { GameContext } from "./GameContext";
@@ -18,19 +18,13 @@ import { GameContext } from "./GameContext";
 var tileSound = null;
 const Game_Board_View = (props = { navigation }) => {
   //Initial State (Passed from Home Page)
-  const difficultyMappings = {
-    EASY: 53,
-    MEDIUM: 44,
-    HARD: 35,
-  };
-
   const livesMappings = {
     I: 1,
     II: 2,
     III: 3,
-    1: 'I',
-    2: 'II',
-    3: 'III'
+    1: "I",
+    2: "II",
+    3: "III",
   };
 
   const {
@@ -53,9 +47,9 @@ const Game_Board_View = (props = { navigation }) => {
   const [board, setBoard] = useState(unsolvedBoard);
   const [solution, setSolution] = useState(solvedBoard);
   const [target, setTarget] = useState(undefined);
-  const prevMistakes = props.route.params.mistakes || {}
-  const [mistakes, setMistakes] = useState(prevMistakes);                         //get this from params
-  const prevMoves = props.route.params.moves || []
+  const prevMistakes = props.route.params.mistakes || {};
+  const [mistakes, setMistakes] = useState(prevMistakes); //get this from params
+  const prevMoves = props.route.params.moves || [];
   const [moves, setMoves] = useState(prevMoves);
   const [endModal, setEndModal] = useState(false);
   const [hintsModal, setHintsModal] = useState(false);
@@ -134,8 +128,8 @@ const Game_Board_View = (props = { navigation }) => {
         gameMode,
         solvedBoard,
         mistakes,
-        moves
-      }
+        moves,
+      };
       const gameStateString = JSON.stringify(gameState);
       await AsyncStorage.setItem("currentGame", gameStateString);
       return gameStateString;
@@ -145,9 +139,7 @@ const Game_Board_View = (props = { navigation }) => {
   };
 
   function start() {
-    var [unsolvedBoard, solvedBoard] = sudoku.generate(
-      difficultyMappings[difficulty]
-    );
+    var [unsolvedBoard, solvedBoard] = sudoku.generate(difficulty);
     setLife(livesMappings[initialLife]);
     setBoard(unsolvedBoard);
     setOriginalBoard(unsolvedBoard);
@@ -281,9 +273,9 @@ const Game_Board_View = (props = { navigation }) => {
           board={board}
           setBoard={setBoard}
           originalBoard={originalBoard}
+          solution={solution}
           setNotesMode={setNotesMode}
           notesMode={notesMode}
-          getCandidates={sudoku.getCandidates}
           setHintsModal={setHintsModal}
           setHint={setHint}
           mistakes={mistakes}
