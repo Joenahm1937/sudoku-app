@@ -8,6 +8,23 @@ import { Selections_Component } from "./Selections_Component";
 import { PopUp } from "./popups/PopUp";
 import { IconButton } from "./icon_button/IconButton";
 import { Plus_Icon2 } from "./icon_button/Icons";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore"; 
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCgTuCvSB7CNLlQF80rcWcRFp9OIEW4hYw",
+  authDomain: "sudorkle-9010a.firebaseapp.com",
+  projectId: "sudorkle-9010a",
+  storageBucket: "sudorkle-9010a.appspot.com",
+  messagingSenderId: "507911751706",
+  appId: "1:507911751706:web:be303433a89fe820cde9a3",
+  measurementId: "G-1E6XSJE1HG"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const HomePage = (props = { navigation }) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
@@ -31,6 +48,8 @@ const HomePage = (props = { navigation }) => {
       <Header_Component
         colorTheme={colorTheme}
         setColorTheme={setColorTheme}
+        db={db}
+        navigation={props.navigation}
       ></Header_Component>
       <Selections_Component
         difficulty={difficulty}
