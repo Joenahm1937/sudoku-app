@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 import styles from "./styles";
-import sudoku from "../../Game_Board/gameLogic2";
+import {funcs} from "../../Game_Board/gameLogic2";
 
 const LargeButton = ({
   content,
@@ -50,7 +50,7 @@ const LargeButton = ({
         lives === "LIVES"
       )
         return;
-      var [unsolvedBoard, solvedBoard] = sudoku.generate(difficulty);
+      var [unsolvedBoard, solvedBoard] = funcs.generate(difficulty);
       navigation.navigate("gameBoard", {
         difficulty,
         lives,

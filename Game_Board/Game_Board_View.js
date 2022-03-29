@@ -10,7 +10,7 @@ import { GameOver_Component } from "./GameOver_Component";
 import { Success_Component } from "./Success_Component";
 import { HintsModal } from "./HintsModal";
 import { useState, useEffect, useRef } from "react";
-import sudoku from "./gameLogic2";
+import { funcs } from "./gameLogic2";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 import { GameContext } from "./GameContext";
@@ -139,7 +139,7 @@ const Game_Board_View = (props = { navigation }) => {
   };
 
   function start() {
-    var [unsolvedBoard, solvedBoard] = sudoku.generate(difficulty);
+    var [unsolvedBoard, solvedBoard] = funcs.generate(difficulty);
     setLife(livesMappings[initialLife]);
     setBoard(unsolvedBoard);
     setOriginalBoard(unsolvedBoard);
@@ -151,7 +151,6 @@ const Game_Board_View = (props = { navigation }) => {
 
   useEffect(() => {
     initializeAudio();
-    // start();
     return () => {
       tileSound.unloadAsync();
       victorySound.unloadAsync();

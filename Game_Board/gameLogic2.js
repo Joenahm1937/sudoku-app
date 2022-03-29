@@ -389,7 +389,7 @@ const levels = {
   HARD: [4, 5],
 };
 
-var funcs = {
+const funcs = {
   generate(level) {
     const [lower, upper] = levels[level];
     let rating = lower - 1;
@@ -408,4 +408,5 @@ var funcs = {
   }
 }
 
-export default funcs;
+
+export {funcs, changeBoard}
