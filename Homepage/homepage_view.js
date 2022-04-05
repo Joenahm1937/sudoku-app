@@ -10,6 +10,12 @@ import { IconButton } from "./icon_button/IconButton";
 import { Plus_Icon2 } from "./icon_button/Icons";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore"; 
+import { 
+  DIFFICULTY_DEFAULT, 
+  GAME_MODE_DEFAULT,
+  LIVES_DEFAULT
+} 
+from "../Constants/constants";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -30,9 +36,9 @@ const HomePage = (props = { navigation }) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [plusVisible, setPlusVisible] = React.useState(false);
 
-  const [difficulty, setDifficulty] = useState("DIFFICULTY");
-  const [gameMode, setGameMode] = useState("GAME MODE");
-  const [lives, setLives] = useState("LIVES");
+  const [difficulty, setDifficulty] = useState(DIFFICULTY_DEFAULT);
+  const [gameMode, setGameMode] = useState(GAME_MODE_DEFAULT);
+  const [lives, setLives] = useState(LIVES_DEFAULT);
   const [colorTheme, setColorTheme] = useState({
     tileColor: "#F4C3C3",
     backgroundColor: "white"

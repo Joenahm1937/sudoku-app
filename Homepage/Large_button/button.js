@@ -3,6 +3,12 @@ import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 import styles from "./styles";
 import {funcs} from "../../Game_Board/gameLogic2";
+import { 
+  DIFFICULTY_DEFAULT, 
+  GAME_MODE_DEFAULT,
+  LIVES_DEFAULT
+} 
+from "../Constants/constants";
 
 const LargeButton = ({
   content,
@@ -45,9 +51,9 @@ const LargeButton = ({
     playButtonSound();
     if (ID == "1") {
       if (
-        difficulty === "DIFFICULTY" ||
-        gameMode === "GAME MODE" ||
-        lives === "LIVES"
+        difficulty === DIFFICULTY_DEFAULT ||
+        gameMode === GAME_MODE_DEFAULT ||
+        lives === LIVES_DEFAULT
       )
         return;
       var [unsolvedBoard, solvedBoard] = funcs.generate(difficulty);

@@ -6,6 +6,11 @@ import { useState } from "react";
 import Pallete from "./Pallete";
 import { doc, getDoc } from "firebase/firestore"; 
 import { changeBoard } from "../Game_Board/gameLogic2";
+import { 
+  LIVES_THREE, 
+  GAME_MODE_CLASSIC,
+  DIFFICULTY_HARD
+} from "../Constants/constants";
 const colorMap = [{
   //OG
   tileColor: "#F4C3C3",
@@ -23,9 +28,6 @@ const colorMap = [{
 const Header_Component = ({ colorTheme, setColorTheme , db, navigation}) => {
   const [colorIndex, setColorIndex] = useState(1)
   const currentDate = "0";
-  const difficulty = "HARD";
-  const lives = "LIVES: III";
-  const gameMode = "CLASSIC";
   return (
     <View style={styles.headerContainer}>
       <View style={{left:30, top:10}}>
@@ -48,9 +50,9 @@ const Header_Component = ({ colorTheme, setColorTheme , db, navigation}) => {
               const unsolvedBoard  = changeBoard(docSnap.data()[currentDate]["puzzle"]);
               const solvedBoard  = changeBoard(docSnap.data()[currentDate]["solvedPuzzle"]);
               navigation.navigate("gameBoard", {
-                difficulty,
-                lives,
-                gameMode,
+                DIFFICULTY_HARD,
+                LIVES_THREE,
+                GAME_MODE_CLASSIC,
                 colorTheme,
                 unsolvedBoard,
                 solvedBoard,
