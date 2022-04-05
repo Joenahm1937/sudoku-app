@@ -4,7 +4,7 @@ import { styles } from "./Styles.js";
 import { Left_Arrow, Right_Arrow } from "./icon_button/Icons";
 import { IconButton } from "./icon_button/IconButton";
 import { Audio } from "expo-av";
-
+import * as CONSTANTS from "../Constants/constants.js"; 
 const Selections_Component = ({
   difficulty,
   setDifficulty,
@@ -19,9 +19,9 @@ const Selections_Component = ({
   const [leftButtonSound, setLeftButtonSound] = useState();
   const [rightButtonSound, setRightButtonSound] = useState();
 
-  const diff = ["EASY", "MEDIUM", "HARD"];
-  const mode = ["CLASSIC", "CLOCK RACE"];
-  const live = ["LIVES: I", "LIVES: II", "LIVES: III", "LIVES: ∞"];
+  const diff = [CONSTANTS.DIFFICULTY_EASY, CONSTANTS.DIFFICULTY_MEDIUM, CONSTANTS.DIFFICULTY_HARD];
+  const mode = [CONSTANTS.GAME_MODE_CLASSIC, CONSTANTS.GAME_MODE_CLOCK];
+  const live = [CONSTANTS.LIVES_ONE, CONSTANTS.LIVES_TWO, CONSTANTS.LIVES_THREE, CONSTANTS.LIVES_INFINITY];
 
   async function playLeftButtonSound() {
     await leftButtonSound.replayAsync();
