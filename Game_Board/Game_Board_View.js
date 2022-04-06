@@ -34,6 +34,7 @@ const Game_Board_View = (props = { navigation }) => {
     colorTheme,
     unsolvedBoard,
     solvedBoard,
+    soundState,
   } = props.route.params;
   const initialLife = lives.split(" ")[1];
   const level = difficulty;
@@ -68,18 +69,18 @@ const Game_Board_View = (props = { navigation }) => {
   const [defeatSound, setDefeatSound] = useState();
 
   async function playTileSound() {
-    await tileSound.replayAsync();
+    if(soundState) {await tileSound.replayAsync();}
   }
   async function playVictorySound() {
-    await victorySound.replayAsync();
+    if(soundState) {await victorySound.replayAsync();}
   }
 
   async function playDefeatSound() {
-    await defeatSound.replayAsync();
+    if(soundState) {await defeatSound.replayAsync();}
   }
 
   async function playInvalidTileSound() {
-    await invalidTileSound.replayAsync();
+    if(soundState) {await invalidTileSound.replayAsync();}
   }
   async function initializeAudio() {
     //

@@ -12,10 +12,11 @@ const Selections_Component = ({
   setGameMode,
   lives,
   setLives,
+  soundState
 }) => {
-  const [diffIdx, setDiffIdx] = useState(-1);
-  const [modeIdx, setModeIdx] = useState(-1);
-  const [livesIdx, setLivesIdx] = useState(-1);
+  const [diffIdx, setDiffIdx] = useState(0);
+  const [modeIdx, setModeIdx] = useState(0);
+  const [livesIdx, setLivesIdx] = useState(2);
   const [leftButtonSound, setLeftButtonSound] = useState();
   const [rightButtonSound, setRightButtonSound] = useState();
 
@@ -24,11 +25,11 @@ const Selections_Component = ({
   const live = [CONSTANTS.LIVES_ONE, CONSTANTS.LIVES_TWO, CONSTANTS.LIVES_THREE, CONSTANTS.LIVES_INFINITY];
 
   async function playLeftButtonSound() {
-    await leftButtonSound.replayAsync();
+    if(soundState) {await leftButtonSound.replayAsync();}
   }
 
   async function playRightButtonSound() {
-    await rightButtonSound.replayAsync();
+    if(soundState) {await rightButtonSound.replayAsync();}
   }
 
   async function initAudio() {
@@ -60,7 +61,7 @@ const Selections_Component = ({
   }, []);
 
   const cycle = (flag, index, setIndex, setSelection, selection) => {
-    let newIndex;
+    let newIndex = index;
     if (flag == "left") {
       if (index === 0) {
         newIndex = selection.length - 1;

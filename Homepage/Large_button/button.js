@@ -8,7 +8,7 @@ import {
   GAME_MODE_DEFAULT,
   LIVES_DEFAULT
 } 
-from "../Constants/constants";
+from "../../Constants/constants";
 
 const LargeButton = ({
   content,
@@ -19,11 +19,12 @@ const LargeButton = ({
   lives,
   colorTheme,
   gameState,
+  soundState
 }) => {
   const [buttonSound, setButtonSound] = useState();
 
   async function playButtonSound() {
-    await buttonSound.replayAsync();
+    if(soundState) {await buttonSound.replayAsync();}
   }
 
   async function initAudio() {
@@ -50,12 +51,12 @@ const LargeButton = ({
   const Navigate_GameBoard = () => {
     playButtonSound();
     if (ID == "1") {
-      if (
+     /* if (
         difficulty === DIFFICULTY_DEFAULT ||
         gameMode === GAME_MODE_DEFAULT ||
         lives === LIVES_DEFAULT
       )
-        return;
+        return; */
       var [unsolvedBoard, solvedBoard] = funcs.generate(difficulty);
       navigation.navigate("gameBoard", {
         difficulty,
@@ -64,6 +65,7 @@ const LargeButton = ({
         colorTheme,
         unsolvedBoard,
         solvedBoard,
+        soundState
       });
     } else if (ID == "0") {
       const prevGame = JSON.parse(gameState);
@@ -77,6 +79,7 @@ const LargeButton = ({
         solvedBoard: prevGame.solvedBoard,
         mistakes: prevGame.mistakes,
         moves: prevGame.moves,
+        soundState
       });
     }
   };
