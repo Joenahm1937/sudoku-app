@@ -1,7 +1,7 @@
 import { styles } from "./Styles";
 import { View, Text } from "react-native";
 import { IconButton } from "./icon_button/IconButton";
-import { Sound_Icon, Calendar, Pallete_Icon } from "./icon_button/Icons";
+import { SoundOn_Icon, SoundOff_Icon, Calendar, Pallete_Icon } from "./icon_button/Icons";
 import { useState } from "react";
 import Pallete from "./Pallete";
 import { doc, getDoc } from "firebase/firestore"; 
@@ -25,16 +25,24 @@ const colorMap = [{
   backgroundColor: "#AEA6E2"
 }];
 
-const Header_Component = ({ colorTheme, setColorTheme , db, navigation}) => {
-  const [colorIndex, setColorIndex] = useState(1)
+const Header_Component = ({
+  colorTheme,
+  setColorTheme,
+  db,
+  navigation,
+  soundState,
+  setSoundState
+}
+  ) => {
+
   const currentDate = "0";
   return (
     <View style={styles.headerContainer}>
       <View style={{left:30, top:10}}>
         <IconButton
-          SVG={Sound_Icon}
+          SVG={soundState? SoundOn_Icon:SoundOff_Icon}
           onPressFunction={() => {
-            console.warn("sound pressed");
+            setSoundState(!soundState);
           }}
         ></IconButton>
       </View>

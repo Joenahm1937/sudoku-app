@@ -11,9 +11,9 @@ const Button_Component = (
     gameMode,
     lives,
     colorTheme,
-    prevGame
-  }
-) => {
+    prevGame,
+    soundState
+  }) => {
   const [storedGame, setStoredGame] = useState();
   const getGame = async () => {
     try {
@@ -40,6 +40,7 @@ const Button_Component = (
         gameMode={props.gameMode}
         lives={props.lives}
         colorTheme={props.colorTheme}
+        soundState={props.soundState}
       />
       {storedGame && <Large_button
         gameState={props.prevGame ? props.prevGame : storedGame}
@@ -47,6 +48,7 @@ const Button_Component = (
         ID="0"
         navigation={props.navigation}
         colorTheme={props.colorTheme}
+        soundState={props.soundState}
       />}
     </View>
   );

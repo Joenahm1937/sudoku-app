@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Modal, StyleSheet, Animated} from 'react-native';
 
-const PopUp = ({visible, children}) => {
+const PopUp = ({visible, colorTheme, children}) => {
     const [showModal, setShowModal] = React.useState(visible);
     const scaleValue = React.useRef(new Animated.Value(0)).current;
 
@@ -29,7 +29,7 @@ const PopUp = ({visible, children}) => {
     return (
         <Modal transparent visible={showModal}>
             <View style={styles.modalBackground}>
-                <Animated.View style={[styles.modalContainer, {transform: [{scale:scaleValue}]}]}>
+                <Animated.View style={[styles.modalContainer, {"backgroundColor": colorTheme.tileColor}, {transform: [{scale:scaleValue}]}]}>
                 {children}
                 </Animated.View>
             </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '80%',
-        backgroundColor: '#F3C3C3',
+        //backgroundColor: '#F3C3C3',
         paddingHorizontal: 20,
         paddingVertical: 30,
         borderRadius: 20,

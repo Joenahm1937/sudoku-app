@@ -39,6 +39,8 @@ const HomePage = (props = { navigation }) => {
   const [difficulty, setDifficulty] = useState(DIFFICULTY_DEFAULT);
   const [gameMode, setGameMode] = useState(GAME_MODE_DEFAULT);
   const [lives, setLives] = useState(LIVES_DEFAULT);
+
+  const [soundState, setSoundState] = useState(true);
   const [colorTheme, setColorTheme] = useState({
     tileColor: "#F4C3C3",
     backgroundColor: "white"
@@ -56,6 +58,8 @@ const HomePage = (props = { navigation }) => {
         setColorTheme={setColorTheme}
         db={db}
         navigation={props.navigation}
+        soundState={soundState}
+        setSoundState={setSoundState}
       ></Header_Component>
       <Selections_Component
         difficulty={difficulty}
@@ -64,6 +68,7 @@ const HomePage = (props = { navigation }) => {
         setGameMode={setGameMode}
         lives={lives}
         setLives={setLives}
+        soundState={soundState}
       ></Selections_Component>
       <Button_Component
         difficulty={difficulty}
@@ -72,13 +77,14 @@ const HomePage = (props = { navigation }) => {
         colorTheme={colorTheme}
         navigation={props.navigation}
         prevGame={props?.route?.params?.gameState}
+        soundState={soundState}
       ></Button_Component>
       <Footer_Component
         setInfoVisible={setInfoVisible}
         setPlusVisible={setPlusVisible}
       ></Footer_Component>
 
-      <PopUp visible={infoVisible}>
+      <PopUp visible={infoVisible} colorTheme={colorTheme}>
         <View style={{ alignItems: "center" }}>
           <View style={styles.popupHeader}>
             <TouchableOpacity onPress={() => setInfoVisible(false)}>
@@ -109,7 +115,7 @@ const HomePage = (props = { navigation }) => {
         ></TouchableOpacity>
       </PopUp>
 
-      <PopUp visible={plusVisible}>
+      <PopUp visible={plusVisible} colorTheme={colorTheme}>
           <View style={{ alignItems: "center"}}>
               <View style={styles.popupHeader}>
                 <TouchableOpacity onPress={() => setPlusVisible(false)}>
