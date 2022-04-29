@@ -4,7 +4,7 @@ import { styles } from "./Styles.js";
 import { Left_Arrow, Right_Arrow } from "./icon_button/Icons";
 import { IconButton } from "./icon_button/IconButton";
 import { Audio } from "expo-av";
-import * as CONSTANTS from "../Constants/constants.js"; 
+import * as CONSTANTS from "../Constants/constants.js";
 const Selections_Component = ({
   difficulty,
   setDifficulty,

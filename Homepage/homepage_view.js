@@ -9,13 +9,13 @@ import { PopUp } from "./popups/PopUp";
 import { IconButton } from "./icon_button/IconButton";
 import { Plus_Icon2 } from "./icon_button/Icons";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore"; 
-import { 
-  DIFFICULTY_DEFAULT, 
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  DIFFICULTY_DEFAULT,
   GAME_MODE_DEFAULT,
-  LIVES_DEFAULT
-} 
-from "../Constants/constants";
+  LIVES_DEFAULT,
+} from "../Constants/constants";
+import Stats from "./popups/Stats";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -26,7 +26,7 @@ const firebaseConfig = {
   storageBucket: "sudorkle-9010a.appspot.com",
   messagingSenderId: "507911751706",
   appId: "1:507911751706:web:be303433a89fe820cde9a3",
-  measurementId: "G-1E6XSJE1HG"
+  measurementId: "G-1E6XSJE1HG",
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -35,6 +35,7 @@ const db = getFirestore(app);
 const HomePage = (props = { navigation }) => {
   const [infoVisible, setInfoVisible] = React.useState(false);
   const [plusVisible, setPlusVisible] = React.useState(false);
+  const [statsVisible, setStatsVisible] = React.useState(false);
 
   const [difficulty, setDifficulty] = useState(DIFFICULTY_DEFAULT);
   const [gameMode, setGameMode] = useState(GAME_MODE_DEFAULT);
@@ -43,7 +44,7 @@ const HomePage = (props = { navigation }) => {
   const [soundState, setSoundState] = useState(true);
   const [colorTheme, setColorTheme] = useState({
     tileColor: "#F4C3C3",
-    backgroundColor: "white"
+    backgroundColor: "white",
   });
 
   return (
@@ -82,6 +83,7 @@ const HomePage = (props = { navigation }) => {
       <Footer_Component
         setInfoVisible={setInfoVisible}
         setPlusVisible={setPlusVisible}
+        setStatsVisible={setStatsVisible}
       ></Footer_Component>
 
       <PopUp visible={infoVisible} colorTheme={colorTheme}>
@@ -116,26 +118,29 @@ const HomePage = (props = { navigation }) => {
       </PopUp>
 
       <PopUp visible={plusVisible} colorTheme={colorTheme}>
-          <View style={{ alignItems: "center"}}>
-              <View style={styles.popupHeader}>
-                <TouchableOpacity onPress={() => setPlusVisible(false)}>
-                    <Image
-                        source={require("../assets/x.png")}
-                        style={{ height: 30, width: 30 }}
-                    />
-                </TouchableOpacity>
-              </View>
-            <IconButton
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.popupHeader}>
+            <TouchableOpacity onPress={() => setPlusVisible(false)}>
+              <Image
+                source={require("../assets/x.png")}
+                style={{ height: 30, width: 30 }}
+              />
+            </TouchableOpacity>
+          </View>
+          <IconButton
             SVG={Plus_Icon2}
             onPressFunction={() => console.log("urmum")}
-            ></IconButton>
-          </View>
-          <TouchableOpacity
-                style={styles.PUbutton}
-                onPress={() => console.log("urmum")}
-            ></TouchableOpacity>
+          ></IconButton>
+        </View>
+        <TouchableOpacity
+          style={styles.PUbutton}
+          onPress={() => console.log("urmum")}
+        ></TouchableOpacity>
       </PopUp>
 
+      <PopUp visible={statsVisible} colorTheme={colorTheme}>
+        <Stats setStatsVisible={setStatsVisible}/>
+      </PopUp>
     </View>
   );
 };
