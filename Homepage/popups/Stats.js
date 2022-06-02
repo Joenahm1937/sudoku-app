@@ -87,7 +87,22 @@ const Stats = ({ setStatsVisible }) => {
           <Text style={styles.title}>DATE COMPLETED</Text>
           <Text style={styles.title}>TIME ELAPSED</Text>
         </View>
+        <View style={styles.titles}>
+          <View style={styles.yellowLabel}>
+            <Text style={styles.buttonTitle}>BEST TIME</Text>
+          </View>
+        </View>
+        <View style={styles.titles}>
+          <Text style={styles.numbers}>01/12/22</Text>
+          <Text style={styles.numbers}>........................</Text>
+          <Text style={styles.numbers}>05:24</Text>
+        </View>
+        <View style={styles.total}>
+          <Text style={styles.totalText}>Total Puzzles Solved</Text>
+          <Text style={styles.totalText}>8</Text>
+        </View>
       </View>
+
     </View>
   );
 };
@@ -99,7 +114,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   container: {
-    height: hp("60%"),
+    height: hp("40%"),
   },
   header: {
     justifyContent: "center",
@@ -134,17 +149,44 @@ const styles = StyleSheet.create({
   scores: {
     height: hp("44%"),
     justifyContent: "flex-start",
-    alignItems: "center",
-    padding: 20,
+    // alignItems: "center",
+    paddingVertical: 20,
   },
   titles: {
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "center",
   },
   title: {
     fontSize: 10,
     marginVertical: 5,
-    marginHorizontal: 20,
+    marginHorizontal: 35,
+  },
+  yellowLabel: {
+    fontSize: 10,
+    marginVertical: 5,
+    backgroundColor: "#FCF323",
+    borderRadius: 6,
+  },
+  buttonTitle: {
+    fontSize: 10,
+    marginVertical: 5,
+    marginHorizontal: 22,
+  },
+  numbers: {
+    fontSize: 12,
+    marginVertical: 5,
+    marginHorizontal: 8,
+  },
+  total: {
+    marginTop: hp("8%"),
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  totalText: {
+    fontSize: 12,
+    fontWeight: "600",
+    margin: 5
   }
 });
 
