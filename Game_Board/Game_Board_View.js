@@ -35,6 +35,7 @@ const Game_Board_View = (props = { navigation }) => {
     unsolvedBoard,
     solvedBoard,
     soundState,
+    initialTime,
   } = props.route.params;
   const initialLife = lives.split(" ")[1];
   const level = difficulty;
@@ -68,19 +69,29 @@ const Game_Board_View = (props = { navigation }) => {
   const [victorySound, setVictorySound] = useState();
   const [defeatSound, setDefeatSound] = useState();
 
+  const [stopTime, setStopTime] = useState(null);
+
   async function playTileSound() {
-    if(soundState) {await tileSound.replayAsync();}
+    if (soundState) {
+      await tileSound.replayAsync();
+    }
   }
   async function playVictorySound() {
-    if(soundState) {await victorySound.replayAsync();}
+    if (soundState) {
+      await victorySound.replayAsync();
+    }
   }
 
   async function playDefeatSound() {
-    if(soundState) {await defeatSound.replayAsync();}
+    if (soundState) {
+      await defeatSound.replayAsync();
+    }
   }
 
   async function playInvalidTileSound() {
-    if(soundState) {await invalidTileSound.replayAsync();}
+    if (soundState) {
+      await invalidTileSound.replayAsync();
+    }
   }
   async function initializeAudio() {
     //
@@ -120,7 +131,7 @@ const Game_Board_View = (props = { navigation }) => {
     setDefeatSound(defeatAudioObject);
   }
 
-  const save = async () => {
+  const save = async (minutes, seconds) => {
     try {
       const gameState = {
         board,
@@ -130,12 +141,34 @@ const Game_Board_View = (props = { navigation }) => {
         solvedBoard,
         mistakes,
         moves,
+        initialMinute: minutes,
+        initialSecond: seconds,
       };
       const gameStateString = JSON.stringify(gameState);
       await AsyncStorage.setItem("currentGame", gameStateString);
       return gameStateString;
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const updateStats = async () => {
+    const today = new Date().toLocaleDateString();
+    const newMin = stopTime[0];
+    const newSec = stopTime[1];
+
+    let highScore = await AsyncStorage.getItem("highScore");
+    let totalGames = await AsyncStorage.getItem("totalGames");
+
+    highScore = JSON.parse(highScore);
+    await AsyncStorage.setItem("totalGames", (+totalGames + 1 || 1).toString());
+    if (highScore === null || (newMin === highScore[0] ? newSec < highScore[1] : newMin < highScore[0]) ) {
+      try {
+        const newHighScore = JSON.stringify([newMin, newSec, today]);
+        await AsyncStorage.setItem("highScore", newHighScore);
+      } catch (err) {
+        console.error("error saving new score", err)
+      }
     }
   };
 
@@ -170,9 +203,14 @@ const Game_Board_View = (props = { navigation }) => {
 
   //This allows us to navigate back to home screen when user clicks out of game over modal
   useEffect(() => {
+    const updateStatAsync = async () => {
+      if (clockMode) await updateStats();
+    }
+
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
+      updateStatAsync();
       props.navigation.navigate("homepage");
     }
   }, [gameEnded]);
@@ -200,9 +238,11 @@ const Game_Board_View = (props = { navigation }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         delete mistakes[JSON.stringify(target)];
         setTarget(undefined);
-        if (board.flat().join("") === solution.flat().join("")) {
-          setSuccessModal(true);
-        }
+        // if (board.flat().join("") === solution.flat().join("")) {
+        //   setSuccessModal(true);
+        //   updateStats();
+        // }
+        setSuccessModal(true);
         //to test success modal comment out all above
         // setSuccessModal(true);
         // setEndModal(true);
@@ -258,6 +298,11 @@ const Game_Board_View = (props = { navigation }) => {
           navigation={props.navigation}
           isTimed={clockMode}
           save={save}
+          initialMinute={props.route.params.initialMinute || 0}
+          initialSecond={props.route.params.initialSecond || 0}
+          successModal={successModal}
+          stopTime={stopTime}
+          setStopTime={setStopTime}
         ></Header_Component>
         <Grid></Grid>
         <Lives lives={life} isLifeMode={isLifeMode} />
