@@ -6,7 +6,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as CONSTANTS from "../../Constants/constants.js";
 import {
   DIFFICULTY_DEFAULT,
@@ -15,6 +16,22 @@ import {
 } from "../../Constants/constants";
 
 const Stats = ({ setStatsVisible }) => {
+  const [record, setRecord] = useState();
+  const [numGames, setNumGames] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getStats = async () => {
+      let highScore = await AsyncStorage.getItem("highScore");
+      let totalGames = await AsyncStorage.getItem("totalGames");
+      setRecord(JSON.parse(highScore));
+      setNumGames(totalGames);
+      if (highScore ) setLoading(false);
+    };
+
+    getStats();
+  }, []);
+
   const [diffIdx, setDiffIdx] = useState(0);
   const diff = [
     CONSTANTS.DIFFICULTY_EASY,
@@ -47,6 +64,7 @@ const Stats = ({ setStatsVisible }) => {
 
   const cycleDifficulty = (flag) =>
     cycle(flag, diffIdx, setDiffIdx, setDifficulty, diff);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -82,27 +100,30 @@ const Stats = ({ setStatsVisible }) => {
         </View>
       </View>
 
-      <View style={styles.scores}>
-        <View style={styles.titles}>
-          <Text style={styles.title}>DATE COMPLETED</Text>
-          <Text style={styles.title}>TIME ELAPSED</Text>
-        </View>
-        <View style={styles.titles}>
-          <View style={styles.yellowLabel}>
-            <Text style={styles.buttonTitle}>BEST TIME</Text>
+      {!loading && (
+        <View style={styles.scores}>
+          <View style={styles.titles}>
+            <Text style={styles.title}>DATE COMPLETED</Text>
+            <Text style={styles.title}>TIME ELAPSED</Text>
+          </View>
+          <View style={styles.titles}>
+            <View style={styles.yellowLabel}>
+              <Text style={styles.buttonTitle}>BEST TIME</Text>
+            </View>
+          </View>
+          <View style={styles.titles}>
+            <Text style={styles.numbers}>{record[2]}</Text>
+            <Text style={styles.numbers}>........................</Text>
+            <Text style={styles.numbers}>{`${
+              record[0] < 10 ? "0" + record[0] : record[0]
+            }:${record[1] < 10 ? "0" + record[1] : record[1]}`}</Text>
+          </View>
+          <View style={styles.total}>
+            <Text style={styles.totalText}>Total Puzzles Solved</Text>
+            <Text style={styles.totalText}>{numGames}</Text>
           </View>
         </View>
-        <View style={styles.titles}>
-          <Text style={styles.numbers}>01/12/22</Text>
-          <Text style={styles.numbers}>........................</Text>
-          <Text style={styles.numbers}>05:24</Text>
-        </View>
-        <View style={styles.total}>
-          <Text style={styles.totalText}>Total Puzzles Solved</Text>
-          <Text style={styles.totalText}>8</Text>
-        </View>
-      </View>
-
+      )}
     </View>
   );
 };
@@ -186,8 +207,8 @@ const styles = StyleSheet.create({
   totalText: {
     fontSize: 12,
     fontWeight: "600",
-    margin: 5
-  }
+    margin: 5,
+  },
 });
 
 export default Stats;

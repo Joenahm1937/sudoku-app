@@ -3,11 +3,11 @@ import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 import styles from "./styles";
 import {funcs} from "../../Game_Board/gameLogic2";
-import { 
-  DIFFICULTY_DEFAULT, 
+import {
+  DIFFICULTY_DEFAULT,
   GAME_MODE_DEFAULT,
   LIVES_DEFAULT
-} 
+}
 from "../../Constants/constants";
 
 const LargeButton = ({
@@ -79,6 +79,8 @@ const LargeButton = ({
         solvedBoard: prevGame.solvedBoard,
         mistakes: prevGame.mistakes,
         moves: prevGame.moves,
+        initialMinute: prevGame.initialMinute,
+        initialSecond: prevGame.initialSecond,
         soundState
       });
     }

@@ -28,7 +28,7 @@ const Button_Component = (
 
   useEffect(async () => {
     await getGame()
-  }, []);
+  });
 
   return (
     <View style={styles.buttonContainer}>
