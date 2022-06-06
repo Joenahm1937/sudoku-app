@@ -68,6 +68,7 @@ const Game_Board_View = (props = { navigation }) => {
   const [invalidTileSound, setInvalidTileSound] = useState();
   const [victorySound, setVictorySound] = useState();
   const [defeatSound, setDefeatSound] = useState();
+  const [undoSound, setUndoSound] = useState();
 
   const [stopTime, setStopTime] = useState(null);
 
@@ -93,10 +94,17 @@ const Game_Board_View = (props = { navigation }) => {
       await invalidTileSound.replayAsync();
     }
   }
+
+  async function playUndoSound() {
+    if (soundState) {
+      await undoSound.replayAsync();
+    }
+  }
   async function initializeAudio() {
     //
     const tileAudioObject = new Audio.Sound();
     const invalidTileAudioObject = new Audio.Sound();
+    const undoAudioObject = new Audio.Sound();
     const victoryAudioObject = new Audio.Sound();
     const defeatAudioObject = new Audio.Sound();
     try {
@@ -125,10 +133,17 @@ const Game_Board_View = (props = { navigation }) => {
     } catch (err) {
       console.error(err);
     }
+    try {
+      await undoAudioObject.loadAsync(require("./Sounds/undo.mp3"));
+      //
+    } catch (err) {
+      console.error(err);
+    }
     setTileSound(tileAudioObject);
     setInvalidTileSound(invalidTileAudioObject);
     setVictorySound(victoryAudioObject);
     setDefeatSound(defeatAudioObject);
+    setUndoSound(undoAudioObject);
   }
 
   const save = async (minutes, seconds) => {
@@ -313,6 +328,7 @@ const Game_Board_View = (props = { navigation }) => {
           board={board}
           setBoard={setBoard}
           colorTheme={tileTheme}
+          playUndoSound={playUndoSound}
         />
         <Actions_Component
           board={board}

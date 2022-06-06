@@ -21,13 +21,14 @@ const Piece = ({ choice, setNumber, colorTheme, target }) => {
 };
 
 const Pieces_Component = (
-  props = { setNumber, moves, board, setBoard, colorTheme, target }
+  props = { setNumber, moves, board, setBoard, colorTheme, target, playUndoSound }
 ) => {
   const Undo = () => {
     const lastMove = props.moves.pop();
     if (!lastMove) {
       return;
     }
+    props.playUndoSound()
     var changedBoard = [...props.board];
     changedBoard[lastMove[0]][lastMove[1]] = ".";
     props.setBoard(changedBoard);
