@@ -179,7 +179,6 @@ const Game_Board_View = (props = { navigation }) => {
     let totalGames = await AsyncStorage.getItem(COMPLETEDLEVELKEY);
 
     highScore = JSON.parse(highScore);
-    console.log(COMPLETEDLEVELKEY);
     await AsyncStorage.setItem(COMPLETEDLEVELKEY, (+totalGames + 1 || 1).toString());
     if (highScore === null || (newMin === highScore[0] ? newSec < highScore[1] : newMin < highScore[0]) ) {
       try {
@@ -224,6 +223,8 @@ const Game_Board_View = (props = { navigation }) => {
   useEffect(() => {
     const updateStatAsync = async () => {
       if (clockMode) await updateStats();
+      console.log("removed");
+      await AsyncStorage.removeItem("currentGame");
     }
 
     if (isInitialMount.current) {

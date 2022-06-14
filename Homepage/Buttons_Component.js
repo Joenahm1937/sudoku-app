@@ -3,6 +3,7 @@ import Large_button from "./Large_button/button";
 import { View } from "react-native";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from '@react-navigation/native'
 
 const Button_Component = (
   props = {
@@ -15,12 +16,12 @@ const Button_Component = (
     soundState
   }) => {
   const [storedGame, setStoredGame] = useState();
+  const isFocused = useIsFocused();
   const getGame = async () => {
     try {
       const gameState = await AsyncStorage.getItem("currentGame");
-      if (gameState !== null) {
-        setStoredGame(gameState);
-      }
+      console.log(gameState)
+      setStoredGame(gameState);
     } catch (err) {
       console.error(err);
     }
@@ -28,7 +29,7 @@ const Button_Component = (
 
   useEffect(async () => {
     await getGame()
-  });
+  }, [isFocused]);
 
   return (
     <View style={styles.buttonContainer}>
