@@ -19,18 +19,19 @@ const Stats = ({ setStatsVisible }) => {
   const [record, setRecord] = useState();
   const [numGames, setNumGames] = useState();
   const [loading, setLoading] = useState(true);
+  const [difficulty, setDifficulty] = useState(DIFFICULTY_DEFAULT);
 
   useEffect(() => {
     const getStats = async () => {
-      let highScore = await AsyncStorage.getItem("highScore");
-      let totalGames = await AsyncStorage.getItem("totalGames");
+      let highScore = await AsyncStorage.getItem(difficulty + "highScore");
+      let totalGames = await AsyncStorage.getItem(difficulty + "totalGames");
       setRecord(JSON.parse(highScore));
       setNumGames(totalGames);
       if (highScore ) setLoading(false);
     };
 
     getStats();
-  }, []);
+  }, [difficulty]);
 
   const [diffIdx, setDiffIdx] = useState(0);
   const diff = [
@@ -38,7 +39,6 @@ const Stats = ({ setStatsVisible }) => {
     CONSTANTS.DIFFICULTY_MEDIUM,
     CONSTANTS.DIFFICULTY_HARD,
   ];
-  const [difficulty, setDifficulty] = useState(DIFFICULTY_DEFAULT);
   const cycle = (flag, index, setIndex, setSelection, selection) => {
     let newIndex = index;
     if (flag == "left") {
@@ -112,15 +112,15 @@ const Stats = ({ setStatsVisible }) => {
             </View>
           </View>
           <View style={styles.titles}>
-            <Text style={styles.numbers}>{record[2]}</Text>
+            <Text style={styles.numbers}>{record ? record[2] : ''}</Text>
             <Text style={styles.numbers}>........................</Text>
-            <Text style={styles.numbers}>{`${
+            <Text style={styles.numbers}>{record ? `${
               record[0] < 10 ? "0" + record[0] : record[0]
-            }:${record[1] < 10 ? "0" + record[1] : record[1]}`}</Text>
+            }:${record[1] < 10 ? "0" + record[1] : record[1]}` : ''}</Text>
           </View>
           <View style={styles.total}>
             <Text style={styles.totalText}>Total Puzzles Solved</Text>
-            <Text style={styles.totalText}>{numGames}</Text>
+            <Text style={styles.totalText}>{numGames || 0}</Text>
           </View>
         </View>
       )}
