@@ -172,15 +172,19 @@ const Game_Board_View = (props = { navigation }) => {
     const newMin = stopTime[0];
     const newSec = stopTime[1];
 
-    let highScore = await AsyncStorage.getItem("highScore");
-    let totalGames = await AsyncStorage.getItem("totalGames");
+    const COMPLETEDLEVELKEY = difficulty + "totalGames";
+    const HIGHSCORELEVELKEY = difficulty + "highScore";
+
+    let highScore = await AsyncStorage.getItem(HIGHSCORELEVELKEY);
+    let totalGames = await AsyncStorage.getItem(COMPLETEDLEVELKEY);
 
     highScore = JSON.parse(highScore);
-    await AsyncStorage.setItem("totalGames", (+totalGames + 1 || 1).toString());
+    console.log(COMPLETEDLEVELKEY);
+    await AsyncStorage.setItem(COMPLETEDLEVELKEY, (+totalGames + 1 || 1).toString());
     if (highScore === null || (newMin === highScore[0] ? newSec < highScore[1] : newMin < highScore[0]) ) {
       try {
         const newHighScore = JSON.stringify([newMin, newSec, today]);
-        await AsyncStorage.setItem("highScore", newHighScore);
+        await AsyncStorage.setItem(HIGHSCORELEVELKEY, newHighScore);
       } catch (err) {
         console.error("error saving new score", err)
       }
