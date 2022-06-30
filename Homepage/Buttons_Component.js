@@ -20,7 +20,6 @@ const Button_Component = (
   const getGame = async () => {
     try {
       const gameState = await AsyncStorage.getItem("currentGame");
-      console.log(gameState)
       setStoredGame(gameState);
     } catch (err) {
       console.error(err);
